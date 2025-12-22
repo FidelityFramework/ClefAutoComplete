@@ -1,0 +1,64 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFrameworks>net8.0</TargetFrameworks>
+    <TargetFrameworks Condition="'$(BuildNet9)' == 'true'">net8.0;net9.0</TargetFrameworks>
+    <TargetFrameworks Condition="'$(BuildNet10)' == 'true'">net8.0;net9.0;net10.0</TargetFrameworks>
+    <GenerateProgramFile>false</GenerateProgramFile>
+    <RollForward>LatestMajor</RollForward>
+    <IsTestProject>true</IsTestProject>
+    <ServerGarbageCollection>true</ServerGarbageCollection>
+    <ConcurrentGarbageCollection>true</ConcurrentGarbageCollection>
+    <!-- enable graph-based checking. This can't go at the repo-level because when we test
+         in .net 6 the TestCases projects don't know about these flags -->
+    <!-- Yes we know 'times' is for test only, thanks FSC :) -->
+    <NoWarn>$(NoWarn);FS0075</NoWarn>
+    <NoWarn>$(NoWarn);FS3397</NoWarn>
+    <OtherFlags>$(OtherFlags) --test:GraphBasedChecking --test:DumpCheckingGraph</OtherFlags>
+    <!-- end graph-based-checking options -->
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="../../src/FsNativeAutoComplete/FsNativeAutoComplete.fsproj">
+      <Name>FsNativeAutoComplete.fsproj</Name>
+    </ProjectReference>
+    <ProjectReference Include="../../src/FsNativeAutoComplete.Core/FsNativeAutoComplete.Core.fsproj">
+      <Name>FsNativeAutoComplete.Core.fsproj</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\OptionAnalyzer\OptionAnalyzer.fsproj" />
+    <ProjectReference Include="..\FsNativeAutoComplete.DependencyManager.Dummy\FsNativeAutoComplete.DependencyManager.Dummy.fsproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="DotnetCli.fs" />
+    <Compile Include="Helpers.fsi" />
+    <Compile Include="Helpers.fs" />
+    <Compile Include="Utils/Utils.fsi" />
+    <Compile Include="Utils/Utils.fs" />
+    <Compile Include="Utils/Utils.Tests.fsi" />
+    <Compile Include="Utils/Utils.Tests.fs" />
+    <Compile Include="Utils/TextEdit.fsi" />
+    <Compile Include="Utils/TextEdit.fs" />
+    <Compile Include="Utils/TextEdit.Tests.fsi" />
+    <Compile Include="Utils/TextEdit.Tests.fs" />
+    <Compile Include="Utils/Server.fsi" />
+    <Compile Include="Utils/Server.fs" />
+    <Compile Include="Utils/ServerTests.fsi" />
+    <Compile Include="Utils/ServerTests.fs" />
+    <Compile Include="Utils/Server.Tests.fsi" />
+    <Compile Include="Utils/Server.Tests.fs" />
+    <Compile Include="Utils/CursorbasedTests.fsi" />
+    <Compile Include="Utils/CursorbasedTests.fs" />
+    <Compile Include="Utils/CursorbasedTests.Tests.fsi" />
+    <Compile Include="Utils/CursorbasedTests.Tests.fs" />
+    <Compile Include="*Tests.fs" Exclude="Helpers.fs;Program.fs" />
+    <Compile Include="CodeFixTests/Utils.fs" />
+    <Compile Include="CodeFixTests/*.fs" Exclude="CodeFixTests/Utils.fs;CodeFixTests/Tests.fs" />
+    <Compile Include="CodeFixTests/Tests.fs" />
+    <Compile Include="Program.fs" />
+  </ItemGroup>
+  <!-- This is a workaround for the test framework using Microsoft.Build dependencies and our
+  project uses it's own set of Microsoft.Build dependencies which causes loading conflicts -->
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Copy SourceFiles="$([System.IO.Directory]::GetParent($(BundledRuntimeIdentifierGraphFile)))\NuGet.Frameworks.dll" DestinationFolder="$(OutputPath)" ContinueOnError="false" />
+  </Target>
+  <Import Project="..\..\.paket\Paket.Restore.targets" />
+</Project>

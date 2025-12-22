@@ -8,7 +8,7 @@ type FileVersion = int
 
 
 module Helpers =
-  open FsAutoComplete.LspHelpers
+  open FsNativeAutoComplete.LspHelpers
   open FSharp.UMX
   open System.Collections.Generic
 

@@ -1,12 +1,12 @@
-# FsAutoComplete Copilot Instructions
+# FsNativeAutoComplete Copilot Instructions
 
 ## Project Overview
 
-FsAutoComplete (FSAC) is a Language Server Protocol (LSP) backend service that provides rich editing and intellisense features for F# development. It serves as the core engine behind F# support in various editors including Visual Studio Code (Ionide), Emacs, Neovim, Vim, Sublime Text, and Zed.
+FsNativeAutoComplete (FSAC) is a Language Server Protocol (LSP) backend service that provides rich editing and intellisense features for F# development. It serves as the core engine behind F# support in various editors including Visual Studio Code (Ionide), Emacs, Neovim, Vim, Sublime Text, and Zed.
 
 ## Supported Editors
 
-FsAutoComplete currently provides F# support for:
+FsNativeAutoComplete currently provides F# support for:
 - **Visual Studio Code** (via [Ionide](https://github.com/ionide/ionide-vscode-fsharp))
 - **Emacs** (via [emacs-fsharp-mode](https://github.com/fsharp/emacs-fsharp-mode))
 - **Neovim** (via [nvim-lspconfig](https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#fsautocomplete))
@@ -18,20 +18,20 @@ FsAutoComplete currently provides F# support for:
 
 ### Core Components
 
-- **FsAutoComplete.Core**: Contains the core functionality, including:
+- **FsNativeAutoComplete.Core**: Contains the core functionality, including:
   - F# compiler service interfaces
   - Code generation and refactoring utilities
   - Symbol resolution and type checking
   - Signature formatting and documentation
   - File system abstractions
 
-- **FsAutoComplete**: Main LSP server implementation with:
+- **FsNativeAutoComplete**: Main LSP server implementation with:
   - LSP protocol handlers and endpoints
   - Code fixes and quick actions
   - Parser for LSP requests/responses
   - Program entry point
 
-- **FsAutoComplete.Logging**: Centralized logging infrastructure
+- **FsNativeAutoComplete.Logging**: Centralized logging infrastructure
 
 ### Key Dependencies
 
@@ -65,7 +65,7 @@ dotnet build
 dotnet test
 
 # Run specific test project
-dotnet test -f net8.0 ./test/FsAutoComplete.Tests.Lsp/FsAutoComplete.Tests.Lsp.fsproj
+dotnet test -f net8.0 ./test/FsNativeAutoComplete.Tests.Lsp/FsNativeAutoComplete.Tests.Lsp.fsproj
 
 # Format code
 dotnet fantomas src/ test/
@@ -85,7 +85,7 @@ This project uses **Paket** for dependency management instead of NuGet directly:
 ### Code Organization
 
 #### Code Fixes
-- Located in `src/FsAutoComplete/CodeFixes/`
+- Located in `src/FsNativeAutoComplete/CodeFixes/`
 - Each code fix is typically a separate F# module
 - Follow the pattern: analyze issue → generate fix → apply transformation
 - **Scaffolding**: Use `dotnet fsi build.fsx -- -p ScaffoldCodeFix YourCodeFixName` to create new code fixes
@@ -93,14 +93,14 @@ This project uses **Paket** for dependency management instead of NuGet directly:
 - Examples include: `ImplementInterface.fs`, `GenerateUnionCases.fs`, `AddMissingEqualsToTypeDefinition.fs`
 
 #### LSP Endpoints
-- Standard LSP endpoints in `src/FsAutoComplete/LspServers/`
+- Standard LSP endpoints in `src/FsNativeAutoComplete/LspServers/`
 - Key server files: `AdaptiveFSharpLspServer.fs`, `AdaptiveServerState.fs`, `ProjectWorkspace.fs`
 - Custom F#-specific endpoints prefixed with `fsharp/`
 - Request/response types in `CommandResponse.fs`
 - Interface definitions in `IFSharpLspServer.fs`
 
 #### Testing
-- Main test suite in `test/FsAutoComplete.Tests.Lsp/`
+- Main test suite in `test/FsNativeAutoComplete.Tests.Lsp/`
 - Tests organized by feature area (CompletionTests, CodeFixTests, etc.)
 - Uses F# testing frameworks with custom helpers in `Helpers.fs`
 - Test cases often in `TestCases/` subdirectories
@@ -157,7 +157,7 @@ This project uses **Paket** for dependency management instead of NuGet directly:
 2. Follow existing patterns for test setup and assertions
 3. Use the helpers in `Helpers.fs` for common operations
 4. Include edge cases and error conditions
-5. For code fixes: Run focused tests with `dotnet run -f net8.0 --project ./test/FsAutoComplete.Tests.Lsp/FsAutoComplete.Tests.Lsp.fsproj`
+5. For code fixes: Run focused tests with `dotnet run -f net8.0 --project ./test/FsNativeAutoComplete.Tests.Lsp/FsNativeAutoComplete.Tests.Lsp.fsproj`
 6. Remove focused test markers before submitting PRs (they cause CI failures)
 
 ### Test Data
@@ -225,7 +225,7 @@ This project uses **Paket** for dependency management instead of NuGet directly:
 ## Resources
 
 ### Core Documentation
-- [FsAutoComplete GitHub Repository](https://github.com/ionide/FsAutoComplete)
+- [FsNativeAutoComplete GitHub Repository](https://github.com/ionide/FsNativeAutoComplete)
 - [LSP Specification](https://microsoft.github.io/language-server-protocol/)
 - [F# Compiler Service Documentation](https://fsharp.github.io/FSharp.Compiler.Service/)
 

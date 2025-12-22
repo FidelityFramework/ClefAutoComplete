@@ -4,40 +4,40 @@
 
 ### Changed
 
-- [Make semantic token mapping more accurate](https://github.com/ionide/FsAutoComplete/pull/1434) (thanks @ijklam!)
+- [Make semantic token mapping more accurate](https://github.com/ionide/FsNativeAutoComplete/pull/1434) (thanks @ijklam!)
 - Update Ionide.ProjInfo and related packages to version `0.74.1` Checkout the [release notes](https://github.com/ionide/proj-info/releases/tag/v0.74.1) for more details. (thanks @TheAngryByrd!) 
 
 ## [0.81.0] - 2025-11-12
 
 ### Added
 
-- [F# 10 and .NET 10 support](https://github.com/ionide/FsAutoComplete/pull/1429) (Thanks @TheAngryByrd)
+- [F# 10 and .NET 10 support](https://github.com/ionide/FsNativeAutoComplete/pull/1429) (Thanks @TheAngryByrd)
 
 ## [0.80.1] - 2025-10-23
 
 ### Fixed
 
-- [Fix Analyzer not loading from settings path](https://github.com/ionide/FsAutoComplete/pull/1423) (thanks @TheAngryByrd!)
+- [Fix Analyzer not loading from settings path](https://github.com/ionide/FsNativeAutoComplete/pull/1423) (thanks @TheAngryByrd!)
 
 ## [0.80.0] - 2025-10-19
 
 ### Added
-- [Allow fsharp analyzers to be loaded from nuget](https://github.com/ionide/FsAutoComplete/pull/1419) (thanks @TheAngryByrd!)
+- [Allow fsharp analyzers to be loaded from nuget](https://github.com/ionide/FsNativeAutoComplete/pull/1419) (thanks @TheAngryByrd!)
 -  Update FSharp.Analyzers.SDK to `0.33.0`. Checkout the [release notes](https://github.com/ionide/FSharp.Analyzers.SDK/releases/tag/v0.33.0) for details. 
     - Notably this adds the ability to ignore analyzers via comments. [See documentation](https://ionide.io/FSharp.Analyzers.SDK/content/getting-started/Ignore%20Analyzer%20Hits.html)]
 
 ## [0.79.2] - 2025-09-27
 
 ### Added
-- [Test Explorer Support via VSTest](https://github.com/ionide/FsAutoComplete/pull/1383) (thanks @farlee2121!)
-- [add warnon to the list of hash directives](https://github.com/ionide/FsAutoComplete/pull/1416) (thanks @Martin521!)
-- [Add Logging to FSharp.Analyzer.SDK](https://github.com/ionide/FsAutoComplete/pull/1413) (thanks @TheAngryByrd!)
+- [Test Explorer Support via VSTest](https://github.com/ionide/FsNativeAutoComplete/pull/1383) (thanks @farlee2121!)
+- [add warnon to the list of hash directives](https://github.com/ionide/FsNativeAutoComplete/pull/1416) (thanks @Martin521!)
+- [Add Logging to FSharp.Analyzer.SDK](https://github.com/ionide/FsNativeAutoComplete/pull/1413) (thanks @TheAngryByrd!)
 
 ## [0.78.5] - 2025-08-02
 
 ### Changed
 
-- [Update FSharp.Analyzers.SDK and Ionide.Analyzers to version 0.32.1 and 0.14.7](https://github.com/ionide/FsAutoComplete/pull/1382/files)
+- [Update FSharp.Analyzers.SDK and Ionide.Analyzers to version 0.32.1 and 0.14.7](https://github.com/ionide/FsNativeAutoComplete/pull/1382/files)
 - Checkout [FSharp.Analyzers.SDK release notes](https://github.com/ionide/FSharp.Analyzers.SDK/releases/tag/v0.32.1) for more details
 - Checkout [Ionide.Analyzers release notes](https://github.com/ionide/ionide-analyzers/releases/tag/v0.14.7) for more details
 
@@ -53,8 +53,8 @@
 
 ### Changed
 
-- [Update Ionide.ProjInfo and related packages to version 0.71.2](https://github.com/ionide/FsAutoComplete/pull/1378) check out Ionide.ProjInfo [release notes](https://github.com/ionide/proj-info/releases/tag/v0.71.2) for more details.
-- [Remove unused Debug settings](https://github.com/ionide/FsAutoComplete/pull/1376) (thanks @svenvanheugten)
+- [Update Ionide.ProjInfo and related packages to version 0.71.2](https://github.com/ionide/FsNativeAutoComplete/pull/1378) check out Ionide.ProjInfo [release notes](https://github.com/ionide/proj-info/releases/tag/v0.71.2) for more details.
+- [Remove unused Debug settings](https://github.com/ionide/FsNativeAutoComplete/pull/1376) (thanks @svenvanheugten)
 
 
 ## [0.78.1] - 2025-05-17
@@ -67,89 +67,89 @@
 
 ### Changed 
 
-- [Update FSharp.Compiler.Service 43.9.300, FSharp.Analyzers.SDK 0.31.0](https://github.com/ionide/FsAutoComplete/pull/1374) (thanks @TheAngryByrd)
+- [Update FSharp.Compiler.Service 43.9.300, FSharp.Analyzers.SDK 0.31.0](https://github.com/ionide/FsNativeAutoComplete/pull/1374) (thanks @TheAngryByrd)
 
 ## [0.77.7] - 2025-05-05
 
 ### Fixed
 
-- [Enable completion of indented hash directives](https://github.com/ionide/FsAutoComplete/pull/1371) (thanks @Martin521)
-- [Add guards for MsBuild file watching in ProjectWorkspace](https://github.com/ionide/FsAutoComplete/pull/1370) (thanks @TheAngryByrd)
+- [Enable completion of indented hash directives](https://github.com/ionide/FsNativeAutoComplete/pull/1371) (thanks @Martin521)
+- [Add guards for MsBuild file watching in ProjectWorkspace](https://github.com/ionide/FsNativeAutoComplete/pull/1370) (thanks @TheAngryByrd)
 
 
 ## [0.77.5] - 2025-03-25
 
 ### Changed
 
-- [Update FSharp.Analyzers.SDK to 0.30.0](https://github.com/ionide/FsAutoComplete/pull/1369) (thanks @TheAngryByrd)
-- [Update to Ionide.LSP 0.7.0](https://github.com/ionide/FsAutoComplete/pull/1368) (thanks @TheAngryByrd)
+- [Update FSharp.Analyzers.SDK to 0.30.0](https://github.com/ionide/FsNativeAutoComplete/pull/1369) (thanks @TheAngryByrd)
+- [Update to Ionide.LSP 0.7.0](https://github.com/ionide/FsNativeAutoComplete/pull/1368) (thanks @TheAngryByrd)
 
 ## [0.77.4] - 2025-03-06
 
 ### Changed
 
-- [Update FSharp.Analyzers.SDK to 0.29.1](https://github.com/ionide/FsAutoComplete/pull/1367) - Fixes issue where FSAC would lock analyzer dlls on Windows OSes
+- [Update FSharp.Analyzers.SDK to 0.29.1](https://github.com/ionide/FsNativeAutoComplete/pull/1367) - Fixes issue where FSAC would lock analyzer dlls on Windows OSes
 
 ### Fixed
 
-- [Fix textDocument/hover for function, generic and tuple alias types](https://github.com/ionide/FsAutoComplete/pull/1365) and [#1366](https://github.com/ionide/FsAutoComplete/pull/1366) (Thanks @SoxPopuli!)
+- [Fix textDocument/hover for function, generic and tuple alias types](https://github.com/ionide/FsNativeAutoComplete/pull/1365) and [#1366](https://github.com/ionide/FsNativeAutoComplete/pull/1366) (Thanks @SoxPopuli!)
 
 
 ## [0.77.3] - 2025-03-02
 
 ### Changed
 
-- [Add exclusion config for parens analyzer](https://github.com/ionide/FsAutoComplete/pull/1363) (thanks @brianrourkeboll)
+- [Add exclusion config for parens analyzer](https://github.com/ionide/FsNativeAutoComplete/pull/1363) (thanks @brianrourkeboll)
 
 ## [0.77.2] - 2025-02-17
 
 ### Changed
 
-- [Update ProjInfo to 0.70.2](https://github.com/ionide/FsAutoComplete/pull/1358) (thanks @TheAngryByrd) - Fixes slow builds when using binlogs with Graph based builds
+- [Update ProjInfo to 0.70.2](https://github.com/ionide/FsNativeAutoComplete/pull/1358) (thanks @TheAngryByrd) - Fixes slow builds when using binlogs with Graph based builds
 
 ## [0.77.1] - 2025-02-14
 
 ### Fixed
 
-- [Update ProjInfo to 0.70.1](https://github.com/ionide/FsAutoComplete/pull/1357) (thanks @TheAngryByrd) - This fixes an issue with trying to design time build projects that can't be built
+- [Update ProjInfo to 0.70.1](https://github.com/ionide/FsNativeAutoComplete/pull/1357) (thanks @TheAngryByrd) - This fixes an issue with trying to design time build projects that can't be built
 
 ## [0.77.0] - 2025-02-12
 
 ### Changed
 
-- [Update to FSharp.Compiler.Service 43.9.201](https://github.com/ionide/FsAutoComplete/pull/1355) (thanks @TheAngryByrd) See [FCS Release Notes](https://github.com/dotnet/fsharp/blob/main/docs/release-notes/.FSharp.Compiler.Service/9.0.200.md)
-- [Transparent Compiler usage changes](https://github.com/ionide/FsAutoComplete/pull/1356) (thanks @TheAngryByrd)
+- [Update to FSharp.Compiler.Service 43.9.201](https://github.com/ionide/FsNativeAutoComplete/pull/1355) (thanks @TheAngryByrd) See [FCS Release Notes](https://github.com/dotnet/fsharp/blob/main/docs/release-notes/.FSharp.Compiler.Service/9.0.200.md)
+- [Transparent Compiler usage changes](https://github.com/ionide/FsNativeAutoComplete/pull/1356) (thanks @TheAngryByrd)
 
 ## [0.76.2] - 2025-02-09
 
 ### Added 
 
-- [Added ability to search workspace by symbol name](https://github.com/ionide/FsAutoComplete/pull/1348) (thanks @1eyewonder!)
+- [Added ability to search workspace by symbol name](https://github.com/ionide/FsNativeAutoComplete/pull/1348) (thanks @1eyewonder!)
 
 ### Fixed
 
-- [Preserve Whitespace in fsproj file.](https://github.com/ionide/FsAutoComplete/pull/1328) (thanks goswinr!)
-- [Tooltip: Add constraints to return types inner generics](https://github.com/ionide/FsAutoComplete/pull/1342) (thanks @TheAngryByrd!)
-- [CodeFix: AddPrivateAccessModifier code fix handle getter setter access separately](https://github.com/ionide/FsAutoComplete/pull/1346) (thanks @dawedawe!)
-- [Tooltip: add missing space in signature creation](https://github.com/ionide/FsAutoComplete/pull/1347) (thanks @dawedawe!)
-- [Tooltip: fix func signature for empty param names](https://github.com/ionide/FsAutoComplete/pull/1351) (thanks @dawedawe!)
-- [Docs: Update creating CodeFix documentation](https://github.com/ionide/FsAutoComplete/pull/1331) (thanks edgarfgp!)
-- [Internal: Added build debug to prelaunch task in tests](https://github.com/ionide/FsAutoComplete/pull/1332) (thanks 1eyewonder!)
-- [Internal: Bring back fantomas](https://github.com/ionide/FsAutoComplete/pull/1343) (thanks dawedawe!)
+- [Preserve Whitespace in fsproj file.](https://github.com/ionide/FsNativeAutoComplete/pull/1328) (thanks goswinr!)
+- [Tooltip: Add constraints to return types inner generics](https://github.com/ionide/FsNativeAutoComplete/pull/1342) (thanks @TheAngryByrd!)
+- [CodeFix: AddPrivateAccessModifier code fix handle getter setter access separately](https://github.com/ionide/FsNativeAutoComplete/pull/1346) (thanks @dawedawe!)
+- [Tooltip: add missing space in signature creation](https://github.com/ionide/FsNativeAutoComplete/pull/1347) (thanks @dawedawe!)
+- [Tooltip: fix func signature for empty param names](https://github.com/ionide/FsNativeAutoComplete/pull/1351) (thanks @dawedawe!)
+- [Docs: Update creating CodeFix documentation](https://github.com/ionide/FsNativeAutoComplete/pull/1331) (thanks edgarfgp!)
+- [Internal: Added build debug to prelaunch task in tests](https://github.com/ionide/FsNativeAutoComplete/pull/1332) (thanks 1eyewonder!)
+- [Internal: Bring back fantomas](https://github.com/ionide/FsNativeAutoComplete/pull/1343) (thanks dawedawe!)
 
 ### Changed
 
-- [CodeFix: Wrap arg in parens when needed when adding new keyword](https://github.com/ionide/FsAutoComplete/pull/1335) (thanks @brianrourkeboll!)
-- [Analyzer: Enable unnecessary parentheses analyzer by default](https://github.com/ionide/FsAutoComplete/pull/1336) (thanks @brianrourkeboll!)
-- [Docs: Add link Zed extension in README](https://github.com/ionide/FsAutoComplete/pull/1345) (thanks @drhumlen!)
-- [Internal: Update to Fantomas 7.0.0](https://github.com/ionide/FsAutoComplete/pull/1344) (thanks @dawedawe!)
-- [Internal: Remove References to Net6 & Net7](https://github.com/ionide/FsAutoComplete/pull/1349) (thanks 1eyewonder!)
+- [CodeFix: Wrap arg in parens when needed when adding new keyword](https://github.com/ionide/FsNativeAutoComplete/pull/1335) (thanks @brianrourkeboll!)
+- [Analyzer: Enable unnecessary parentheses analyzer by default](https://github.com/ionide/FsNativeAutoComplete/pull/1336) (thanks @brianrourkeboll!)
+- [Docs: Add link Zed extension in README](https://github.com/ionide/FsNativeAutoComplete/pull/1345) (thanks @drhumlen!)
+- [Internal: Update to Fantomas 7.0.0](https://github.com/ionide/FsNativeAutoComplete/pull/1344) (thanks @dawedawe!)
+- [Internal: Remove References to Net6 & Net7](https://github.com/ionide/FsNativeAutoComplete/pull/1349) (thanks 1eyewonder!)
 
 ## [0.75.0] - 2024-11-24
 
 ### Added
 
-- [Support F# 9 language features and toolin  g](https://github.com/ionide/FsAutoComplete/pull/1324)
+- [Support F# 9 language features and toolin  g](https://github.com/ionide/FsNativeAutoComplete/pull/1324)
 - Support for .NET 9 SDKS
 
 ### Removed
@@ -160,23 +160,23 @@
 
 ### Added
 
-- [Allow generating match cases for DU cases when the match is empty](https://github.com/ionide/FsAutoComplete/pull/1309) (thanks @gbtb!)
+- [Allow generating match cases for DU cases when the match is empty](https://github.com/ionide/FsNativeAutoComplete/pull/1309) (thanks @gbtb!)
 
 ### Fixed
 
-- [Fix the floating code lens issues reported by many users](https://github.com/ionide/FsAutoComplete/pull/1319) (thanks @TheAngryByrd!)
+- [Fix the floating code lens issues reported by many users](https://github.com/ionide/FsNativeAutoComplete/pull/1319) (thanks @TheAngryByrd!)
 
 ### Changed
 
-- [Update Fantomas.Client to get fixes for global fantomas installs](https://github.com/ionide/FsAutoComplete/pull/1320) (thanks @nojaf!)
+- [Update Fantomas.Client to get fixes for global fantomas installs](https://github.com/ionide/FsNativeAutoComplete/pull/1320) (thanks @nojaf!)
 
 ## [0.74.0] - 2024-08-18
 
 ### Changed
 
-- [Updated to F# compiler libraries from the .NET 8.0.400 SDK](https://github.com/ionide/FsAutoComplete/pull/1317)
-- [Render a better return type for constructors](https://github.com/ionide/FsAutoComplete/pull/1312) (thanks @dawedawe!)
-- [Refactorings for better perf on hot paths](https://github.com/ionide/FsAutoComplete/pull/1308) (Thanks @1eyewonder)
+- [Updated to F# compiler libraries from the .NET 8.0.400 SDK](https://github.com/ionide/FsNativeAutoComplete/pull/1317)
+- [Render a better return type for constructors](https://github.com/ionide/FsNativeAutoComplete/pull/1312) (thanks @dawedawe!)
+- [Refactorings for better perf on hot paths](https://github.com/ionide/FsNativeAutoComplete/pull/1308) (Thanks @1eyewonder)
 
 ## [0.73.2] - 2024-06-17
 
@@ -184,13 +184,13 @@
 
 - Tweaked the logic for the two new settings to prevent overly-notifying users.
 - Use the new generated LSP models (thanks @TheAngryByrd!)
-- [Fix the insert of opened namespaces for completions](https://github.com/ionide/FsAutoComplete/pull/1300) (thanks @MrLuje!)
+- [Fix the insert of opened namespaces for completions](https://github.com/ionide/FsNativeAutoComplete/pull/1300) (thanks @MrLuje!)
 
 ## [0.73.1] - 2024-05-23
 
 ### Added
 
-- [New, explicit FSI settings for editor analysis and FSI invocation](https://github.com/ionide/FsAutoComplete/pull/1299)
+- [New, explicit FSI settings for editor analysis and FSI invocation](https://github.com/ionide/FsNativeAutoComplete/pull/1299)
   * Before, `FSharp.FSIExtraParameters` was used for both script analysis in the LSP as well as launching FSI instances in editors. Some FSI options are only intended to be used for direct FSI invocation (see [docs](https://learn.microsoft.com/en-us/dotnet/fsharp/language-reference/fsharp-interactive-options) for more details) and so break editor analysis. We've introduced two settings to separate these concerns. If the old setting is provided along either of the new options, the old setting will be used but a warning message will be shown in the editor.
     * `FSharp.FSIExtraInteractiveParameters` is now used for launching FSI instances in editors
     * `FSharp.FSIExtraSharedParameters` is used for editor analysis
@@ -198,66 +198,66 @@
 
 ### Changed
 
-- [Tooltips now render generic type parameters with multiple parts correctly](https://github.com/ionide/FsAutoComplete/pull/1298) (thanks @dawedawe!)
+- [Tooltips now render generic type parameters with multiple parts correctly](https://github.com/ionide/FsNativeAutoComplete/pull/1298) (thanks @dawedawe!)
 - [Tooltips now render optional args as `?name: type` instead of `name: option<type>`](https://github.com/ionide/fsautocomplete/pull/1297) (thanks @dawedawe!)
 
 ## [0.73.0] - 2024-05-15
 
 ### Added
 
-- [OpenTelemetry Metrics for FSAC itself](https://github.com/ionide/FsAutoComplete/pull/1281)
-- [Support the new Transparent Compiler available in the FSharp Compiler Services](https://github.com/ionide/FsAutoComplete/pull/1240) (thanks @TheAngryByrd!)
+- [OpenTelemetry Metrics for FSAC itself](https://github.com/ionide/FsNativeAutoComplete/pull/1281)
+- [Support the new Transparent Compiler available in the FSharp Compiler Services](https://github.com/ionide/FsNativeAutoComplete/pull/1240) (thanks @TheAngryByrd!)
   * This new analysis mode can be enabled by using the `--use-fcs-transparent-compiler` command line option when launching FSAC. It is snapshot-based and should be faster than the previous APIs, but may be unstable and may [use more memory](https://github.com/dotnet/fsharp/issues/16979). As a result, it is still in an experimental mode and must be opted-in to.
 - New Codefixes:
   * [Converts a classic lambda expression to F# 8's new Dot-Lambda syntax](https://github.com/ionide/fsautocomplete/pull/1251) (thanks @nojaf!)
   * [Converts F# 8's new Dot-Lambda syntax to a classic lambda expression](https://github.com/ionide/fsautocomplete/pull/1264) (thanks @Tangent-90!)
-  * [Ignore an expression](https://github.com/ionide/FsAutoComplete/pull/1253) (thanks @nojaf!)
-  * [Add a binding in a source file to the matching signature file](https://github.com/ionide/FsAutoComplete/pull/1249) (thanks @nojaf!)
-  * [Update a type definition in a source file to the matching definition in a signature file](https://github.com/ionide/FsAutoComplete/pull/1244) (thanks @nojaf!)
-  * [Add a type alias in a source file to the matching signature file](https://github.com/ionide/FsAutoComplete/pull/1243) (thanks @nojaf!)
+  * [Ignore an expression](https://github.com/ionide/FsNativeAutoComplete/pull/1253) (thanks @nojaf!)
+  * [Add a binding in a source file to the matching signature file](https://github.com/ionide/FsNativeAutoComplete/pull/1249) (thanks @nojaf!)
+  * [Update a type definition in a source file to the matching definition in a signature file](https://github.com/ionide/FsNativeAutoComplete/pull/1244) (thanks @nojaf!)
+  * [Add a type alias in a source file to the matching signature file](https://github.com/ionide/FsNativeAutoComplete/pull/1243) (thanks @nojaf!)
 
 ### Changed
 
 - [The "Separate digits by groups" code action now can group numbers into groups of 4, not just 3](https://github.com/ionide/fsautocomplete/pull/1262) (thanks @Tangent-90!)
-- [Fixes for the "Remove Unnecessary Parentheses" code fix](https://github.com/ionide/FsAutoComplete/pull/1286) (thanks @brianrourkeboll!)
-- [Fixes for when the "Generate Xml Documentation" code action is available](https://github.com/ionide/FsAutoComplete/pull/1292) (thanks @dawedawe!)
+- [Fixes for the "Remove Unnecessary Parentheses" code fix](https://github.com/ionide/FsNativeAutoComplete/pull/1286) (thanks @brianrourkeboll!)
+- [Fixes for when the "Generate Xml Documentation" code action is available](https://github.com/ionide/FsNativeAutoComplete/pull/1292) (thanks @dawedawe!)
 
 ## [0.72.3] - 2024-05-05
 
 ### Added
 
-- [FSAC publishes a net8.0 TFM version of the tool as well, to prevent issues when running across TargetFrameworks](https://github.com/ionide/FsAutoComplete/pull/1281)
-- [Long-running actions like typechecking specific files can now be cancelled by users](https://github.com/ionide/FsAutoComplete/pull/1274) (thanks @TheAngryByrd)
+- [FSAC publishes a net8.0 TFM version of the tool as well, to prevent issues when running across TargetFrameworks](https://github.com/ionide/FsNativeAutoComplete/pull/1281)
+- [Long-running actions like typechecking specific files can now be cancelled by users](https://github.com/ionide/FsNativeAutoComplete/pull/1274) (thanks @TheAngryByrd)
 
 ### Fixed
 
-- [Fix restoring multiple script file NuGet dependencies in parallel](https://github.com/ionide/FsAutoComplete/pull/1275) (thanks @TheAngryByrd)
+- [Fix restoring multiple script file NuGet dependencies in parallel](https://github.com/ionide/FsNativeAutoComplete/pull/1275) (thanks @TheAngryByrd)
 
 ## [0.72.2] - 2024-04-30
 
 ### Fixed
 
-- [Use actualRootPath instead of p.RootPath when peeking workspaces](https://github.com/ionide/FsAutoComplete/pull/1278) (thanks @oupson)
+- [Use actualRootPath instead of p.RootPath when peeking workspaces](https://github.com/ionide/FsNativeAutoComplete/pull/1278) (thanks @oupson)
 
 ## [0.72.1] - 2024-04-25
 
 ### Added 
 
-- [Show additional diagnostics specific to script files](https://github.com/ionide/FsAutoComplete/pull/1248) (thanks @TheAngryByrd)
-- [Add some code fixes for type mismatch](https://github.com/ionide/FsAutoComplete/pull/1250) (thanks @nojaf)
+- [Show additional diagnostics specific to script files](https://github.com/ionide/FsNativeAutoComplete/pull/1248) (thanks @TheAngryByrd)
+- [Add some code fixes for type mismatch](https://github.com/ionide/FsNativeAutoComplete/pull/1250) (thanks @nojaf)
 
 ### Fixed
 
-- [Shift multiline paren contents less aggressively](https://github.com/ionide/FsAutoComplete/pull/1242) (thanks @brianrourkeboll)
-- [fix unicode characters in F# compiler diagnostic messages](https://github.com/ionide/FsAutoComplete/pull/1265) (thanks @MrLuje)
-- [Place XML doc lines before any attribute lists](https://github.com/ionide/FsAutoComplete/pull/1267) (thanks @dawedawe)
-- [Don't generate params for explicit getters/setters](https://github.com/ionide/FsAutoComplete/pull/1268) (thanks @dawedawe)
-- [Fix Nuget Script Restores when doing them in parallel](https://github.com/ionide/FsAutoComplete/pull/1275) (thanks @TheAngryByrd)
+- [Shift multiline paren contents less aggressively](https://github.com/ionide/FsNativeAutoComplete/pull/1242) (thanks @brianrourkeboll)
+- [fix unicode characters in F# compiler diagnostic messages](https://github.com/ionide/FsNativeAutoComplete/pull/1265) (thanks @MrLuje)
+- [Place XML doc lines before any attribute lists](https://github.com/ionide/FsNativeAutoComplete/pull/1267) (thanks @dawedawe)
+- [Don't generate params for explicit getters/setters](https://github.com/ionide/FsNativeAutoComplete/pull/1268) (thanks @dawedawe)
+- [Fix Nuget Script Restores when doing them in parallel](https://github.com/ionide/FsNativeAutoComplete/pull/1275) (thanks @TheAngryByrd)
 
 ### Changed
 
-- [Migrate Codefix Scaffolding](https://github.com/ionide/FsAutoComplete/pull/1256) (thanks @nojaf)
-- [Bump ProjInfo to 0.64.0](https://github.com/ionide/FsAutoComplete/pull/1270) Check out the [release notes](https://github.com/ionide/proj-info/releases/tag/v0.64.0) for more details (thanks @baronfel) 
+- [Migrate Codefix Scaffolding](https://github.com/ionide/FsNativeAutoComplete/pull/1256) (thanks @nojaf)
+- [Bump ProjInfo to 0.64.0](https://github.com/ionide/FsNativeAutoComplete/pull/1270) Check out the [release notes](https://github.com/ionide/proj-info/releases/tag/v0.64.0) for more details (thanks @baronfel) 
   * Fixes Loading Projects in some cases
   * Adds Traversal Project support
 
@@ -265,81 +265,81 @@
 
 ### Added
 
-- [Add unnecessary parentheses analyzer & code fix](https://github.com/fsharp/FsAutoComplete/pull/1235) (thanks @brianrourkeboll)
+- [Add unnecessary parentheses analyzer & code fix](https://github.com/fsharp/FsNativeAutoComplete/pull/1235) (thanks @brianrourkeboll)
 
 ### Fixed
 
-- [Fix debugger regression](https://github.com/fsharp/FsAutoComplete/pull/1230/files) (thanks @baronfel)
+- [Fix debugger regression](https://github.com/fsharp/FsNativeAutoComplete/pull/1230/files) (thanks @baronfel)
 
 ### Changed
 
-- [Slightly better Project Loading messages](https://github.com/fsharp/FsAutoComplete/pull/1234) (thanks @TheAngryByrd)
-- [add missing keyword list and extra information](https://github.com/fsharp/FsAutoComplete/pull/1226) (thanks @jkone27)
-- [Speed up project load times](https://github.com/fsharp/FsAutoComplete/pull/1245) (thanks @TheAngryByrd)
+- [Slightly better Project Loading messages](https://github.com/fsharp/FsNativeAutoComplete/pull/1234) (thanks @TheAngryByrd)
+- [add missing keyword list and extra information](https://github.com/fsharp/FsNativeAutoComplete/pull/1226) (thanks @jkone27)
+- [Speed up project load times](https://github.com/fsharp/FsNativeAutoComplete/pull/1245) (thanks @TheAngryByrd)
 
 ## [0.70.1] - 2024-02-13
 
 ### Fixed
 
-- [Fix the OutputPath returned from Project data so that it uses the executable/loadable assembly instead of reference assemblies.](https://github.com/fsharp/FsAutoComplete/pull/1230/)
+- [Fix the OutputPath returned from Project data so that it uses the executable/loadable assembly instead of reference assemblies.](https://github.com/fsharp/FsNativeAutoComplete/pull/1230/)
 
 ### Changed
 
-- [Analyzers: Update analyzers support to 0.24.0](https://github.com/fsharp/FsAutoComplete/pull/1229) (thanks @nojaf)
+- [Analyzers: Update analyzers support to 0.24.0](https://github.com/fsharp/FsNativeAutoComplete/pull/1229) (thanks @nojaf)
 
 
 ## [0.70.0] - 2024-02-06
 
 ### Changed
 
-- [Update Ionide.ProjInfo and enable support for Reference Assemblies where they exist](https://github.com/fsharp/FsAutoComplete/pull/1228)
+- [Update Ionide.ProjInfo and enable support for Reference Assemblies where they exist](https://github.com/fsharp/FsNativeAutoComplete/pull/1228)
 
 ## [0.69.0] - 2024-01-14
 
 ### Added
 
-- [Codefix: Update value in signature file](https://github.com/fsharp/FsAutoComplete/pull/1161) and [1220](https://github.com/fsharp/FsAutoComplete/pull/1220) (thanks @nojaf)
+- [Codefix: Update value in signature file](https://github.com/fsharp/FsNativeAutoComplete/pull/1161) and [1220](https://github.com/fsharp/FsNativeAutoComplete/pull/1220) (thanks @nojaf)
 
 ### Changed
 
-- [Analyzers: Update analyzers support to 0.23.0](https://github.com/fsharp/FsAutoComplete/pull/1217) (thanks @dawedawe)
+- [Analyzers: Update analyzers support to 0.23.0](https://github.com/fsharp/FsNativeAutoComplete/pull/1217) (thanks @dawedawe)
 
 ### Fixed
 
-- [fix and improves l10n](https://github.com/fsharp/FsAutoComplete/pull/1181) (thanks @Tangent-90)
-- [Fix AP signatures for APs with names which are substrings of other APs](https://github.com/fsharp/FsAutoComplete/pull/1211) (thanks @dawedawe)
-- [fixing caching of cancelled cached tasks](https://github.com/fsharp/FsAutoComplete/pull/1221) (thanks @TheAngryByrd)
+- [fix and improves l10n](https://github.com/fsharp/FsNativeAutoComplete/pull/1181) (thanks @Tangent-90)
+- [Fix AP signatures for APs with names which are substrings of other APs](https://github.com/fsharp/FsNativeAutoComplete/pull/1211) (thanks @dawedawe)
+- [fixing caching of cancelled cached tasks](https://github.com/fsharp/FsNativeAutoComplete/pull/1221) (thanks @TheAngryByrd)
 
 ## [0.68.0] - 2023-11-17
 
 ### Added
 
-- [Dotnet 8 support](https://github.com/fsharp/FsAutoComplete/pull/1175) (Thanks @baronfel & @TheAngryByrd)
-- [F# 8 Support](https://github.com/fsharp/FsAutoComplete/pull/1180) (Thanks @baronfel & @nojaf & @dawedawe)
+- [Dotnet 8 support](https://github.com/fsharp/FsNativeAutoComplete/pull/1175) (Thanks @baronfel & @TheAngryByrd)
+- [F# 8 Support](https://github.com/fsharp/FsNativeAutoComplete/pull/1180) (Thanks @baronfel & @nojaf & @dawedawe)
 
 ### Changed
 
-- [Updates Ionide.LanguageServerProtocol to 0.4.20](https://github.com/fsharp/FsAutoComplete/pull/1190) (Thanks @TheAngryByrd)
-- [Update IcedTasks 0.9.2](https://github.com/fsharp/FsAutoComplete/pull/1197) (Thanks @TheAngryByrd)
-- [Paket Simplify](https://github.com/fsharp/FsAutoComplete/pull/1204) (Thanks @1eyewonder)
+- [Updates Ionide.LanguageServerProtocol to 0.4.20](https://github.com/fsharp/FsNativeAutoComplete/pull/1190) (Thanks @TheAngryByrd)
+- [Update IcedTasks 0.9.2](https://github.com/fsharp/FsNativeAutoComplete/pull/1197) (Thanks @TheAngryByrd)
+- [Paket Simplify](https://github.com/fsharp/FsNativeAutoComplete/pull/1204) (Thanks @1eyewonder)
 
 ### Fixed
 
-- [Do ordinal string comparisons](https://github.com/fsharp/FsAutoComplete/pull/1193) (Thanks @dawedawe)
-- [fix typo in FullNameExternalAutocomplete default value](https://github.com/fsharp/FsAutoComplete/pull/1196) (Thanks @MrLuje)
-- [Fix tooltip errorhandling]()(https://github.com/fsharp/FsAutoComplete/pull/1195) (Thanks @pblasucci & @TheAngryByrd)
+- [Do ordinal string comparisons](https://github.com/fsharp/FsNativeAutoComplete/pull/1193) (Thanks @dawedawe)
+- [fix typo in FullNameExternalAutocomplete default value](https://github.com/fsharp/FsNativeAutoComplete/pull/1196) (Thanks @MrLuje)
+- [Fix tooltip errorhandling]()(https://github.com/fsharp/FsNativeAutoComplete/pull/1195) (Thanks @pblasucci & @TheAngryByrd)
 
 ## [0.67.0] - 2023-10-28
 
 ### Changed
 
-- [Better Completion for ExternalAutocomplete functions](https://github.com/fsharp/FsAutoComplete/pull/1178) (Thanks @Tangent-90!)
-- LSP Refactoring [1179](https://github.com/fsharp/FsAutoComplete/pull/1179) [1188](https://github.com/fsharp/FsAutoComplete/pull/1188) (Thanks @TheAngryByrd)
-- [Fix Spelling](https://github.com/fsharp/FsAutoComplete/pull/1182) (Thanks @TheAngryByrd)
+- [Better Completion for ExternalAutocomplete functions](https://github.com/fsharp/FsNativeAutoComplete/pull/1178) (Thanks @Tangent-90!)
+- LSP Refactoring [1179](https://github.com/fsharp/FsNativeAutoComplete/pull/1179) [1188](https://github.com/fsharp/FsNativeAutoComplete/pull/1188) (Thanks @TheAngryByrd)
+- [Fix Spelling](https://github.com/fsharp/FsNativeAutoComplete/pull/1182) (Thanks @TheAngryByrd)
 
 ### Fixed
-- [Json serializer error can cause server crash ](https://github.com/fsharp/FsAutoComplete/pull/1189) (Thanks @TheAngryByrd)
-- [Fixes a race condition with ProgressListener.End](https://github.com/fsharp/FsAutoComplete/pull/1183) (Thanks @TheAngryByrd)
+- [Json serializer error can cause server crash ](https://github.com/fsharp/FsNativeAutoComplete/pull/1189) (Thanks @TheAngryByrd)
+- [Fixes a race condition with ProgressListener.End](https://github.com/fsharp/FsNativeAutoComplete/pull/1183) (Thanks @TheAngryByrd)
 
 ## [0.66.1] - 2023-10-15
 
@@ -351,50 +351,50 @@
 
 ### Removed
 
-- [The following options have been removed from the LSP. The old CLI options will trigger a warning if present, but will not crash the server]((https://github.com/fsharp/FsAutoComplete/pull/1174)) (Thanks @TheAngryByrd!)
+- [The following options have been removed from the LSP. The old CLI options will trigger a warning if present, but will not crash the server]((https://github.com/fsharp/FsNativeAutoComplete/pull/1174)) (Thanks @TheAngryByrd!)
   * The older, Non-Adaptive LSP implementation (in favor of using the Adaptive LSP server)
   * NamedText (in favor of RoslynSourceText)
 
 ### Changed
 
-- [The Inlay Hints' Parameter Hints learned how to show parameter hints for constructor arguments and method parameters](https://github.com/fsharp/FsAutoComplete/pull/1176)
+- [The Inlay Hints' Parameter Hints learned how to show parameter hints for constructor arguments and method parameters](https://github.com/fsharp/FsNativeAutoComplete/pull/1176)
 
 ## [0.65.0] - 2023-10-09
 
 ### Added
-- [Incoming Call Hierarchy](https://github.com/fsharp/FsAutoComplete/pull/1164) (thanks @TheAngryByrd!)
+- [Incoming Call Hierarchy](https://github.com/fsharp/FsNativeAutoComplete/pull/1164) (thanks @TheAngryByrd!)
 
 ### Fixed 
-- [Ignore requests that would cause circular dependencies in project references](https://github.com/fsharp/FsAutoComplete/pull/1173) (thanks @dawedawe!)
+- [Ignore requests that would cause circular dependencies in project references](https://github.com/fsharp/FsNativeAutoComplete/pull/1173) (thanks @dawedawe!)
 
 ## [0.64.1] - 2023-10-05
 
 ### Fixed
-- [fix the Define active pattern](https://github.com/fsharp/FsAutoComplete/pull/1170) (thanks @dawedawe!)
+- [fix the Define active pattern](https://github.com/fsharp/FsNativeAutoComplete/pull/1170) (thanks @dawedawe!)
 
 ## [0.64.0] - 2023-09-27
 
 ### Added 
-- [Add CodeActions for Number Constants: Convert between bases, Add digit group separators](https://github.com/fsharp/FsAutoComplete/pull/1167) (thanks @BooksBaum!)
+- [Add CodeActions for Number Constants: Convert between bases, Add digit group separators](https://github.com/fsharp/FsNativeAutoComplete/pull/1167) (thanks @BooksBaum!)
 
 ### Changed
-- [Default to RoslynSourceText](https://github.com/fsharp/FsAutoComplete/pull/1168) (thank @TheAngryByrd!)
+- [Default to RoslynSourceText](https://github.com/fsharp/FsNativeAutoComplete/pull/1168) (thank @TheAngryByrd!)
 
 ## [0.63.1] - 2023-09-18
 
 ### Fixed
-- [fix an expecto test detection](https://github.com/fsharp/FsAutoComplete/pull/1165) (Thanks @TheAngryByrd!)
+- [fix an expecto test detection](https://github.com/fsharp/FsNativeAutoComplete/pull/1165) (Thanks @TheAngryByrd!)
 
 ## [0.63.0] - 2023-09-06
 
 ### Added
-- [Add support for Expecto theory tests](https://github.com/fsharp/FsAutoComplete/pull/1160) (thanks @Numpsy!)
-- [Add Scaffolding for Generating Codefixes](https://github.com/fsharp/FsAutoComplete/pull/1158) (thanks @nojaf!)
+- [Add support for Expecto theory tests](https://github.com/fsharp/FsNativeAutoComplete/pull/1160) (thanks @Numpsy!)
+- [Add Scaffolding for Generating Codefixes](https://github.com/fsharp/FsNativeAutoComplete/pull/1158) (thanks @nojaf!)
 ### Changed
-- [Extract out AST-collecting-walker to a separate function + abstract class](https://github.com/fsharp/FsAutoComplete/pull/1154) (thanks @baronfel!)
+- [Extract out AST-collecting-walker to a separate function + abstract class](https://github.com/fsharp/FsNativeAutoComplete/pull/1154) (thanks @baronfel!)
 
 ### Fixed
-- [Fixed File Index out of range issues](https://github.com/fsharp/FsAutoComplete/pull/1152) (thanks @Happypig375!)
+- [Fixed File Index out of range issues](https://github.com/fsharp/FsNativeAutoComplete/pull/1152) (thanks @Happypig375!)
 
 ## [0.62.0] - 2023-08-21
 
@@ -409,64 +409,64 @@
 
 ### Fixed
 
-- [Massively improved the performance of comparing file paths in the LSP server](https://github.com/fsharp/FsAutoComplete/pull/1139) (thanks @TheAngryByrd!)
-- [Improved getting declarations in the Adaptive LSP Server](https://github.com/fsharp/FsAutoComplete/pull/1150) (thanks @TheAngryByrd!)
+- [Massively improved the performance of comparing file paths in the LSP server](https://github.com/fsharp/FsNativeAutoComplete/pull/1139) (thanks @TheAngryByrd!)
+- [Improved getting declarations in the Adaptive LSP Server](https://github.com/fsharp/FsNativeAutoComplete/pull/1150) (thanks @TheAngryByrd!)
 
 
 ## [0.61.1] - 2023-07-22
 
 ### Fixed
 
-- [Reduce project option duplication, reducing memory usage](https://github.com/fsharp/FsAutoComplete/pull/1147) (thanks @TheAngryByrd!)
+- [Reduce project option duplication, reducing memory usage](https://github.com/fsharp/FsNativeAutoComplete/pull/1147) (thanks @TheAngryByrd!)
 
 
 ## [0.61.0] - 2023-07-16
 
 ### Added 
 
-- [Codefix: Add codefix for redundant attribute suffix.](https://github.com/fsharp/FsAutoComplete/pull/1132) (thanks @nojaf!)
-- [Add module to SemanticTokenTypes](https://github.com/fsharp/FsAutoComplete/pull/1137) (thanks @nojaf!)
-- [Codefix: Add type annotations to entire function](https://github.com/fsharp/FsAutoComplete/pull/1138) (thanks @nojaf!)
-- [Codefix: RemovePatternArgument quick fix](https://github.com/fsharp/FsAutoComplete/pull/1142) (thanks @edgarfgp!)
-- [Codefix:  for interpolated string](https://github.com/fsharp/FsAutoComplete/pull/1143), [fix #1](https://github.com/fsharp/FsAutoComplete/pull/1146) (thanks @nojaf!)
+- [Codefix: Add codefix for redundant attribute suffix.](https://github.com/fsharp/FsNativeAutoComplete/pull/1132) (thanks @nojaf!)
+- [Add module to SemanticTokenTypes](https://github.com/fsharp/FsNativeAutoComplete/pull/1137) (thanks @nojaf!)
+- [Codefix: Add type annotations to entire function](https://github.com/fsharp/FsNativeAutoComplete/pull/1138) (thanks @nojaf!)
+- [Codefix: RemovePatternArgument quick fix](https://github.com/fsharp/FsNativeAutoComplete/pull/1142) (thanks @edgarfgp!)
+- [Codefix:  for interpolated string](https://github.com/fsharp/FsNativeAutoComplete/pull/1143), [fix #1](https://github.com/fsharp/FsNativeAutoComplete/pull/1146) (thanks @nojaf!)
 
 ### Changed
 
-- [Swap maybe for option CEs](https://github.com/fsharp/FsAutoComplete/pull/1131) (thanks @TheAngryByrd!)
+- [Swap maybe for option CEs](https://github.com/fsharp/FsNativeAutoComplete/pull/1131) (thanks @TheAngryByrd!)
 
 ### Fixed
 
-- [Make ServerProgressReport threadsafe](https://github.com/fsharp/FsAutoComplete/pull/1130) (thanks @TheAngryByrd!)
-- [Fix range handling for code completion in interpolated strings](https://github.com/fsharp/FsAutoComplete/pull/1133) (thanks @kojo12228!)
-- [Fixing Typos](https://github.com/fsharp/FsAutoComplete/pull/1136) (thanks @TheAngryByrd!)
-- [FSAC Not exiting on macos/linux](https://github.com/fsharp/FsAutoComplete/pull/1141) (thanks @TheAngryByrd!)
-- [CI not failing on focused tests](https://github.com/fsharp/FsAutoComplete/pull/1145) (thanks @TheAngryByrd!)
+- [Make ServerProgressReport threadsafe](https://github.com/fsharp/FsNativeAutoComplete/pull/1130) (thanks @TheAngryByrd!)
+- [Fix range handling for code completion in interpolated strings](https://github.com/fsharp/FsNativeAutoComplete/pull/1133) (thanks @kojo12228!)
+- [Fixing Typos](https://github.com/fsharp/FsNativeAutoComplete/pull/1136) (thanks @TheAngryByrd!)
+- [FSAC Not exiting on macos/linux](https://github.com/fsharp/FsNativeAutoComplete/pull/1141) (thanks @TheAngryByrd!)
+- [CI not failing on focused tests](https://github.com/fsharp/FsNativeAutoComplete/pull/1145) (thanks @TheAngryByrd!)
 
 ### Removed
 
-- [Remove old eventlistener](https://github.com/fsharp/FsAutoComplete/pull/1134) (thanks @TheAngryByrd!)
+- [Remove old eventlistener](https://github.com/fsharp/FsNativeAutoComplete/pull/1134) (thanks @TheAngryByrd!)
 
 ## [0.60.1] - 2023-07-01
 
 ### Added
 
-- [A new set of settings for excluding files from built-in analyzers](https://github.com/fsharp/FsAutoComplete/pull/1120) (thanks @TheAngryByrd!)
-- [A new setting for choosing the ISourceText implementation, along with a Roslyn-based implementation](https://github.com/fsharp/FsAutoComplete/pull/1123) (thanks @TheAngryByrd!)
-- [The Generate Xml Doc codefix now works on properties with getters and setters](https://github.com/fsharp/FsAutoComplete/pull/1126) (thanks @dawedawe!)
+- [A new set of settings for excluding files from built-in analyzers](https://github.com/fsharp/FsNativeAutoComplete/pull/1120) (thanks @TheAngryByrd!)
+- [A new setting for choosing the ISourceText implementation, along with a Roslyn-based implementation](https://github.com/fsharp/FsNativeAutoComplete/pull/1123) (thanks @TheAngryByrd!)
+- [The Generate Xml Doc codefix now works on properties with getters and setters](https://github.com/fsharp/FsNativeAutoComplete/pull/1126) (thanks @dawedawe!)
 
 ## [0.60.0] - 2023-06-14
 
 ### Added
 
-- [A new codefix for generating missing parameters and return types for XML Documentation](https://github.com/fsharp/FsAutoComplete/pull/1108) (thanks @dawedawe!)
+- [A new codefix for generating missing parameters and return types for XML Documentation](https://github.com/fsharp/FsNativeAutoComplete/pull/1108) (thanks @dawedawe!)
 
 ### Fixed
 
-- [Abstract classes generation now handles members with attributes](https://github.com/fsharp/FsAutoComplete/pull/1107)
+- [Abstract classes generation now handles members with attributes](https://github.com/fsharp/FsNativeAutoComplete/pull/1107)
 
 ### Changed
 
-- [The FSharp.Compiler.Services were updated to 43.7.300, matching the F# Compiler shipped in .NET 7.0.300](https://github.com/fsharp/FsAutoComplete/pull/1116) (thanks @TheAngryByrd!)
+- [The FSharp.Compiler.Services were updated to 43.7.300, matching the F# Compiler shipped in .NET 7.0.300](https://github.com/fsharp/FsNativeAutoComplete/pull/1116) (thanks @TheAngryByrd!)
 
 ## [0.59.6] - 2023-04-21
 
@@ -485,7 +485,7 @@
 - [Update Ionide.ProjInfo to get more logging](https://github.com/fsharp/fsautocomplete/pull/1093) (thanks @theangrybyrd!)
 - [Update tooltips and Info Panel documentation](https://github.com/fsharp/fsautocomplete/pull/1099) (thanks @MaximeMangel!)
 - [Update the xml doc generation codefix to work in more places](https://github.com/fsharp/fsautocomplete/pull/1106) (thanks @dawedawe!)
-- [Make async more pervasive in the codebase and use AsyncAdaptive values in the Adaptive LSP](https://github.com/fsharp/FsAutoComplete/pull/1088) (thanks @theangrybyrd!)
+- [Make async more pervasive in the codebase and use AsyncAdaptive values in the Adaptive LSP](https://github.com/fsharp/FsNativeAutoComplete/pull/1088) (thanks @theangrybyrd!)
 
 
 ## [0.59.5] - 2023-04-21
@@ -505,30 +505,30 @@
 - [Update Ionide.ProjInfo to get more logging](https://github.com/fsharp/fsautocomplete/pull/1093) (thanks @theangrybyrd!)
 - [Update tooltips and Info Panel documentation](https://github.com/fsharp/fsautocomplete/pull/1099) (thanks @MaximeMangel!)
 - [Update the xml doc generation codefix to work in more places](https://github.com/fsharp/fsautocomplete/pull/1106) (thanks @dawedawe!)
-- [Make async more pervasive in the codebase and use AsyncAdaptive values in the Adaptive LSP](https://github.com/fsharp/FsAutoComplete/pull/1088) (thanks @theangrybyrd!)
+- [Make async more pervasive in the codebase and use AsyncAdaptive values in the Adaptive LSP](https://github.com/fsharp/FsNativeAutoComplete/pull/1088) (thanks @theangrybyrd!)
 
 ## [0.59.4] - 2023-03-19
 
 ### Fixed
 
-- [The Adaptive Server no longer sends errors for `textDocument/documentHighlight` calls that there is no symbol information for](https://github.com/fsharp/FsAutoComplete/pull/1075) (Thanks @haodeon!)
+- [The Adaptive Server no longer sends errors for `textDocument/documentHighlight` calls that there is no symbol information for](https://github.com/fsharp/FsNativeAutoComplete/pull/1075) (Thanks @haodeon!)
 
 ## [0.59.3] - 2023-03-19
 
 ### Added
 
-- [A new command called `fsproj/renameFile` for renaming a file in the context of a particular project](https://github.com/fsharp/FsAutoComplete/pull/1075) (thanks @MangelMaxime!)
+- [A new command called `fsproj/renameFile` for renaming a file in the context of a particular project](https://github.com/fsharp/FsNativeAutoComplete/pull/1075) (thanks @MangelMaxime!)
 
 ### Fixed
 
-- [Only add a file once to a given project](https://github.com/fsharp/FsAutoComplete/pull/1076) (Thanks @MangelMaxime!)
-- [Reduce memory consumption of the compiler typecheck cache](https://github.com/fsharp/FsAutoComplete/pull/1077) (thanks @theangrybyrd!)
+- [Only add a file once to a given project](https://github.com/fsharp/FsNativeAutoComplete/pull/1076) (Thanks @MangelMaxime!)
+- [Reduce memory consumption of the compiler typecheck cache](https://github.com/fsharp/FsNativeAutoComplete/pull/1077) (thanks @theangrybyrd!)
   * To change the amount of typechecks kept by the compiler, change the `FSharp.fsac.cachedTypecheckCount` config value
-- [Adaptive server now only reloads specific projects that changed, rather than the entire workspace](https://github.com/fsharp/FsAutoComplete/pull/1079) (Thanks @TheAngryByrd!)
-- [Don't trigger the 'Replace prefix with _' codefix on _ matches](https://github.com/fsharp/FsAutoComplete/pull/1083) (Thanks @dawedawe!)
-- [Handle `workspace/didChangeConfiguration` requests that don't provide an `FSharp` config property](https://github.com/fsharp/FsAutoComplete/pull/1084) (thanks @razzmatazz!)
-- [Some threadpool exhaustion fixes due to blocking threads](https://github.com/fsharp/FsAutoComplete/pull/1080) (Thanks @TheAngyrByrd!)
-- [Fix Adaptive server to lazily load projects specified instead of loading all projects in the workspace](https://github.com/fsharp/FsAutoComplete/pull/1082) (Thanks @TheAngryByrd!)
+- [Adaptive server now only reloads specific projects that changed, rather than the entire workspace](https://github.com/fsharp/FsNativeAutoComplete/pull/1079) (Thanks @TheAngryByrd!)
+- [Don't trigger the 'Replace prefix with _' codefix on _ matches](https://github.com/fsharp/FsNativeAutoComplete/pull/1083) (Thanks @dawedawe!)
+- [Handle `workspace/didChangeConfiguration` requests that don't provide an `FSharp` config property](https://github.com/fsharp/FsNativeAutoComplete/pull/1084) (thanks @razzmatazz!)
+- [Some threadpool exhaustion fixes due to blocking threads](https://github.com/fsharp/FsNativeAutoComplete/pull/1080) (Thanks @TheAngyrByrd!)
+- [Fix Adaptive server to lazily load projects specified instead of loading all projects in the workspace](https://github.com/fsharp/FsNativeAutoComplete/pull/1082) (Thanks @TheAngryByrd!)
 
 ## [0.59.2] - 2023-03-12
 
@@ -595,8 +595,8 @@
 
 ### Changed
 
-- [Speed, typechecking, memory usage improvements for Adaptive and normal LSP servers](https://github.com/fsharp/FsAutoComplete/pull/1036)
-- [Don't compute all references unnecessarily](https://github.com/fsharp/FsAutoComplete/pull/1052)
+- [Speed, typechecking, memory usage improvements for Adaptive and normal LSP servers](https://github.com/fsharp/FsNativeAutoComplete/pull/1036)
+- [Don't compute all references unnecessarily](https://github.com/fsharp/FsNativeAutoComplete/pull/1052)
 
 ### Removed
 
@@ -606,7 +606,7 @@
 
 ### Fixed
 
-- [Fix reference resolution when there are refassemblies involved](https://github.com/fsharp/FsAutoComplete/pull/1038) (thanks @theangrybyrd!)
+- [Fix reference resolution when there are refassemblies involved](https://github.com/fsharp/FsNativeAutoComplete/pull/1038) (thanks @theangrybyrd!)
 
 ## [0.58.1] - 2022-10-19
 
@@ -625,51 +625,51 @@
 
 ### Added
 
-- [Experimental implementation of the LSP server based on FSharp.Data.Adaptive](https://github.com/fsharp/FsAutoComplete/pull/1007). It can be enabled by passing `--adaptive-lsp-server-enabled` on the CLI. (Thanks @TheAngryByrd!)
+- [Experimental implementation of the LSP server based on FSharp.Data.Adaptive](https://github.com/fsharp/FsNativeAutoComplete/pull/1007). It can be enabled by passing `--adaptive-lsp-server-enabled` on the CLI. (Thanks @TheAngryByrd!)
 
 ## [0.57.4] - 2022-09-30
 
 ### Fixed
 
-- [Update LSP library so Code Actions calls don't crash anymore](https://github.com/fsharp/FsAutoComplete/pull/1018)
+- [Update LSP library so Code Actions calls don't crash anymore](https://github.com/fsharp/FsNativeAutoComplete/pull/1018)
 
 ## [0.57.3] - 2022-09-27
 
 ### Fixed
 
-- [Don't let codeFixes bring down the application](https://github.com/fsharp/FsAutoComplete/pull/1016)
+- [Don't let codeFixes bring down the application](https://github.com/fsharp/FsNativeAutoComplete/pull/1016)
 
 ### Changed
 
-- [Renamed fantomas-tool settings to fantomas](https://github.com/fsharp/FsAutoComplete/pull/1012) (Thanks @nojaf!)
+- [Renamed fantomas-tool settings to fantomas](https://github.com/fsharp/FsNativeAutoComplete/pull/1012) (Thanks @nojaf!)
 
 ## [0.57.2] - 2022-09-24
 
 ### Fixed
 
-- [Fix request cancellation causing crashes for emacs clients](https://github.com/fsharp/FsAutoComplete/pull/1013)
+- [Fix request cancellation causing crashes for emacs clients](https://github.com/fsharp/FsNativeAutoComplete/pull/1013)
 
 ## [0.57.1] - 2022-09-22
 
 ### Changed
 
-- [Remove diagnostics for files that aren't in the workspace when they are closed](https://github.com/fsharp/FsAutoComplete/pull/1010) (thanks @Booksbaum!)
-- [Improve performance/concurrency for checking files](https://github.com/fsharp/FsAutoComplete/pull/1008) (thanks @Booksbaum!)
+- [Remove diagnostics for files that aren't in the workspace when they are closed](https://github.com/fsharp/FsNativeAutoComplete/pull/1010) (thanks @Booksbaum!)
+- [Improve performance/concurrency for checking files](https://github.com/fsharp/FsNativeAutoComplete/pull/1008) (thanks @Booksbaum!)
 
 ## [0.57.0] - 2022-09-05
 
 ### Added
 
-- [Add `fsharp/addExistingFile` LSP command](https://github.com/fsharp/FsAutoComplete/pull/1002) (Thanks @MangelMaxime!)
+- [Add `fsharp/addExistingFile` LSP command](https://github.com/fsharp/FsNativeAutoComplete/pull/1002) (Thanks @MangelMaxime!)
 * Support for .NET SDK 6.0.400 and 7.0.100
   * Primary change was updating the Ionide.ProjInfo dependency
 
 ### Changed
 
-- [Improvements/Fixes for unused declarations](https://github.com/fsharp/FsAutoComplete/pull/998) (thanks @Booksbaum!)
+- [Improvements/Fixes for unused declarations](https://github.com/fsharp/FsNativeAutoComplete/pull/998) (thanks @Booksbaum!)
   * Detect more cases when values are unused
   * Fixes for associated codefix to remove or ignore the value
-- [Support removing files that are outside the fsproj directory](https://github.com/fsharp/FsAutoComplete/pull/1001) (thanks @MangelMaxime!)
+- [Support removing files that are outside the fsproj directory](https://github.com/fsharp/FsNativeAutoComplete/pull/1001) (thanks @MangelMaxime!)
 * Reverted back to full-text synchronization from incremental sync
   * This didn't play well with the debounced checking that we do, so we need to rethink the interaction between the features
 
@@ -677,71 +677,71 @@
 
 ### Changed
 
-- [Use incremental text sync instead of full text sync](https://github.com/fsharp/FsAutoComplete/pull/981)
-- [Nicer errors when CodeLenses cannot be resolved](https://github.com/fsharp/FsAutoComplete/pull/989)
-- [Removed compiler-generated and hidden types from the documentation endpoints](https://github.com/fsharp/FsAutoComplete/pull/992) (thanks @MangelMaxime!)
+- [Use incremental text sync instead of full text sync](https://github.com/fsharp/FsNativeAutoComplete/pull/981)
+- [Nicer errors when CodeLenses cannot be resolved](https://github.com/fsharp/FsNativeAutoComplete/pull/989)
+- [Removed compiler-generated and hidden types from the documentation endpoints](https://github.com/fsharp/FsNativeAutoComplete/pull/992) (thanks @MangelMaxime!)
 
 ### Added
 
-- [Keywords should work in tooltips consistently now](https://github.com/fsharp/FsAutoComplete/pull/982)
-- [Prevent codelenses from getting out of sync with document source](https://github.com/fsharp/FsAutoComplete/pull/987)
-- [Added a new command fsharp/removeFile for removing a file from a project](https://github.com/fsharp/FsAutoComplete/pull/990)
+- [Keywords should work in tooltips consistently now](https://github.com/fsharp/FsNativeAutoComplete/pull/982)
+- [Prevent codelenses from getting out of sync with document source](https://github.com/fsharp/FsNativeAutoComplete/pull/987)
+- [Added a new command fsharp/removeFile for removing a file from a project](https://github.com/fsharp/FsNativeAutoComplete/pull/990)
 
 ### Fixed
 
-- [Clear stale errors when renaming a file](https://github.com/fsharp/FsAutoComplete/pull/973)
-- [Respect disabling in-memory project references](https://github.com/fsharp/FsAutoComplete/pull/974)
-- [Remove unused formatting from completion and signature items](https://github.com/fsharp/FsAutoComplete/pull/979)
-- [Performance regresssions in typechecking files](https://github.com/fsharp/FsAutoComplete/pull/977)
-- [Better precondition checking for adding new files to projects](https://github.com/fsharp/FsAutoComplete/pull/991) (thanks @MangelMaxime!)
-- [support CodeLenses for single-character identifiers](https://github.com/fsharp/FsAutoComplete/pull/994)
+- [Clear stale errors when renaming a file](https://github.com/fsharp/FsNativeAutoComplete/pull/973)
+- [Respect disabling in-memory project references](https://github.com/fsharp/FsNativeAutoComplete/pull/974)
+- [Remove unused formatting from completion and signature items](https://github.com/fsharp/FsNativeAutoComplete/pull/979)
+- [Performance regresssions in typechecking files](https://github.com/fsharp/FsNativeAutoComplete/pull/977)
+- [Better precondition checking for adding new files to projects](https://github.com/fsharp/FsNativeAutoComplete/pull/991) (thanks @MangelMaxime!)
+- [support CodeLenses for single-character identifiers](https://github.com/fsharp/FsNativeAutoComplete/pull/994)
 
 ## [0.56.0] - 2022-07-23
 
 ### Added
 
-- [Format range provider](https://github.com/fsharp/FsAutoComplete/pull/969)
-- [Info toolip for inlay hints](https://github.com/fsharp/FsAutoComplete/pull/972)
-- [Rename: Add backticks to name if necessary](https://github.com/fsharp/FsAutoComplete/pull/970) (thanks @Booksbaum!)
+- [Format range provider](https://github.com/fsharp/FsNativeAutoComplete/pull/969)
+- [Info toolip for inlay hints](https://github.com/fsharp/FsNativeAutoComplete/pull/972)
+- [Rename: Add backticks to name if necessary](https://github.com/fsharp/FsNativeAutoComplete/pull/970) (thanks @Booksbaum!)
 
 ### Fixed
 
-- [Disable cross-project typechecking on every edit](https://github.com/fsharp/FsAutoComplete/pull/971)
+- [Disable cross-project typechecking on every edit](https://github.com/fsharp/FsNativeAutoComplete/pull/971)
 
 
 ## [0.55.0] - 2022-07-12
 
 ### Added
 
-- [Support for LSP 3.17 InlayHints](https://github.com/fsharp/FsAutoComplete/pull/943)
+- [Support for LSP 3.17 InlayHints](https://github.com/fsharp/FsNativeAutoComplete/pull/943)
 
 ### Fixed
 
-- [Codelens for -1 reference no longer shown](https://github.com/fsharp/FsAutoComplete/pull/965)
-- [Remove backticks for signatures in signature help](https://github.com/fsharp/FsAutoComplete/pull/964)
-- [Tons of bugs and enhancements to InlayHints](https://github.com/fsharp/FsAutoComplete/pull/957) (thanks @Booksbaum!)
-- [Renames and reference counts are more accurate](https://github.com/fsharp/FsAutoComplete/pull/945)
-- [Fix index out of bounds in signature helpers](https://github.com/fsharp/FsAutoComplete/pull/956) (thanks @Booksbaum!)
+- [Codelens for -1 reference no longer shown](https://github.com/fsharp/FsNativeAutoComplete/pull/965)
+- [Remove backticks for signatures in signature help](https://github.com/fsharp/FsNativeAutoComplete/pull/964)
+- [Tons of bugs and enhancements to InlayHints](https://github.com/fsharp/FsNativeAutoComplete/pull/957) (thanks @Booksbaum!)
+- [Renames and reference counts are more accurate](https://github.com/fsharp/FsNativeAutoComplete/pull/945)
+- [Fix index out of bounds in signature helpers](https://github.com/fsharp/FsNativeAutoComplete/pull/956) (thanks @Booksbaum!)
 
 ### Changed
 
-- [Use the parent dotnet binary to set the toolspath](https://github.com/fsharp/FsAutoComplete/pull/958)
+- [Use the parent dotnet binary to set the toolspath](https://github.com/fsharp/FsNativeAutoComplete/pull/958)
 
 ### Removed
 
-- [FAKE Integration](https://github.com/fsharp/FsAutoComplete/pull/961)
+- [FAKE Integration](https://github.com/fsharp/FsNativeAutoComplete/pull/961)
 * Custom InlayHints - (fsharp/inlayHints, removed in favor of LSP inlayHints)
 
 ## [0.54.0] - 2022-05-29
 
 ### Fixed
 
-- [IndexOutOfBounds exceptions that took down the process](https://github.com/fsharp/FsAutoComplete/pull/938) (thanks @BooksBaum!)
+- [IndexOutOfBounds exceptions that took down the process](https://github.com/fsharp/FsNativeAutoComplete/pull/938) (thanks @BooksBaum!)
 
 ### Changed
 
-- [Update Ionide.LanguageServerProtocol to get new types and fixes](https://github.com/fsharp/FsAutoComplete/pull/948) (thanks @BooksBaum!)
-- [Enable several features to be used with untitled/unsaved files](https://github.com/fsharp/FsAutoComplete/pull/949) (thanks @BooksBaum!)
+- [Update Ionide.LanguageServerProtocol to get new types and fixes](https://github.com/fsharp/FsNativeAutoComplete/pull/948) (thanks @BooksBaum!)
+- [Enable several features to be used with untitled/unsaved files](https://github.com/fsharp/FsNativeAutoComplete/pull/949) (thanks @BooksBaum!)
   * Shift+F1 help, Info Panel, Pipeline Hints, and Line Lens all work now for unsaved/untitled loose files
   * This required an API change to the `fsharp/fileParsed` notification - it now returns a URI instead of a string
   * This required an API change to the `fsharp/pipelineHint` request - is is now `{ TextDocument: TextDocumentIdentifier }`
@@ -749,81 +749,81 @@
 ## [0.53.2] - 2022-05-13
 
 ### Added
-- [Update Fantomas.Client to use new fantomas alpha if present](https://github.com/fsharp/FsAutoComplete/pull/938) (thanks @nojaf!)
+- [Update Fantomas.Client to use new fantomas alpha if present](https://github.com/fsharp/FsNativeAutoComplete/pull/938) (thanks @nojaf!)
 
 ## [0.53.1] - 2022-05-01
 
 ### Changed
 
-- [Alter logic for showing inlay hints to show fewer hints on parameters](https://github.com/fsharp/FsAutoComplete/pull/9350) (thanks @Booksbaum!)
+- [Alter logic for showing inlay hints to show fewer hints on parameters](https://github.com/fsharp/FsNativeAutoComplete/pull/9350) (thanks @Booksbaum!)
 
 ## [0.53.0] - 2022-04-29
 
 ### Added
 
-- [New Codefix: rename parameter to match signature file](https://github.com/fsharp/FsAutoComplete/pull/917) (thanks @Booksbaum!)
-- [Config toggles for both kinds of code lenses](https://github.com/fsharp/FsAutoComplete/pull/931)
+- [New Codefix: rename parameter to match signature file](https://github.com/fsharp/FsNativeAutoComplete/pull/917) (thanks @Booksbaum!)
+- [Config toggles for both kinds of code lenses](https://github.com/fsharp/FsNativeAutoComplete/pull/931)
 
 ### Changed
 
-- [Don't trigger inlay hints for typed bindings](https://github.com/fsharp/FsAutoComplete/pull/922)
-- [Updated to Ionide.LanguageServerProtocol 0.4.0](https://github.com/fsharp/FsAutoComplete/pull/933)
-- [Trigger fewer inlay hints for certain kinds of parameters](https://github.com/fsharp/FsAutoComplete/pull/932)
+- [Don't trigger inlay hints for typed bindings](https://github.com/fsharp/FsNativeAutoComplete/pull/922)
+- [Updated to Ionide.LanguageServerProtocol 0.4.0](https://github.com/fsharp/FsNativeAutoComplete/pull/933)
+- [Trigger fewer inlay hints for certain kinds of parameters](https://github.com/fsharp/FsNativeAutoComplete/pull/932)
 
 ### Fixed
 
 - Don't hardcode state file to my personal user directory
-- [Don't generate state file in an OS-specific way](https://github.com/fsharp/FsAutoComplete/pull/927)
-- [ImplementInterface code fix unification and improvements](https://github.com/fsharp/FsAutoComplete/pull/929) (thanks @Booksbaum!)
-- [More trigger locations and behavior fixes for the Add Explicit Type to Parameter CodeFix](https://github.com/fsharp/FsAutoComplete/pull/926) (thanks @Booksbaum!)
+- [Don't generate state file in an OS-specific way](https://github.com/fsharp/FsNativeAutoComplete/pull/927)
+- [ImplementInterface code fix unification and improvements](https://github.com/fsharp/FsNativeAutoComplete/pull/929) (thanks @Booksbaum!)
+- [More trigger locations and behavior fixes for the Add Explicit Type to Parameter CodeFix](https://github.com/fsharp/FsNativeAutoComplete/pull/926) (thanks @Booksbaum!)
 
 ## [0.52.1] - 2020-04-16
 
 ### Changed
 
-- [Updated proj-info to get support for C#/VB projects, as well as .NET SDK workload support](https://github.com/fsharp/FsAutoComplete/pull/920)
+- [Updated proj-info to get support for C#/VB projects, as well as .NET SDK workload support](https://github.com/fsharp/FsNativeAutoComplete/pull/920)
 
 ## [0.52.0] - 2020-04-14
 
 ### Added
 
-- [New notification - `fsharp/testDetected`. This notification is fired per-file when tests are detected for the current file. The data in the payload can be used to run individual tests or groups of tests.](https://github.com/fsharp/FsAutoComplete/pull/893)
-- [New endpoint - `fsharp/inlayHints](https://github.com/fsharp/FsAutoComplete/pull/907). This provides support for type annotation and parameter name inlay hints.
-- [New codefix - convert erroring single-quoted interpolations to triple-quoted interpolations](https://github.com/fsharp/FsAutoComplete/pull/910)
-- [New command-line argument - `--state-directory`. Specified a folder to store workspace-specific FSAC data.](https://github.com/fsharp/FsAutoComplete/pull/913)
+- [New notification - `fsharp/testDetected`. This notification is fired per-file when tests are detected for the current file. The data in the payload can be used to run individual tests or groups of tests.](https://github.com/fsharp/FsNativeAutoComplete/pull/893)
+- [New endpoint - `fsharp/inlayHints](https://github.com/fsharp/FsNativeAutoComplete/pull/907). This provides support for type annotation and parameter name inlay hints.
+- [New codefix - convert erroring single-quoted interpolations to triple-quoted interpolations](https://github.com/fsharp/FsNativeAutoComplete/pull/910)
+- [New command-line argument - `--state-directory`. Specified a folder to store workspace-specific FSAC data.](https://github.com/fsharp/FsNativeAutoComplete/pull/913)
 
 
 ### Changed
 
-- [Update to .NET 6](https://github.com/fsharp/FsAutoComplete/pull/903) (Thanks @dsyme!)
-- [Update to FCS 41.0.3](https://github.com/fsharp/FsAutoComplete/pull/890)
-- [Update to Ionide.ProjInfo 0.58.2 to get fixes around the project loader loop](https://github.com/fsharp/FsAutoComplete/pull/904), [project cache](https://github.com/ionide/proj-info/pull/139), and [legacy project support](https://github.com/ionide/proj-info/pull/131)
-- [Completions for types are much better now](https://github.com/fsharp/FsAutoComplete/pull/908) (thanks @tboby!)
-- [Completions triggers on the first typed character](https://github.com/fsharp/FsAutoComplete/pull/909) (thanks @tboby!)
-- [New CLI Parser with support for auto-completion and nicer help](https://github.com/fsharp/FsAutoComplete/pull/888)
+- [Update to .NET 6](https://github.com/fsharp/FsNativeAutoComplete/pull/903) (Thanks @dsyme!)
+- [Update to FCS 41.0.3](https://github.com/fsharp/FsNativeAutoComplete/pull/890)
+- [Update to Ionide.ProjInfo 0.58.2 to get fixes around the project loader loop](https://github.com/fsharp/FsNativeAutoComplete/pull/904), [project cache](https://github.com/ionide/proj-info/pull/139), and [legacy project support](https://github.com/ionide/proj-info/pull/131)
+- [Completions for types are much better now](https://github.com/fsharp/FsNativeAutoComplete/pull/908) (thanks @tboby!)
+- [Completions triggers on the first typed character](https://github.com/fsharp/FsNativeAutoComplete/pull/909) (thanks @tboby!)
+- [New CLI Parser with support for auto-completion and nicer help](https://github.com/fsharp/FsNativeAutoComplete/pull/888)
 
 ### Fixed
 
-- [Record stub generation works again](https://github.com/fsharp/FsAutoComplete/pull/905)
+- [Record stub generation works again](https://github.com/fsharp/FsNativeAutoComplete/pull/905)
 * The fsautocomplete.netcore.zip file that was previously added to the release announcement on GitHub is back again.
-- [Several corner cases around code fixes and many LSP server endpoints](https://github.com/fsharp/FsAutoComplete/pull/911) ([part 2](https://github.com/fsharp/FsAutoComplete/pull/915)) (Thanks @Booksbaum!)
+- [Several corner cases around code fixes and many LSP server endpoints](https://github.com/fsharp/FsNativeAutoComplete/pull/911) ([part 2](https://github.com/fsharp/FsNativeAutoComplete/pull/915)) (Thanks @Booksbaum!)
 
 ## [0.51.0] - 2022-03-13
 
 ### Fixed
 
-- [No longer cause SignatureHelp errors due to errors in text navigation](https://github.com/fsharp/FsAutoComplete/pull/894)
+- [No longer cause SignatureHelp errors due to errors in text navigation](https://github.com/fsharp/FsNativeAutoComplete/pull/894)
 
 ### Added
 
-- [New Codefix: Convert positional DU patterns to named patterns](https://github.com/fsharp/FsAutoComplete/pull/895)
+- [New Codefix: Convert positional DU patterns to named patterns](https://github.com/fsharp/FsNativeAutoComplete/pull/895)
 
 ## [0.50.1] - 2022-03-12
 
 ### Fixed
 
-- [Fix textDocument/publishDiagnostics sometimes not getting sent](https://github.com/fsharp/FsAutoComplete/pull/887) (Thanks @Booksbaum!)
-- [Fix completions in the middle of lines](https://github.com/fsharp/FsAutoComplete/pull/892)
+- [Fix textDocument/publishDiagnostics sometimes not getting sent](https://github.com/fsharp/FsNativeAutoComplete/pull/887) (Thanks @Booksbaum!)
+- [Fix completions in the middle of lines](https://github.com/fsharp/FsNativeAutoComplete/pull/892)
 
 ## [0.50.0] - 2022-01-23
 
@@ -833,13 +833,13 @@
 
 ### Changed
 
-- [Update Fantomas.Client to prefer stable versions](https://github.com/fsharp/FsAutoComplete/pull/880) (Thanks @nojaf)
-- [Moved to use the Ionide.LanguageServerProtocol shared nuget package](https://github.com/fsharp/FsAutoComplete/pull/875)
+- [Update Fantomas.Client to prefer stable versions](https://github.com/fsharp/FsNativeAutoComplete/pull/880) (Thanks @nojaf)
+- [Moved to use the Ionide.LanguageServerProtocol shared nuget package](https://github.com/fsharp/FsNativeAutoComplete/pull/875)
 
 ### Fixed
-- [Sourcelink's go-to-definition works better on windows for deterministic paths](https://github.com/fsharp/FsAutoComplete/pull/878)
-- [Fix missing commas in Info Panel generic type signatures](https://github.com/fsharp/FsAutoComplete/pull/870) (Thanks @jcmrva!)
-- [Fix off-by-1 error in the negation-to-subtraction codefix](https://github.com/fsharp/FsAutoComplete/pull/882) (Thanks @jasiozet!)
+- [Sourcelink's go-to-definition works better on windows for deterministic paths](https://github.com/fsharp/FsNativeAutoComplete/pull/878)
+- [Fix missing commas in Info Panel generic type signatures](https://github.com/fsharp/FsNativeAutoComplete/pull/870) (Thanks @jcmrva!)
+- [Fix off-by-1 error in the negation-to-subtraction codefix](https://github.com/fsharp/FsNativeAutoComplete/pull/882) (Thanks @jasiozet!)
 
 ## [0.49.5] - 2021-12-01
 
@@ -848,103 +848,103 @@
 ## [0.49.4] - 2021-11-20
 
 ### Added
-- BUGFIX: [Fix background service](https://github.com/fsharp/FsAutoComplete/pull/858)
-- BUGFIX: [Fix File System](https://github.com/fsharp/FsAutoComplete/pull/860)
+- BUGFIX: [Fix background service](https://github.com/fsharp/FsNativeAutoComplete/pull/858)
+- BUGFIX: [Fix File System](https://github.com/fsharp/FsNativeAutoComplete/pull/860)
 
 ## [0.49.3] - 2021-11-19
 
 ### Added
-- ENHANCEMENT: [Better handling of file typechecking after FCS 40 update](https://github.com/fsharp/FsAutoComplete/pull/857)
-- BUGFIX: [Fix regression in cross-project support after FCS 40 update in proj-info](https://github.com/fsharp/FsAutoComplete/pull/857)
+- ENHANCEMENT: [Better handling of file typechecking after FCS 40 update](https://github.com/fsharp/FsNativeAutoComplete/pull/857)
+- BUGFIX: [Fix regression in cross-project support after FCS 40 update in proj-info](https://github.com/fsharp/FsNativeAutoComplete/pull/857)
 
 ## [0.49.2] - 2021-11-16
 
 ### Added
-- BUGFIX: [Fix probing for dotnet binary locations in the dotnet tool](https://github.com/fsharp/FsAutoComplete/pull/854)
+- BUGFIX: [Fix probing for dotnet binary locations in the dotnet tool](https://github.com/fsharp/FsNativeAutoComplete/pull/854)
 
 ## [0.49.1] - 2021-11-14
 
 ### Added
-- BUGFIX: [Fix stuck code lenses](https://github.com/fsharp/FsAutoComplete/pull/852) (thanks @beauvankirk!)
+- BUGFIX: [Fix stuck code lenses](https://github.com/fsharp/FsNativeAutoComplete/pull/852) (thanks @beauvankirk!)
 
 ## [0.49.0] - 2021-10-29
 
 ### Added
-- FEATURE: [Support .Net 6 and F# 6](https://github.com/fsharp/FsAutoComplete/pull/846)
+- FEATURE: [Support .Net 6 and F# 6](https://github.com/fsharp/FsNativeAutoComplete/pull/846)
 
 ## [0.48.2] - 2021-10-27
 
 ### Added
-- BUGFIX: [Fix Fantomas.Client reference in the fsautocomplete dotnet tool](https://github.com/fsharp/FsAutoComplete/pull/844)
+- BUGFIX: [Fix Fantomas.Client reference in the fsautocomplete dotnet tool](https://github.com/fsharp/FsNativeAutoComplete/pull/844)
 
 ## [0.48.1] - 2021-10-24
 
 ### Added
-- BUGFIX: [Bump Fantomas.Client to 0.3.1](https://github.com/fsharp/FsAutoComplete/pull/842) (thanks @nojaf!)
+- BUGFIX: [Bump Fantomas.Client to 0.3.1](https://github.com/fsharp/FsNativeAutoComplete/pull/842) (thanks @nojaf!)
 
 ## [0.48.0] - 2021-10-23
 
 ### Added
-- BUGFIX: [update handling of langword and crefs in see xmldoc nodes](https://github.com/fsharp/FsAutoComplete/pull/838)
-- BUGFIX: [handle href elements on a, see, and xref xml doc comments](https://github.com/fsharp/FsAutoComplete/pull/839)
-- FEATURE: [Use user's managed Fantomas dotnet tool instead of embedding directly into FSAC](https://github.com/fsharp/FsAutoComplete/pull/836) (thanks @nojaf!)
+- BUGFIX: [update handling of langword and crefs in see xmldoc nodes](https://github.com/fsharp/FsNativeAutoComplete/pull/838)
+- BUGFIX: [handle href elements on a, see, and xref xml doc comments](https://github.com/fsharp/FsNativeAutoComplete/pull/839)
+- FEATURE: [Use user's managed Fantomas dotnet tool instead of embedding directly into FSAC](https://github.com/fsharp/FsNativeAutoComplete/pull/836) (thanks @nojaf!)
 
 ## [0.47.2] - 2021-09-09
 
 ### Added
-- BUGFIX: [Fix dotnet template rendering on non-english locales](https://github.com/fsharp/FsAutoComplete/pull/826) (thanks @jmiven)
-- ENHANCEMENT: [Don't provide completions or tooltips for string literals of all kinds](https://github.com/fsharp/FsAutoComplete/pull/830)
+- BUGFIX: [Fix dotnet template rendering on non-english locales](https://github.com/fsharp/FsNativeAutoComplete/pull/826) (thanks @jmiven)
+- ENHANCEMENT: [Don't provide completions or tooltips for string literals of all kinds](https://github.com/fsharp/FsNativeAutoComplete/pull/830)
 This allows for other extensions to provide completions/hover tooltips for these strings when configured to do so
 
 ## [0.47.1] - 2021-08-04
 
 ### Added
-- BUGFIX: [Handle exceptions from fantomas a bit more safely](https://github.com/fsharp/FsAutoComplete/pull/823)
+- BUGFIX: [Handle exceptions from fantomas a bit more safely](https://github.com/fsharp/FsNativeAutoComplete/pull/823)
 
 ## [0.47.0] - 2021-07-25
 
 ### Added
-- BUGFIX: [Fix loading of dotnet new templates](https://github.com/fsharp/FsAutoComplete/pull/815) (thanks @Happypig375)
-- BUGFIX: [Fix datatype for workspace/applyEdit request](https://github.com/fsharp/FsAutoComplete/pull/816)
-- ENHANCEMENT: [Update Fantomas to 4.5.0 stable](https://github.com/fsharp/FsAutoComplete/pull/813) (thanks @nojaf)
-- ENHANCEMENT: [Enable running on .net 6 via rollForward](https://github.com/fsharp/FsAutoComplete/pull/818)
+- BUGFIX: [Fix loading of dotnet new templates](https://github.com/fsharp/FsNativeAutoComplete/pull/815) (thanks @Happypig375)
+- BUGFIX: [Fix datatype for workspace/applyEdit request](https://github.com/fsharp/FsNativeAutoComplete/pull/816)
+- ENHANCEMENT: [Update Fantomas to 4.5.0 stable](https://github.com/fsharp/FsNativeAutoComplete/pull/813) (thanks @nojaf)
+- ENHANCEMENT: [Enable running on .net 6 via rollForward](https://github.com/fsharp/FsNativeAutoComplete/pull/818)
 NOTE: if you have both 5.0 and 6.0 SDKs installed, you _must_ launch fsautocomplete by passing the `--fx-version` argument to the dotnet CLI. See [the cli docs](https://docs.microsoft.com/en-us/dotnet/core/tools/dotnet) for more details.
 
 ## [0.46.7] - 2021-06-29
 
 ### Added
-- ENHANCEMENT: [Make the RemoveUnusedBinding codefix work for parameters as well as nested bindings](https://github.com/fsharp/FsAutoComplete/pull/812)
+- ENHANCEMENT: [Make the RemoveUnusedBinding codefix work for parameters as well as nested bindings](https://github.com/fsharp/FsNativeAutoComplete/pull/812)
 
 ## [0.46.6] - 2021-06-27
 
 ### Added
-- ENHANCEMENT: [Make the Unused Value analyzer suggest single-underscore discards](https://github.com/fsharp/FsAutoComplete/pull/795) (thanks @pblasucci)
-- ENHANCEMENT: [Add new 'Add explicit type annotation' codefix](https://github.com/fsharp/FsAutoComplete/pull/807)
+- ENHANCEMENT: [Make the Unused Value analyzer suggest single-underscore discards](https://github.com/fsharp/FsNativeAutoComplete/pull/795) (thanks @pblasucci)
+- ENHANCEMENT: [Add new 'Add explicit type annotation' codefix](https://github.com/fsharp/FsNativeAutoComplete/pull/807)
 This works for parameters, but not function-typed parameters
-- BUGFIX: [Align with LSP protocol around command fields](https://github.com/fsharp/FsAutoComplete/commit/a3f5564ea579767f40cf673595db1efbcf755d85)
+- BUGFIX: [Align with LSP protocol around command fields](https://github.com/fsharp/FsNativeAutoComplete/commit/a3f5564ea579767f40cf673595db1efbcf755d85)
 Fixes an issue in Ionide-vim (thanks @cannorin)
 
 ## [0.46.5] - 2021-06-21
 
 ### Added
-- ENHANCEMENT: [Add diagnostic code links to Compiler, Linter, and Analyzer diagnostics](https://github.com/fsharp/FsAutoComplete/pull/804)
+- ENHANCEMENT: [Add diagnostic code links to Compiler, Linter, and Analyzer diagnostics](https://github.com/fsharp/FsNativeAutoComplete/pull/804)
 
 ## [0.46.4] - 2021-06-18
 
 ### Added
-- ENHANCEMENT: [Reenable FSharpLint linting](https://github.com/fsharp/FsAutoComplete/pull/799)
+- ENHANCEMENT: [Reenable FSharpLint linting](https://github.com/fsharp/FsNativeAutoComplete/pull/799)
 
 ## [0.46.3] - 2021-06-17
 
 ### Added
-- ENHANCEMENT: [Update Fantomas dependency to latest prerelease](https://github.com/fsharp/FsAutoComplete/pull/798)
+- ENHANCEMENT: [Update Fantomas dependency to latest prerelease](https://github.com/fsharp/FsNativeAutoComplete/pull/798)
 
 ## [0.46.2] - 2021-06-13
 
 ### Added
 - BUGFIX: fix the dotnet tool packaging to include a missing dependency for code formatting
-- BUGFIX: [fix indentation and insert position for unopened namespaces](https://github.com/fsharp/FsAutoComplete/pull/788) (Thanks @Booksbaum)
-- ENHANCEMENT: [Render parameters that are functions with parens for readability](https://github.com/fsharp/FsAutoComplete/pull/785)
+- BUGFIX: [fix indentation and insert position for unopened namespaces](https://github.com/fsharp/FsNativeAutoComplete/pull/788) (Thanks @Booksbaum)
+- ENHANCEMENT: [Render parameters that are functions with parens for readability](https://github.com/fsharp/FsNativeAutoComplete/pull/785)
 
 ## [0.46.1] - 2021-06-09
 
@@ -954,10 +954,10 @@ Fixes an issue in Ionide-vim (thanks @cannorin)
 ## [0.46.0] - 2021-05-15
 
 ### Added
-- [Improve memory usage by reducing string array allocations](https://github.com/fsharp/FsAutoComplete/pull/777)
-- [Fix fsharp/signature off-by-ones](https://github.com/fsharp/FsAutoComplete/pull/782) (Thanks @mhoogendoorn)
-- [Fix analyzer usage](https://github.com/fsharp/FsAutoComplete/pull/783)
-- [Add new codefixes](https://github.com/fsharp/FsAutoComplete/pull/784)
+- [Improve memory usage by reducing string array allocations](https://github.com/fsharp/FsNativeAutoComplete/pull/777)
+- [Fix fsharp/signature off-by-ones](https://github.com/fsharp/FsNativeAutoComplete/pull/782) (Thanks @mhoogendoorn)
+- [Fix analyzer usage](https://github.com/fsharp/FsNativeAutoComplete/pull/783)
+- [Add new codefixes](https://github.com/fsharp/FsNativeAutoComplete/pull/784)
 - Add missing self-identifier to instance member
 - Refactor `typeof<'t>.Name` to `nameof('t)`
 
@@ -1023,30 +1023,30 @@ Fixes an issue in Ionide-vim (thanks @cannorin)
 ## [0.41.1] - 2020-03-23
 
 ### Added
-- Fix `PublishDiagnosticsCapabilities` type [#574](https://github.com/fsharp/FsAutoComplete/pull/574) by [@Gastove](https://github.com/Gastove)
-- Set defaultDotNetSDKRoot on Linux correctly [#576](https://github.com/fsharp/FsAutoComplete/pull/576) by [@Krzysztof-Cieslak](https://github.com/Krzysztof-Cieslak)
+- Fix `PublishDiagnosticsCapabilities` type [#574](https://github.com/fsharp/FsNativeAutoComplete/pull/574) by [@Gastove](https://github.com/Gastove)
+- Set defaultDotNetSDKRoot on Linux correctly [#576](https://github.com/fsharp/FsNativeAutoComplete/pull/576) by [@Krzysztof-Cieslak](https://github.com/Krzysztof-Cieslak)
 
 ## [0.41.0] - 2020-03-10
 
 ### Added
-- Rework documentation parser [#446](https://github.com/fsharp/FsAutoComplete/issues/446) by [@MangelMaxime](https://github.com/MangelMaxime)
-- Update FAKE integration [#566](https://github.com/fsharp/FsAutoComplete/issues/566) by [@baronfel](https://github.com/baronfel)
-- Update FSharp.Analyzers.SDK to 0.4 [#568](https://github.com/fsharp/FsAutoComplete/issues/568) by [@baronfel](https://github.com/baronfel)
+- Rework documentation parser [#446](https://github.com/fsharp/FsNativeAutoComplete/issues/446) by [@MangelMaxime](https://github.com/MangelMaxime)
+- Update FAKE integration [#566](https://github.com/fsharp/FsNativeAutoComplete/issues/566) by [@baronfel](https://github.com/baronfel)
+- Update FSharp.Analyzers.SDK to 0.4 [#568](https://github.com/fsharp/FsNativeAutoComplete/issues/568) by [@baronfel](https://github.com/baronfel)
 
 ## [0.40.1] - 2020-02-28
 
 ### Added
-- Update to FCS 34.1 ( + all other deps) [#552](https://github.com/fsharp/FsAutoComplete/issues/556) by [@baronfel](https://github.com/baronfel)
+- Update to FCS 34.1 ( + all other deps) [#552](https://github.com/fsharp/FsNativeAutoComplete/issues/556) by [@baronfel](https://github.com/baronfel)
 
 ## [0.40.0] - 2020-02-19
 
 ### Added
-- Move Fantomas formatting to Core project [#553](https://github.com/fsharp/FsAutoComplete/issues/553) by [@Krzysztof-Cieslak](https://github.com/Krzysztof-Cieslak)
-- Fix return type in signatures in documentation formatter [#554](https://github.com/fsharp/FsAutoComplete/issues/554) by [@Krzysztof-Cieslak](https://github.com/Krzysztof-Cieslak)
+- Move Fantomas formatting to Core project [#553](https://github.com/fsharp/FsNativeAutoComplete/issues/553) by [@Krzysztof-Cieslak](https://github.com/Krzysztof-Cieslak)
+- Fix return type in signatures in documentation formatter [#554](https://github.com/fsharp/FsNativeAutoComplete/issues/554) by [@Krzysztof-Cieslak](https://github.com/Krzysztof-Cieslak)
 - Work around build infrastructure by [@Krzysztof-Cieslak](https://github.com/Krzysztof-Cieslak)
-- Allows analyzer paths to be absolute [#555](https://github.com/fsharp/FsAutoComplete/issues/555) by [@Zaid-Ajaj](https://github.com/Zaid-Ajaj)
-- Update FSI references version-finding algorithm to probe packs dir as well as runtimes dir [#556](https://github.com/fsharp/FsAutoComplete/issues/556) by [@baronfel](https://github.com/baronfel)
-- Update FSharp.Analyzers.SDK to 0.3.0 and make them available only in .Net Core build [#557](https://github.com/fsharp/FsAutoComplete/issues/557) by [@Krzysztof-Cieslak](https://github.com/Krzysztof-Cieslak)
+- Allows analyzer paths to be absolute [#555](https://github.com/fsharp/FsNativeAutoComplete/issues/555) by [@Zaid-Ajaj](https://github.com/Zaid-Ajaj)
+- Update FSI references version-finding algorithm to probe packs dir as well as runtimes dir [#556](https://github.com/fsharp/FsNativeAutoComplete/issues/556) by [@baronfel](https://github.com/baronfel)
+- Update FSharp.Analyzers.SDK to 0.3.0 and make them available only in .Net Core build [#557](https://github.com/fsharp/FsNativeAutoComplete/issues/557) by [@Krzysztof-Cieslak](https://github.com/Krzysztof-Cieslak)
 
 ## [0.39.0] - 2020-02-14
 
@@ -1059,7 +1059,7 @@ Fixes an issue in Ionide-vim (thanks @cannorin)
 ## [0.38.1] - 2019-04-16
 
 ### Added
-- fix packaging of zip releases [#373](https://github.com/fsharp/FsAutoComplete/issues/373) by [@TOTBWF](https://github.com/TOTBWF)
+- fix packaging of zip releases [#373](https://github.com/fsharp/FsNativeAutoComplete/issues/373) by [@TOTBWF](https://github.com/TOTBWF)
 
 ## [0.38.0] - 2019-04-10
 
@@ -1068,7 +1068,7 @@ Fixes an issue in Ionide-vim (thanks @cannorin)
 - upgrade to `FSharpLint.Core` v0.10.8
 - include symbolcache `runtimeconfig.json` and `deps.json` to .net core binaries
 - add `default.win32manifest` to .net core binaries
-- fix to allow run with only .NET Core Runtime 3 installed (previously v2.x was required) [#364](https://github.com/fsharp/FsAutoComplete/issues/364)
+- fix to allow run with only .NET Core Runtime 3 installed (previously v2.x was required) [#364](https://github.com/fsharp/FsNativeAutoComplete/issues/364)
 - add go-to-implementation command (`symbolimplementation`)
 
 ## [0.37.0] - 2019-02-28
@@ -1237,7 +1237,7 @@ Fixes an issue in Ionide-vim (thanks @cannorin)
 ## [0.25.1] - 2015-10-16
 
 ### Added
-- Add App.config to FsAutoComplete.Suave release: #76.
+- Add App.config to FsNativeAutoComplete.Suave release: #76.
 - Also for fsautocomplete.exe.
 
 ## [0.25.0] - 2015-10-14
@@ -1306,14 +1306,14 @@ Fixes an issue in Ionide-vim (thanks @cannorin)
 ## [0.19.0] - 2015-06-30
 
 ### Added
-- Add symboluse command - https://github.com/fsharp/FsAutoComplete/pull/34
+- Add symboluse command - https://github.com/fsharp/FsNativeAutoComplete/pull/34
 - Breaking change: all columns returned are now 1-based. Format of error locations has also changed to be more consistent with other formats.
-- Add param completion command - https://github.com/fsharp/FsAutoComplete/pull/30
+- Add param completion command - https://github.com/fsharp/FsNativeAutoComplete/pull/30
 
 ## [0.18.2] - 2015-06-13
 
 ### Added
-- Update to FCS 0.0.90 (fix referencing PCL projects) - https://github.com/fsharp/FsAutoComplete/pull/26
+- Update to FCS 0.0.90 (fix referencing PCL projects) - https://github.com/fsharp/FsNativeAutoComplete/pull/26
 
 ## [0.18.1] - 2015-06-09
 

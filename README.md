@@ -1,246 +1,253 @@
+# FsNativeAutoComplete (FSNAC)
 
-# FsAutoComplete
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE.md)
 
-[![NuGet version (FsAutoComplete)](https://img.shields.io/nuget/v/FsAutoComplete.svg?style=flat-square)](https://www.nuget.org/packages/FsAutoComplete/)
+<p align="center">
+<strong>Native-First IDE Services for F#</strong><br>
+<em>Language Server Protocol backend for the Fidelity framework ecosystem.</em>
+</p>
 
-The `FsAutoComplete` project (`FSAC`) provides a backend service for rich editing or intellisense features for editors.
+## Overview
 
-It can be hosted using the Language Server Protocol.
+FsNativeAutoComplete (FSNAC) is a fork of [FsAutoComplete](https://github.com/fsharp/FsAutoComplete) designed to provide rich IDE services for native F# compilation. Where the original FSAC assumes .NET projects with `.fsproj` and NuGet packages, FSNAC understands `.fidproj` manifests, source-based dependencies, and the native type semantics that power the Fidelity framework.
 
-Currently, it is used by the following extensions:
+FSNAC is the IDE companion to [FSharpNative Compiler Services (FNCS)](https://github.com/speakeztech/fsnative). Together they provide a complete development experience for native F# compilation: FNCS handles type checking and semantic analysis, while FSNAC delivers that information to your editor.
 
-* [Emacs](https://github.com/fsharp/emacs-fsharp-mode)
-* [Neovim](https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#fsautocomplete)
-* [Vim](https://github.com/fsharp/vim-fsharp)
-* [Visual Studio Code](https://github.com/ionide/ionide-vscode-fsharp)
-* [Sublime Text](https://lsp.sublimetext.io/language_servers/#f)
-* [Zed](https://github.com/nathanjcollins/zed-fsharp)
+## The Fidelity Framework
 
-And it can be used with the following editors, by simply installing FsAutoComplete directly: 
-`dotnet tool install --global fsautocomplete`
+FSNAC is part of the **Fidelity** native F# compilation ecosystem:
 
-* [Kate](https://kate-editor.org/)
-* [Flow](https://flow-control.dev/)
-* [Helix](https://helix-editor.com/)
+| Project | Role |
+|---------|------|
+| **[Firefly](https://github.com/speakeztech/firefly)** | AOT compiler: F# -> PSG -> MLIR -> Native binary |
+| **[FNCS](https://github.com/speakeztech/fsnative)** | F# Native Compiler Services (type checking) |
+| **FSNAC** | F# Native AutoComplete (this repository) |
+| **[Alloy](https://github.com/speakeztech/alloy)** | Native standard library with platform bindings |
+| **[XParsec](https://github.com/speakeztech/xparsec)** | Parser combinators for TOML and PSG traversal |
+| **[BAREWire](https://github.com/speakeztech/barewire)** | Binary encoding and zero-copy IPC |
+| **[Farscape](https://github.com/speakeztech/farscape)** | C/C++ header parsing for native bindings |
 
-It is based on:
+The name "Fidelity" reflects the framework's mission: **preserving type and memory safety** from source through compilation to native execution.
 
-* [FSharp.Compiler.Service](https://github.com/fsharp/FSharp.Compiler.Service/) for F# language info.
-* [Ionide.ProjInfo](https://github.com/ionide/proj-info) for project/solution management.
-* [FSharpLint](https://github.com/fsprojects/FSharpLint/) for the linter feature.
-* [Fantomas](https://github.com/fsprojects/fantomas) for F# code formatting.
+## Why FSNAC Exists
 
-## Building and testing
+The standard FsAutoComplete does an excellent job for .NET development. But when you're targeting native compilation without a runtime, several assumptions become obstacles:
+
+**Projects are MSBuild XML files.** Native compilation uses `.fidproj` TOML manifests that specify memory models, platform targets, and source-based dependencies.
+
+**Dependencies are NuGet packages.** Fidelity uses source-based distribution through the `fpm` package manager, enabling whole-program optimization across package boundaries.
+
+**Types resolve to BCL.** FNCS resolves to native types: `NativeStr` instead of `System.String`, value options instead of heap-allocated reference types.
+
+FSNAC bridges these gaps, providing familiar IDE services while understanding native semantics.
+
+## Roadmap
+
+### Phase 1: Project Identity and TOML Support
+
+The immediate focus is establishing FSNAC as a distinct, usable tool:
+
+- **Namespace transformation**: Complete rename from `FsAutoComplete` to `FsNativeAutoComplete`
+- **NuGet identity**: Publish as distinct packages (`FsNativeAutoComplete`, `FsNativeAutoComplete.Core`)
+- **TOML parsing**: Integrate XParsec-based parser for `.fidproj` files
+- **FidprojLoader**: Produce `FSharpProjectOptions` from TOML manifests
+- **Workspace discovery**: Recognize `.fidproj` alongside `.fsproj`/`.sln`
+
+```toml
+# Example .fidproj that FSNAC will understand
+[package]
+name = "my_project"
+version = "0.1.0"
+
+[dependencies]
+alloy = { path = "../alloy/src" }
+
+[build]
+sources = ["Program.fs"]
+output = "my_project"
+output_kind = "console"
+```
+
+### Phase 2: FNCS Integration
+
+As FNCS matures, FSNAC will consume its enhanced type resolution:
+
+- **Native type awareness**: Display native types (`NativeStr`, `voption`) in hover info
+- **SRTP resolution**: Show resolved witness implementations for generic operations
+- **Memory annotations**: Surface lifetime and region information in tooltips
+- **Platform binding hints**: Indicate which functions resolve to platform calls
+
+### Phase 3: Advanced Metaprogramming Support
+
+The Fidelity framework leverages F#'s metaprogramming features as first-class compilation infrastructure. FSNAC will provide specialized support for these patterns:
+
+#### Quotations as Semantic Carriers
+
+Quotations (`Expr<'T>`) carry memory constraints and peripheral descriptors through the compilation pipeline. FSNAC will provide:
+
+- Quotation structure visualization
+- Navigation from quotation to generated code
+- Semantic highlighting for compile-time evaluated expressions
+
+```fsharp
+// FSNAC understands this carries peripheral layout information
+let gpioQuotation: Expr<PeripheralDescriptor> = <@
+    { Name = "GPIO"
+      Instances = Map.ofList [("GPIOA", 0x48000000un)]
+      MemoryRegion = Peripheral }
+@>
+```
+
+#### Active Patterns for Structural Recognition
+
+Active patterns enable compositional matching throughout the nanopass pipeline. FSNAC will support:
+
+- Pattern composition visualization
+- Navigation to pattern definitions from match sites
+- Type flow through partial active patterns
+
+#### Computation Expressions as Control Flow
+
+Computation expressions provide continuation notation that compiles to DCont and Inet dialects. FSNAC will recognize:
+
+- Builder method resolution
+- Continuation structure in complex workflows
+- Dialect selection hints (sequential vs. parallel)
+
+### Phase 4: Multi-Pane Development
+
+For advanced Fidelity development, FSNAC will support coordinated views:
+
+| Pane | Format | Language Server |
+|------|--------|-----------------|
+| F# Source | `.fs` | FSNAC |
+| MLIR | `.mlir` | mlir-lsp-server |
+| LLVM IR | `.ll` | clangd |
+
+This enables tracing code from source through compilation stages.
+
+## Relationship to FsAutoComplete
+
+FSNAC is a fork of the excellent [FsAutoComplete](https://github.com/fsharp/FsAutoComplete) project. We're grateful to the FSAC maintainers and the Ionide community for creating and maintaining the foundation we build upon.
+
+Our modifications focus on project formats and type resolution, not core LSP functionality. The standard LSP endpoints remain compatible, ensuring FSNAC works with existing editor integrations.
+
+## Editor Support
+
+FSNAC provides F# support for any LSP-capable editor:
+
+- **Visual Studio Code** (via Ionide configuration)
+- **Neovim** (via nvim-lspconfig)
+- **Helix**
+- **Emacs** (via eglot or lsp-mode)
+- **Kate**
+- **Zed**
+
+### Configuration Example (nvim)
+
+```lua
+lspconfig.fsautocomplete.setup {
+    cmd = { 'dotnet', 'fsnac' },  -- or path to FSNAC binary
+    filetypes = { 'fsharp' },
+    root_dir = lspconfig.util.root_pattern('*.fidproj', '*.fsproj', '*.sln'),
+}
+
+-- Associate .fidproj with TOML syntax
+vim.filetype.add({ extension = { fidproj = 'toml' } })
+```
+
+## Building
 
 Requirements:
-
-* .NET SDK, see [global.json](global.json) for the exact version.
-   Minimum: >= 6.0, Recommended: >= 7.0 
-
-1. Restore dotnet tools to install local Paket `dotnet tool restore`
-2. Build FSAC with `dotnet build`
-
-### DevContainer
-
-The repository additionally provides DevContainer definition that can be used with VSCode's Remote Containers extension - use it to get stable development environment
-
-### Gitpod.io
-
-This repository is prepared to use Gitpod for a web-based VSCode-style IDE. Click the button below to begin!
-
-[![Gitpod Ready-to-Code](https://img.shields.io/badge/Gitpod-ready--to--code-blue?logo=gitpod)](https://gitpod.io/#https://github.com/fsharp/fsautocomplete)
-
-### Creating a new code fix
-
-Checkout [this guide](./docs/Creating%20a%20new%20code%20fix.md) to start with a new code fix.
-
-## Releasing
-
-* Update CHANGELOG.md with the release notes from the current release in the `Unreleased` section. Use section headings like `Added`, `Fixed`, etc from keepachangelog.com.
-* For individual section items in the Changelog, use headings like `BUGFIX`, `FEATURE`, and `ENHANCEMENT` followed by a link to the PR with the PR title.
-* Run the `Promote` FAKE target via the `Promote` target to create the appropriate release version from the current `Unreleased` section and stamp the date, as well as create a commit and tag for this promotion
-* push this commit and tag to main
-* the CI pipeline will publish a release from the tag.
-
-
-## OpenTelemetry
-
-FsAutocomplete is using [System.Diagnostics.Activity](https://learn.microsoft.com/en-us/dotnet/core/diagnostics/distributed-tracing-instrumentation-walkthroughs) to create traces.
-
-To export traces, run [Jaeger](https://www.jaegertracing.io/)
+- .NET SDK (see `global.json` for version)
 
 ```bash
-docker run -d --name jaeger \
-  -e COLLECTOR_ZIPKIN_HOST_PORT=9411 \
-  -e COLLECTOR_OTLP_ENABLED=true \
-  -p 6831:6831/udp \
-  -p 6832:6832/udp \
-  -p 5778:5778 \
-  -p 16686:16686 \
-  -p 4317:4317 \
-  -p 4318:4318 \
-  -p 14250:14250 \
-  -p 14268:14268 \
-  -p 14269:14269 \
-  -p 9411:9411 \
-  jaegertracing/all-in-one:latest
-```
-Then configure your [environment](https://opentelemetry.io/docs/concepts/sdk-configuration/otlp-exporter-configuration/)
+# Restore tools
+dotnet tool restore
 
-```bash
-OTEL_EXPORTER_OTLP_ENDPOINT = "http://localhost:4317"
+# Build
+dotnet build
+
+# Test
+dotnet test
 ```
 
-Start FsAutocomplete by `dotnet fsautocomplete --otel-exporter-enabled`.
+## Supported LSP Features
 
-Or by `code .` with setting `"FSharp.fsac.fsacArgs": ["--otel-exporter-enabled"]`.
-(If you also want to observe fsc traces, use the `FSharp.notifications` settings.)
+FSNAC supports the standard LSP endpoints:
 
-Do some actions like opening documents, saving, getting tooltips, etc.
+- `textDocument/completion` with `completionItem/resolve`
+- `textDocument/hover`
+- `textDocument/definition`, `typeDefinition`, `implementation`
+- `textDocument/references`
+- `textDocument/codeAction`, `codeLens`
+- `textDocument/formatting` (via Fantomas)
+- `textDocument/rename`
+- `textDocument/signatureHelp`
+- `textDocument/documentSymbol`
+- `textDocument/semanticTokens`
+- `workspace/symbol`
 
-Then open `http://localhost:16686/` to inspect traces.
+### Custom Fidelity Endpoints (Planned)
 
+- `fidelity/projectInfo` - Query `.fidproj` configuration
+- `fidelity/memoryLayout` - Get type memory layout information
+- `fidelity/srtpResolution` - Show SRTP witness resolution
+- `fidelity/platformBindings` - List platform binding mappings
 
-## Communication protocol
+## Implementation Status
 
-FsAutoComplete supports [LSP](https://microsoft.github.io/language-server-protocol/) as a communication protocol.
+| Phase | Description | Status |
+|-------|-------------|--------|
+| Phase 1 | Namespace rename and TOML parsing | In Progress |
+| Phase 2 | FNCS integration | Pending |
+| Phase 3 | Metaprogramming support | Future |
+| Phase 4 | Multi-pane development | Future |
 
-### Supported LSP endpoints
+## Architecture
 
-* `initialize`
-* `textDocument/didOpen`
-* `textDocument/didChange`
-* `textDocument/didSave`
-* `textDocument/hover`
-* `textDocument/completion` & `completionItem/resolve`
-* `textDocument/prepareRename` & `textDocument/rename`
-* `textDocument/definition`
-* `textDocument/typeDefinition`
-* `textDocument/implementation`
-* `textDocument/codeAction`:
-  * Remove unused `open`
-  * Resolve namespace/module
-  * Replace unused symbol with `_`
-  * Fix typo based on error message
-  * Remove redundant qualifier
-  * Add missing `new` keyword for `IDisposable`
-  * Generate cases for all DU case in pattern matching
-  * Generate empty interface implementation
-  * Fixes suggested by [FSharpLint](https://github.com/fsprojects/FSharpLint)
-* `textDocument/codeLens` & `codeLens/resolve`:
-  * signature Code Lenses
-  * reference number Code Lenses
-* `textDocument/formatting` - powered by [fantomas](https://github.com/fsprojects/fantomas)
-* `textDocument/rangeFormatting` - powered by [fantomas](https://github.com/fsprojects/fantomas)
-* `textDocument/references`
-* `textDocument/documentHighlight`
-* `textDocument/signatureHelp`
-* `textDocument/documentSymbol`
-* `textDocument/inlayHint`
-* `textDocument/inlineValue`
-* `textDocument/foldingRange`
-* `textDocument/selectionRange`
-* `textDocument/semanticTokens/full`
-* `textDocument/semanticTokens/range`
-* `callHierarchy/prepareCallHierarchy`
-* `callHierarchy/incomingCalls`
-* `workspace/didChangeWatchedFiles`
-* `workspace/didChangeConfiguration`
-* `workspace/symbol`
+```
+┌─────────────────────────────────────────────────────────┐
+│                        Editor                            │
+│              (VS Code, nvim, Helix, etc.)               │
+└─────────────────────────┬───────────────────────────────┘
+                          │ LSP
+┌─────────────────────────▼───────────────────────────────┐
+│                        FSNAC                             │
+│           FsNativeAutoComplete LSP Server               │
+├─────────────────────────────────────────────────────────┤
+│  FidprojLoader    │   Standard LSP   │   Custom         │
+│  (TOML → Options) │   Handlers       │   Fidelity API   │
+└─────────────────────────┬───────────────────────────────┘
+                          │
+┌─────────────────────────▼───────────────────────────────┐
+│                        FNCS                              │
+│         FSharpNative Compiler Services                  │
+│    (Type checking, SRTP resolution, Native types)       │
+└─────────────────────────────────────────────────────────┘
+```
 
-### Custom endpoints
+## Contributing
 
-Custom endpoints are using (for messages body) `PlainNotification` type and string format serialized with exactly same serialization format as old JSON protocol
+Contributions are welcome. Areas of particular interest:
 
-* `fsharp/signature` - accepts `TextDocumentPositionParams`, returns signature of symbol at given position as a formatted string
-* `fsharp/signatureData` - accepts `TextDocumentPositionParams`, returns signature of symbol at given position as DTO
-* `fsharp/lineLens` - accepts `ProjectParms` (`Project` filed contain F# file path), returns locations where LineLenses should be displayed
-* `fsharp/compilerLocation` - no input, returns paths to FCS, FSI and MsBuild
-* `fsharp/compile` - accepts `ProjectParms`, tries to compile project, returns list of errors and exit status code
-* `fsharp/workspacePeek` - accepts `WorkspacePeekRequest`, returns list of possible workspaces (resolved solution files, or list of projects if there are no solution files)
-* `fsharp/workspaceLoad` - accepts `WorkspaceLoadParms`, loads given list of projects in the background, partial result notified by `fsharp/notifyWorkspace` notification
-* `fsharp/project`  - accepts a `ProjectParms` object (which points to a single project by URI) and loads that project into the current session
-* ~~`fsharp/fsdn`~~ - **NOT IMPLEMENTED** - previously queried FSDN for function signatures (FSDN service is offline)
-* `fsharp/f1Help` - accepts `TextDocumentPositionParams`, returns URL to MSDN documentation for symbol at given position
-* `fsharp/documentation` - accepts `TextDocumentPositionParams`, returns documentation data about symbol at given position, used for InfoPanel
-* `fsharp/documentationSymbol` - accepts `DocumentationForSymbolReuqest`, returns documentation data about given symbol from given assembly, used for InfoPanel
-* `fsproj/moveFileUp` - accepts `DotnetFileRequest`, move the file down of 1 line in the project file
-* `fsproj/moveFileDown` - accepts `DotnetFileRequest`, move the file up of 1 line in the project file
-* `fsproj/addFileAbove` - accepts `DotnetFile2Request`, create the file if needed and add it above the reference file in the project if not already present
-* `fsproj/addFileBelow` - accepts `DotnetFile2Request`, create the file if needed and add it below the reference file in the project if not already present
-* `fsproj/addFile` - accepts `DotnetFileRequest`, create the file if needed and add it to the project if not already present
-* `fsproj/addExistingFile` - accepts `DotnetFileRequest`, add existing file to a project if not already present
-* `fsproj/removeFile` - accepts `DotnetFileRequest`, remove the file from the project
-* `fsproj/renameFile` - accepts `DotnetRenameFileRequest`, rename the file from the project
+1. **TOML parsing integration** - Connecting XParsec TOML parser
+2. **FidprojLoader implementation** - Translating `.fidproj` to `FSharpProjectOptions`
+3. **Testing with Fidelity projects** - Validating against real native F# code
+4. **Editor configuration guides** - Documentation for various editors
 
-### Supported LSP notifications
+## License
 
-* `window/showMessage`
-* `window/logMessage`
-* `textDocument/publishDiagnostics`
+This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details.
 
-### Custom notifications
+Original FsAutoComplete work is copyright its respective authors. Modifications are copyright SpeakEZ Technologies.
 
-* `fsharp/notifyWorkspace` - notification for workspace/solution/project loading events
-* `fsharp/notifyWorkspacePeek` - notification for initial workspace peek
+## Acknowledgments
 
-### Additional startup options
+- **[FsAutoComplete Team](https://github.com/fsharp/FsAutoComplete)**: For the excellent LSP foundation
+- **[Ionide Project](https://ionide.io/)**: For F# tooling infrastructure
+- **Don Syme and F# Contributors**: For creating quotations, active patterns, and computation expressions—the "standing art" that powers native F# compilation
 
-* `--state-directory dir` - a workspace-specific directory for keeping language server states.
-* `--verbose` - passing this flag enables additional logging being printed out in `stderr`
-* `DOTNET_ROOT` - setting this environment variable will set the dotnet SDK root, which is used when finding references for FSX scripts.
+---
 
-### Initialization options
-
-Options that should be send as `initializationOptions` as part of `initialize` request.
-
-* `AutomaticWorkspaceInit` - setting it to `true` will start Workspace Loading without need to run `fsharp/workspacePeek` and `fsharp/workspaceLoad` commands. It will always choose top workspace from the found list - all projects in workspace if 0 `.sln` files are found, `.sln` file if 1 `.sln` file was found, `.sln` file with most projects if multiple `.sln` files were found. It's designed to be used in clients that doesn't allow to create custom UI for selecting workspaces.
-
-### Settings
-
-* `FSharp.keywordsAutocomplete` - provides keywords in autocomplete list, recommended default value: `true`
-* `FSharp.ExternalAutocomplete` - provides autocomplete for symbols from not opened namespaces/modules, insert `open` on accept, recommended default value: `false`
-* `FSharp.Linter` - enables FSharpLint integration, provides additional warnings and code action fixes, recommended default value: `true`
-* `FSharp.UnionCaseStubGeneration` - enables code action to generate pattern matching cases, recommended default value: `true`
-* `FSharp.UnionCaseStubGenerationBody` - defines dummy body used by pattern matching generator, recommended default value: `"failwith \"Not Implemented\""`
-* `FSharp.RecordStubGeneration` - enables code action to generate record stub, recommended default value: `true`
-* `FSharp.RecordStubGenerationBody` - defines dummy body used by record stub generator, recommended default value: `"failwith \"Not Implemented\""`
-* `FSharp.InterfaceStubGeneration` - enables code action to generate interface stub, recommended default value: `true`
-* `FSharp.InterfaceStubGenerationObjectIdentifier` - defines object identifier used by interface stub generator,recommended default value: `"this"`
-* `FSharp.InterfaceStubGenerationMethodBody` - defines dummy body used by interface stub generator, recommended default value: `"failwith \"Not Implemented\""`
-* `FSharp.UnusedOpensAnalyzer` - enables unused `open` detections, recommended default value: `true`
-* `FSharp.UnusedDeclarationsAnalyzer` - enables unused symbol detection, recommended default value: `true`
-* `FSharp.UseSdkScripts` - enables the use of .Net Core SDKs for script file type-checking and evaluation, otherwise the .Net Framework reference lists will be used. Recommended default value: `true`. Current default value: `true`
-* `FSharp.SimplifyNameAnalyzer` - enables simplify name analyzer and remove redundant qualifier quick fix, recommended default value: `false`
-* `FSharp.ResolveNamespaces` - enables resolve namespace quick fix (add `open` if symbol is from not yet opened module/namespace), recommended default value: `true`
-* `FSharp.EnableReferenceCodeLens` - enables reference count code lenses, recommended default value: `true` if `--background-service-enabled` is used by default, `false` otherwise
-* `FSharp.dotNetRoot` - sets the root path for finding dotnet SDK references. Primarily used for FSX Scripts. Default value: operating-system dependent. On windows, `C:\Program Files\dotnet`; on Unix, `/usr/local/share/dotnet`
-* Extra parameters for FSI: use only `FSharp.FSIExtraParameters` on its own *or* a combination of `FSharp.FSIExtraInteractiveParameters` and `FSharp.FSIExtraSharedParameters`. The former is expected to be deprecated in favor of the second two. See #1210 for more detail. FSAC will send a warning if you mix usage improperly.
-  * `FSharp.FSIExtraParameters` - an array of additional runtime arguments that are passed to FSI. These are used when typechecking scripts to ensure that typechecking has the same context as your FSI instances.  An example would be to set the following parameters to enable Preview features (like opening static classes) for typechecking.
-  * `FSharp.FSIExtraInteractiveParameters` - currently unused by FSAC, but available to editor plugins for interactive `dotnet fsi` parameters that are not shared by the compiler. Future intentions are to manage the interpreter from FSAC, at which point FSAC will utilize this parameter. [Check this reference for parameters that are interactive-only or shared with the compiler](https://learn.microsoft.com/en-us/dotnet/fsharp/language-reference/fsharp-interactive-options).
-  * `FSharp.FSIExtraSharedParameters` - an array of additional runtime arguments that are passed to FSI; specifically parameters that are shared with the compiler. These are used when typechecking scripts to ensure that typechecking has the same context as your FSI instances.  An example would be to set the following parameters to enable Preview features (like opening static classes) for typechecking. [Check this reference for parameters that are interactive-only or shared with the compiler](https://learn.microsoft.com/en-us/dotnet/fsharp/language-reference/fsharp-interactive-options).
-
-    ```json
-        "FSharp.fsiExtraSharedParameters": ["--langversion:preview"]
-        "FSharp.fsiExtraInteractiveParameters": ["--readline-"]
-    ```
-
-## Troubleshooting
-
-### FileWatcher exceptions
-
-You may see a stack trace finishing with `System.IO.IOException: kqueue() error at init, error code = ’0’`. This is due to a limitation in the number of file handles that the Mono file watchers can keep open. Restarting FsAutoComplete or the hosting editor should help. If not, try setting `export MONO_MANAGED_WATCHER=disabled` in your `~/.bash_profile`. Note that on OSX, this setting will only take effect if you launch emacs from the terminal.
-
-## Maintainers
-
-The maintainers of this repository are:
-
-* [Krzysztof Cieślak](http://github.com/Krzysztof-Cieslak)
-* [Chester Husk](http://github.com/baronfel)
-
-Previous maintainers:
-
-* [Robin Neatherway](https://github.com/rneatherway)
-* [Steffen Forkmann](http://github.com/forki)
-* [Karl Nilsson](http://github.com/kjnilsson)
-* [Enrico Sada](http://github.com/enricosada)
+*The IDE experience you know. Native semantics under the hood.*

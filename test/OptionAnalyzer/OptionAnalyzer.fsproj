@@ -3,8 +3,8 @@
     <TargetFramework>net8.0</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
-    <ProjectReference Include="../../src/FsAutoComplete.Logging/FsAutoComplete.Logging.fsproj">
-      <Name>FsAutoComplete.Logging.fsproj</Name>
+    <ProjectReference Include="../../src/FsNativeAutoComplete.Logging/FsNativeAutoComplete.Logging.fsproj">
+      <Name>FsNativeAutoComplete.Logging.fsproj</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

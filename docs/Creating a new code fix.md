@@ -27,19 +27,19 @@ The above command accomplishes the following tasks:
 
 Furthermore, this command updates the following files to properly register the new code fix:
 
-- `src/FsAutoComplete/LspServers/AdaptiveState.fs`
-- `test/FsAutoComplete.Tests.Lsp/CodeFixTests/Tests.fs`
+- `src/FsNativeAutoComplete/LspServers/AdaptiveState.fs`
+- `test/FsNativeAutoComplete.Tests.Lsp/CodeFixTests/Tests.fs`
 
 The unit test file contains a [single focused test](https://github.com/haf/expecto#focusing-tests), allowing you to promptly verify the functionality. To run this initial test, you have two options:
 
 1. Using the `dotnet test` command:
  ```bash
-dotnet test -f net8.0 ./test/FsAutoComplete.Tests.Lsp/FsAutoComplete.Tests.Lsp.fsproj
+dotnet test -f net8.0 ./test/FsNativeAutoComplete.Tests.Lsp/FsNativeAutoComplete.Tests.Lsp.fsproj
  ```
 
 2. Alternatively, using the `dotnet run` command:
  ```bash
-dotnet run -f net8.0 --project ./test/FsAutoComplete.Tests.Lsp/FsAutoComplete.Tests.Lsp.fsproj
+dotnet run -f net8.0 --project ./test/FsNativeAutoComplete.Tests.Lsp/FsNativeAutoComplete.Tests.Lsp.fsproj
  ```
 
 This comprehensive approach ensures that the newly introduced code fix is properly integrated, tested, and ready for seamless integration into the FSAutocomplete environment.

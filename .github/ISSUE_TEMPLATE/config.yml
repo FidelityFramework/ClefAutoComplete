@@ -1,7 +1,7 @@
 blank_issues_enabled: false
 contact_links:
   - name: 🗨 Discussions
-    url: https://github.com/fsharp/FsAutoComplete/discussions/new/choose
+    url: https://github.com/fsharp/FsNativeAutoComplete/discussions/new/choose
     about: Ask and answer questions.
   - name: 💬 Discord server
     url: https://discord.gg/R6n7c54

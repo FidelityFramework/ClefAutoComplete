@@ -1,0 +1,53 @@
+module FsNativeAutoComplete.CodeFix.MakeDeclarationMutable
+
+open FsToolkit.ErrorHandling
+open FsNativeAutoComplete.CodeFix.Types
+open Ionide.LanguageServerProtocol.Types
+open FsNativeAutoComplete
+open FsNativeAutoComplete.LspHelpers
+open FSharp.UMX
+
+let title = "Make declaration 'mutable'"
+
+/// a codefix that makes a binding mutable when a user attempts to mutably set it
+let fix
+  (getParseResultsForFile: GetParseResultsForFile)
+  (getProjectOptionsForFile: GetProjectOptionsForFile)
+  : CodeFix =
+  Run.ifDiagnosticByCode (Set.ofList [ "27" ]) (fun diagnostic codeActionParams ->
+    asyncResult {
+      let fileName = codeActionParams.TextDocument.GetFilePath() |> Utils.normalizePath
+
+      let fcsPos = protocolPosToPos diagnostic.Range.Start
+      let! tyRes, line, _lines = getParseResultsForFile fileName fcsPos
+      let! opts = getProjectOptionsForFile fileName
+
+      match
+        Lexer.getSymbol
+          (uint32 fcsPos.Line)
+          (uint32 fcsPos.Column)
+          line
+          SymbolLookupKind.Fuzzy
+          (Array.ofList opts.OtherOptions)
+      with
+      | Some _symbol ->
+        match! tyRes.TryFindDeclaration fcsPos line with
+        | FindDeclarationResult.Range declRange when declRange.FileName = (UMX.untag fileName) ->
+          let lspRange = fcsRangeToLsp declRange
+
+          if tyRes.GetParseResults.IsPositionContainedInACurriedParameter declRange.Start then
+            return []
+          else
+            return
+              [ { File = codeActionParams.TextDocument
+                  SourceDiagnostic = Some diagnostic
+                  Title = title
+                  Edits =
+                    [| { Range =
+                           { Start = lspRange.Start
+                             End = lspRange.Start }
+                         NewText = "mutable " } |]
+                  Kind = FixKind.Refactor } ]
+        | _ -> return []
+      | None -> return []
+    })

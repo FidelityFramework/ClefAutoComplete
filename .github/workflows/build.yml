@@ -112,7 +112,7 @@ jobs:
 
     - name: Run and report tests
       run: dotnet test -c Release -f ${{ matrix.test_tfm }} --no-restore --no-build  --logger "console;verbosity=normal" --logger GitHubActions /p:AltCover=true /p:AltCoverAssemblyExcludeFilter="System.Reactive|FSharp.Compiler.Service|Ionide.ProjInfo|FSharp.Analyzers|Analyzer|Humanizer|FSharp.Core|FSharp.DependencyManager" -- Expecto.fail-on-focused-tests=true --blame-hang --blame-hang-timeout 1m
-      working-directory: test/FsAutoComplete.Tests.Lsp
+      working-directory: test/FsNativeAutoComplete.Tests.Lsp
       env:
         BuildNet9: ${{ matrix.build_net9 }}
         BuildNet10: ${{ matrix.build_net10 }}

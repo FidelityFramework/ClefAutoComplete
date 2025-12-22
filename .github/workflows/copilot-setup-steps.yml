@@ -1,7 +1,7 @@
 name: Copilot Setup Steps
 
 # This workflow is designed to be used by GitHub Copilot coding agents
-# to set up the environment needed to work with the FsAutoComplete repository
+# to set up the environment needed to work with the FsNativeAutoComplete repository
 
 on:
   workflow_dispatch:
@@ -46,7 +46,7 @@ jobs:
 
     - name: Run quick tests
       run: dotnet test -c Release -f net8.0 --no-restore --no-build --logger "console;verbosity=minimal" -- Expecto.fail-on-focused-tests=true
-      working-directory: test/FsAutoComplete.Tests.Lsp
+      working-directory: test/FsNativeAutoComplete.Tests.Lsp
       timeout-minutes: 5
       continue-on-error: true # Don't fail the setup if tests fail
 
@@ -58,4 +58,4 @@ jobs:
         echo "📝 Code formatting checked"
         echo "🧪 Basic tests run"
         echo ""
-        echo "The environment is ready for Copilot to work with FsAutoComplete."
+        echo "The environment is ready for Copilot to work with FsNativeAutoComplete."

@@ -1,246 +1,186 @@
-# FsAutoComplete Copilot Instructions
+# FsNativeAutoComplete (FSNAC) Agent Instructions
 
 ## Project Overview
 
-FsAutoComplete (FSAC) is a Language Server Protocol (LSP) backend service that provides rich editing and intellisense features for F# development. It serves as the core engine behind F# support in various editors including Visual Studio Code (Ionide), Emacs, Neovim, Vim, Sublime Text, and Zed.
+FsNativeAutoComplete (FSNAC) is a Language Server Protocol (LSP) backend service providing rich editing and IntelliSense features for F# development. It is a fork of [FsAutoComplete](https://github.com/fsharp/FsAutoComplete) extended to support the Fidelity native compilation framework.
+
+**Key Distinction**: FSNAC supports both traditional `.fsproj`/`.sln` projects AND `.fidproj` TOML-based projects for native F# compilation.
+
+## Fidelity Framework Context
+
+FSNAC is part of the **Fidelity** native F# compilation ecosystem:
+
+| Project | Role |
+|---------|------|
+| **Firefly** | AOT compiler: F# -> PSG -> MLIR -> Native binary |
+| **FNCS** | F# Native Compiler Services (type checking) |
+| **FSNAC** | F# Native AutoComplete (this repository) |
+| **Alloy** | Native standard library with platform bindings |
+| **XParsec** | Parser combinators for TOML and PSG traversal |
+
+FSNAC develops in **parallel with FNCS** (FSharpNative Compiler Services). As FNCS matures, FSNAC will consume its enhanced type resolution for native type awareness.
 
 ## Supported Editors
 
-FsAutoComplete currently provides F# support for:
-- **Visual Studio Code** (via [Ionide](https://github.com/ionide/ionide-vscode-fsharp))
-- **Emacs** (via [emacs-fsharp-mode](https://github.com/fsharp/emacs-fsharp-mode))
-- **Neovim** (via [nvim-lspconfig](https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#fsautocomplete))
-- **Vim** (via [vim-fsharp](https://github.com/fsharp/vim-fsharp))
-- **Sublime Text** (via [LSP package](https://lsp.sublimetext.io/language_servers/#f))
-- **Zed** (via [zed-fsharp](https://github.com/nathanjcollins/zed-fsharp))
+FSNAC provides F# support for:
+- **Visual Studio Code** (via Ionide configuration)
+- **Neovim** (via nvim-lspconfig)
+- **Vim** (via vim-fsharp)
+- **Emacs** (via emacs-fsharp-mode)
+- **Sublime Text** (via LSP package)
+- **Helix**, **Kate**, **Zed**
 
 ## Architecture
 
 ### Core Components
 
-- **FsAutoComplete.Core**: Contains the core functionality, including:
+- **FsNativeAutoComplete.Core**: Core functionality including:
   - F# compiler service interfaces
-  - Code generation and refactoring utilities
   - Symbol resolution and type checking
-  - Signature formatting and documentation
+  - Project loading (`.fsproj`, `.sln`, AND `.fidproj`)
   - File system abstractions
 
-- **FsAutoComplete**: Main LSP server implementation with:
-  - LSP protocol handlers and endpoints
+- **FsNativeAutoComplete**: Main LSP server with:
+  - LSP protocol handlers
   - Code fixes and quick actions
-  - Parser for LSP requests/responses
   - Program entry point
 
-- **FsAutoComplete.Logging**: Centralized logging infrastructure
+- **FsNativeAutoComplete.Logging**: Centralized logging
 
 ### Key Dependencies
 
-- **FSharp.Compiler.Service** (>= 43.9.300): Core F# compiler APIs for language analysis
-- **Ionide.ProjInfo** (>= 0.71.2): Project and solution file parsing, with separate packages for FCS integration and project system
-- **FSharpLint.Core**: Code linting and static analysis
-- **Fantomas.Client** (>= 0.9): F# code formatting
-- **Microsoft.Build** (>= 17.2): MSBuild integration for project loading
-- **Serilog** (>= 2.10.0): Structured logging infrastructure
-- **Language Server Protocol**: Communication with editors
+- **FSharp.Compiler.Service**: F# language analysis (future: replaced by FNCS)
+- **Ionide.ProjInfo**: Standard project parsing
+- **XParsec**: TOML parsing for `.fidproj` files
+- **FSharpLint.Core**: Code linting
+- **Fantomas.Client**: Code formatting
 
-#### Target Frameworks
-- **netstandard2.0 & netstandard2.1**: For broader compatibility
-- **net8.0 & net9.0**: For latest .NET features and performance
+## Development Phases
 
-## Development Workflow
+### Phase 1: Identity and TOML Support (Current)
+- Complete namespace rename to `FsNativeAutoComplete`
+- Implement TOML parsing for `.fidproj` via XParsec
+- Create `FidprojLoader` producing `FSharpProjectOptions`
+- Workspace discovery for `.fidproj` alongside `.fsproj`/`.sln`
 
-### Building the Project
+### Phase 2: FNCS Integration
+- Replace FCS with FNCS for type checking
+- Surface native type information (`NativeStr`, `voption`) in hover/completion
+- Display SRTP witness resolutions
+
+### Phase 3: Metaprogramming Support
+- Quotation structure visualization
+- Active pattern navigation
+- Computation expression builder resolution
+- Custom `fidelity/*` LSP endpoints
+
+## Building and Testing
 
 Requirements:
-- .NET SDK (see `global.json` for exact version - minimum >= 6.0, recommended >= 7.0)
+- .NET SDK (see `global.json` for version)
 
 ```bash
-# Restore .NET tools (including Paket)
 dotnet tool restore
-
-# Build the entire solution
 dotnet build
-
-# Run tests
 dotnet test
 
 # Run specific test project
-dotnet test -f net8.0 ./test/FsAutoComplete.Tests.Lsp/FsAutoComplete.Tests.Lsp.fsproj
-
-# Format code
-dotnet fantomas src/ test/
+dotnet test -f net8.0 ./test/FsNativeAutoComplete.Tests.Lsp/FsNativeAutoComplete.Tests.Lsp.fsproj
 ```
 
-#### Development Environment Options
-- **DevContainer**: Use with VSCode's Remote Containers extension for stable development environment
-- **Gitpod**: Web-based VSCode IDE available at https://gitpod.io/#https://github.com/fsharp/fsautocomplete
+## Code Organization
 
-### Project Dependencies
+### Project Loading
+- `src/FsNativeAutoComplete/LspServers/ProjectWorkspace.fs` - Workspace management
+- `src/FsNativeAutoComplete.Core/` - Project options generation
+- **TODO**: `src/FsNativeAutoComplete.Core/FidprojLoader.fs` - TOML-based projects
 
-This project uses **Paket** for dependency management instead of NuGet directly:
-- Dependencies are declared in `paket.dependencies`
-- Lock file is `paket.lock`
-- Each project has its own `paket.references` file
+### LSP Endpoints
+- `src/FsNativeAutoComplete/LspServers/AdaptiveFSharpLspServer.fs` - Main server
+- Custom F#-specific endpoints: `fsharp/*`
+- **TODO**: Fidelity-specific endpoints: `fidelity/*`
 
-### Code Organization
+### Code Fixes
+- Located in `src/FsNativeAutoComplete/CodeFixes/`
+- Use `dotnet fsi build.fsx -- -p ScaffoldCodeFix YourCodeFixName` to scaffold
 
-#### Code Fixes
-- Located in `src/FsAutoComplete/CodeFixes/`
-- Each code fix is typically a separate F# module
-- Follow the pattern: analyze issue → generate fix → apply transformation
-- **Scaffolding**: Use `dotnet fsi build.fsx -- -p ScaffoldCodeFix YourCodeFixName` to create new code fixes
-- This generates implementation file, signature file, and unit test, plus updates registration files
-- Examples include: `ImplementInterface.fs`, `GenerateUnionCases.fs`, `AddMissingEqualsToTypeDefinition.fs`
+## Key Files for FSNAC Features
 
-#### LSP Endpoints
-- Standard LSP endpoints in `src/FsAutoComplete/LspServers/`
-- Key server files: `AdaptiveFSharpLspServer.fs`, `AdaptiveServerState.fs`, `ProjectWorkspace.fs`
-- Custom F#-specific endpoints prefixed with `fsharp/`
-- Request/response types in `CommandResponse.fs`
-- Interface definitions in `IFSharpLspServer.fs`
+| File | Purpose |
+|------|---------|
+| `src/FsNativeAutoComplete.Core/FileSystem.fs` | Add `.fidproj` recognition |
+| `src/FsNativeAutoComplete/LspServers/ProjectWorkspace.fs` | Workspace discovery |
+| **NEW** `src/FsNativeAutoComplete.Core/FidprojLoader.fs` | TOML parsing |
+| `src/FsNativeAutoComplete/LspServers/AdaptiveFSharpLspServer.fs` | Custom endpoints |
 
-#### Testing
-- Main test suite in `test/FsAutoComplete.Tests.Lsp/`
-- Tests organized by feature area (CompletionTests, CodeFixTests, etc.)
-- Uses F# testing frameworks with custom helpers in `Helpers.fs`
-- Test cases often in `TestCases/` subdirectories
+## Naming Conventions
+
+- **Namespaces**: `FsNativeAutoComplete.*`
+- **CLI tool**: `fsnac`
+- **NuGet packages**: `FsNativeAutoComplete`, `FsNativeAutoComplete.Core`
+- **Custom LSP methods**: `fidelity/*` for native-specific features
 
 ## F# Language Conventions
 
-### Coding Style
 - Follow F# community conventions
-- Use `fantomas` for code formatting (configured in the project)
-- Prefer immutable data structures and functional programming patterns
+- Use `fantomas` for code formatting
+- Prefer immutable data structures
 - Use explicit type annotations where they improve clarity
-
-### Module Organization
-- One primary type/feature per file
-- Use `.fs` and `.fsi` pairs for public APIs
-- Organize related functionality into modules
-- Follow naming conventions: `CamelCase` for types, `camelCase` for values
-
-### Error Handling
-- Use F# Result types for error handling where appropriate
-- Use FsToolkit.ErrorHandling for railway-oriented programming
-- Prefer explicit error types over generic exceptions
-
-## LSP Implementation Details
-
-### Supported Standard LSP Features
-- `textDocument/completion` with `completionItem/resolve`
-- `textDocument/hover`, `textDocument/definition`, `textDocument/references`
-- `textDocument/codeAction`, `textDocument/codeLens`
-- `textDocument/formatting` (via Fantomas)
-- `textDocument/rename`, `textDocument/signatureHelp`
-- Workspace management and file watching
-
-### Custom F# Extensions
-- `fsharp/signature`: Get formatted signature at position
-- `fsharp/compile`: Compile project and return diagnostics  
-- `fsharp/workspacePeek`: Discover available projects/solutions
-- `fsharp/workspaceLoad`: Load specific projects
-- `fsproj/addFile`, `fsproj/removeFile`: Project file manipulation
-- `fsharp/documentationForSymbol`: Get documentation for symbols
-- `fsharp/f1Help`: F1 help functionality
-- `fsharp/fsi`: F# Interactive integration
+- `CamelCase` for types, `camelCase` for values
 
 ## Testing Guidelines
 
-### Test Structure
-- Tests are organized by feature area
-- Use descriptive test names that explain the scenario
+- Tests in `test/FsNativeAutoComplete.Tests.Lsp/`
+- **TODO**: Add tests for `.fidproj` loading
+- Use descriptive test names
 - Include both positive and negative test cases
 - Test with realistic F# code examples
 
-### Adding New Tests
-1. Identify the appropriate test file (e.g., `CompletionTests.fs` for completion features)
-2. Follow existing patterns for test setup and assertions
-3. Use the helpers in `Helpers.fs` for common operations
-4. Include edge cases and error conditions
-5. For code fixes: Run focused tests with `dotnet run -f net8.0 --project ./test/FsAutoComplete.Tests.Lsp/FsAutoComplete.Tests.Lsp.fsproj`
-6. Remove focused test markers before submitting PRs (they cause CI failures)
-7. Do not delete tests without permission.
+## LSP Features
 
-### Test Data
-- Sample F# projects in `TestCases/` directories
-- Use minimal, focused examples that demonstrate specific features
-- Avoid overly complex test scenarios that are hard to debug
+### Standard LSP Endpoints
+- `textDocument/completion` with `completionItem/resolve`
+- `textDocument/hover`, `definition`, `references`
+- `textDocument/codeAction`, `codeLens`
+- `textDocument/formatting` (via Fantomas)
+- `textDocument/rename`, `signatureHelp`
 
-## Performance Considerations
+### Custom F# Endpoints
+- `fsharp/signature`, `fsharp/compile`
+- `fsharp/workspacePeek`, `fsharp/workspaceLoad`
+- `fsproj/addFile`, `fsproj/removeFile`
 
-### Memory Management
-- Be mindful of memory usage in long-running language server scenarios
-- Dispose of compiler service resources appropriately
-- Use caching judiciously to balance performance and memory
-
-### Responsiveness
-- LSP operations should be fast and non-blocking
-- Use async/await patterns for I/O operations
-- Consider cancellation tokens for long-running operations
-
-## Debugging and Telemetry
-
-### OpenTelemetry Integration
-- Tracing is available with `--otel-exporter-enabled` flag
-- Use Jaeger for trace visualization during development
-- Activity tracing helps debug performance issues
-
-### Logging
-- Structured logging via Serilog
-- Use appropriate log levels (Debug, Info, Warning, Error)
-- Include relevant context in log messages
-
-## Common Patterns
-
-### Working with FCS (F# Compiler Service)
-- Always work with `FSharpCheckFileResults` and `FSharpParseFileResults`
-- Handle both parsed and typed ASTs appropriately
-- Be aware of file dependencies and project context
-
-### LSP Request Handling
-- Validate input parameters
-- Handle exceptions gracefully
-- Return appropriate error responses for invalid requests
-- Use proper JSON serialization
-
-### Code Generation
-- Use the F# AST utilities in `TypedAstUtils.fs` and `UntypedAstUtils.fs`
-- Consider both syntactic and semantic correctness
-- Test generated code compiles and has expected behavior
-
-## Contributing Guidelines
-
-### Before Submitting Changes
-1. Ensure all tests pass: `dotnet test`
-2. Run code formatting: `dotnet fantomas src/ test/`
-3. Verify the solution builds cleanly
-4. Test your changes with a real F# project if possible
-
-### Code Review Focus Areas
-- Correctness of F# language analysis
-- Performance impact on language server operations
-- Compatibility with different F# project types
-- LSP protocol compliance
-- Test coverage for new features
+### Planned Fidelity Endpoints
+- `fidelity/projectInfo` - Query `.fidproj` configuration
+- `fidelity/memoryLayout` - Type memory layout information
+- `fidelity/srtpResolution` - SRTP witness resolution
+- `fidelity/platformBindings` - Platform binding mappings
 
 ## Resources
 
-### Core Documentation
-- [FsAutoComplete GitHub Repository](https://github.com/ionide/FsAutoComplete)
+### FSNAC-Specific
+- [FSNAC README](./README.md)
+- [FNCS Repository](https://github.com/speakeztech/fsnative)
+- [Fidelity Framework Primer](https://speakez.tech/blog/fidelity-framework-a-primer/)
+
+### Standard References
 - [LSP Specification](https://microsoft.github.io/language-server-protocol/)
 - [F# Compiler Service Documentation](https://fsharp.github.io/FSharp.Compiler.Service/)
-
-### F# Development Guidelines
 - [F# Style Guide](https://docs.microsoft.com/en-us/dotnet/fsharp/style-guide/)
-- [F# Formatting Guidelines](https://docs.microsoft.com/en-us/dotnet/fsharp/style-guide/formatting)
-- [F# Component Design Guidelines](https://docs.microsoft.com/en-us/dotnet/fsharp/style-guide/component-design-guidelines)
 
-### Project-Specific Guides
-- [Creating a New Code Fix Guide](./docs/Creating%20a%20new%20code%20fix.md)
+### Project-Specific
+- [Creating a New Code Fix](./docs/Creating%20a%20new%20code%20fix.md)
 - [Ionide.ProjInfo Documentation](https://github.com/ionide/proj-info)
-- [Fantomas Configuration](https://fsprojects.github.io/fantomas/)
+- [XParsec Documentation](https://github.com/speakeztech/xparsec)
 
-### Related Tools
-- [FSharpLint](https://github.com/fsprojects/FSharpLint/) - Static analysis tool
-- [Paket](https://fsprojects.github.io/Paket/) - Dependency management
-- [FAKE](https://fake.build/) - Build automation (used for scaffolding)
+## Contributing
+
+Areas of particular interest:
+1. **TOML parsing integration** - Connecting XParsec TOML parser
+2. **FidprojLoader implementation** - Translating `.fidproj` to `FSharpProjectOptions`
+3. **Testing with Fidelity projects** - Validating against native F# code
+4. **Editor configuration guides** - Documentation for various editors
+
+## Contact
+
+FSNAC is developed by [SpeakEZ Technologies](https://speakez.tech) as part of the Fidelity native compilation framework.

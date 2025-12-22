@@ -4,7 +4,7 @@ open System
 open FSharp.Analyzers.SDK
 open FSharp.Compiler.Symbols
 open FSharp.Compiler.Text
-open FsAutoComplete.Logging
+open FsNativeAutoComplete.Logging
 
 let rec visitExpr memberCallHandler (e: FSharpExpr) =
   match e with

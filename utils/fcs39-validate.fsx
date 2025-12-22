@@ -35,7 +35,7 @@ let parseAndCheckFile (path, options) =
     | FSharpCheckFileAnswer.Aborted -> p, None
     | FSharpCheckFileAnswer.Succeeded c -> p, Some c
 let scriptRoot =
-    @"..\test\FsAutoComplete.Tests.Lsp\TestCases"
+    @"..\test\FsNativeAutoComplete.Tests.Lsp\TestCases"
 let testGroup = "CompletionAutoOpenTests"
 let testCase = "ModuleDocsAndNewLineBeforeOpen.fsx"
 let fullPath =

@@ -8,7 +8,7 @@ body:
       value: |
         - Avoid generic or vague titles such as "Something's not working" or "A couple of problems" — be as descriptive as possible.
         - Keep your issue focused on one single problem. If you have multiple bug reports, please create a separate issue for each of them.
-        - Issues should represent **complete and actionable** work items. If you are unsure about something or have a question, please start a [discussion](https://github.com/fsharp/FsAutoComplete/discussions/new/choose) instead.
+        - Issues should represent **complete and actionable** work items. If you are unsure about something or have a question, please start a [discussion](https://github.com/fsharp/FsNativeAutoComplete/discussions/new/choose) instead.
         - Remember that **FsAutocomplete** is an open-source project funded by the community contributions and free time.
         ___
 
@@ -93,4 +93,4 @@ body:
   - type: markdown
     attributes:
       value: |
-        If you are struggling to provide actionable reproduction steps, or if something else is preventing you from creating a complete bug report, please start a [discussion](https://github.com/fsharp/FsAutoComplete/discussions/new/choose) instead.
+        If you are struggling to provide actionable reproduction steps, or if something else is preventing you from creating a complete bug report, please start a [discussion](https://github.com/fsharp/FsNativeAutoComplete/discussions/new/choose) instead.

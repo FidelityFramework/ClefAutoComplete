@@ -20,7 +20,7 @@ module ScaffoldCodeFix =
   let AdaptiveServerStatePath =
     repositoryRoot
     </> "src"
-    </> "FsAutoComplete"
+    </> "FsNativeAutoComplete"
     </> "LspServers"
     </> "AdaptiveServerState.fs"
 
@@ -28,7 +28,7 @@ module ScaffoldCodeFix =
   let TestsPath =
     repositoryRoot
     </> "test"
-    </> "FsAutoComplete.Tests.Lsp"
+    </> "FsNativeAutoComplete.Tests.Lsp"
     </> "CodeFixTests"
     </> "Tests.fs"
 
@@ -38,21 +38,21 @@ module ScaffoldCodeFix =
     let path =
       repositoryRoot
       </> "src"
-      </> "FsAutoComplete"
+      </> "FsNativeAutoComplete"
       </> "CodeFixes"
       </> $"{codeFixName}.fs"
 
     let content =
-      $"""module FsAutoComplete.CodeFix.%s{codeFixName}
+      $"""module FsNativeAutoComplete.CodeFix.%s{codeFixName}
 
 open FSharp.Compiler.Symbols
 open FSharp.Compiler.Syntax
 open FSharp.Compiler.Text
 open FsToolkit.ErrorHandling
 open Ionide.LanguageServerProtocol.Types
-open FsAutoComplete.CodeFix.Types
-open FsAutoComplete
-open FsAutoComplete.LspHelpers
+open FsNativeAutoComplete.CodeFix.Types
+open FsNativeAutoComplete
+open FsNativeAutoComplete.LspHelpers
 
 // TODO: add proper title for code fix
 let title = "%s{codeFixName} Codefix"
@@ -149,14 +149,14 @@ let fix
     let path =
       repositoryRoot
       </> "src"
-      </> "FsAutoComplete"
+      </> "FsNativeAutoComplete"
       </> "CodeFixes"
       </> $"{codeFixName}.fsi"
 
     let content =
-      $"""module FsAutoComplete.CodeFix.%s{codeFixName}
+      $"""module FsNativeAutoComplete.CodeFix.%s{codeFixName}
 
-open FsAutoComplete.CodeFix.Types
+open FsNativeAutoComplete.CodeFix.Types
 
 val title: string
 val fix: getParseResultsForFile: GetParseResultsForFile -> CodeFix
@@ -167,15 +167,15 @@ val fix: getParseResultsForFile: GetParseResultsForFile -> CodeFix
 
   let updateProjectFiles () =
     let fsAutoCompleteProject =
-      repositoryRoot </> "src" </> "FsAutoComplete" </> "FsAutoComplete.fsproj"
+      repositoryRoot </> "src" </> "FsNativeAutoComplete" </> "FsNativeAutoComplete.fsproj"
 
     File.SetLastWriteTime(fsAutoCompleteProject, DateTime.Now)
 
     let fsAutoCompleteTestsLsp =
       repositoryRoot
       </> "test"
-      </> "FsAutoComplete.Tests.Lsp"
-      </> "FsAutoComplete.Tests.Lsp.fsproj"
+      </> "FsNativeAutoComplete.Tests.Lsp"
+      </> "FsNativeAutoComplete.Tests.Lsp.fsproj"
 
     File.SetLastWriteTime(fsAutoCompleteTestsLsp, DateTime.Now)
 
@@ -244,7 +244,7 @@ val fix: getParseResultsForFile: GetParseResultsForFile -> CodeFix
   let findArrayInAdaptiveFSharpLspServer () : ExprArrayOrListNode =
     let oak = getOakFor AdaptiveServerStatePath
 
-    // namespace FsAutoComplete.Lsp
+    // namespace FsNativeAutoComplete.Lsp
     let ns =
       oak.ModulesOrNamespaces
       |> List.exactlyOneOrFail "Expected a single namespace in Oak."
@@ -305,18 +305,18 @@ val fix: getParseResultsForFile: GetParseResultsForFile -> CodeFix
     let path =
       repositoryRoot
       </> "test"
-      </> "FsAutoComplete.Tests.Lsp"
+      </> "FsNativeAutoComplete.Tests.Lsp"
       </> "CodeFixTests"
       </> $"%s{codeFixName}Tests.fs"
 
     let contents =
-      $"module private FsAutoComplete.Tests.CodeFixTests.%s{codeFixName}Tests
+      $"module private FsNativeAutoComplete.Tests.CodeFixTests.%s{codeFixName}Tests
 
 open Expecto
 open Helpers
 open Utils.ServerTests
 open Utils.CursorbasedTests
-open FsAutoComplete.CodeFix
+open FsNativeAutoComplete.CodeFix
 
 let tests state =
   serverTestList (nameof %s{codeFixName}) state defaultConfigDto None (fun server ->
@@ -337,7 +337,7 @@ let tests state =
 
   let findListInTests () =
     let oak = getOakFor TestsPath
-    // module FsAutoComplete.Tests.CodeFixTests.Tests
+    // module FsNativeAutoComplete.Tests.CodeFixTests.Tests
     let testsModule =
       oak.ModulesOrNamespaces
       |> List.exactlyOneOrFail "Expected a single module in Oak."
@@ -381,7 +381,7 @@ let tests state =
     // Add test file
     mkCodeFixTests codeFixName
 
-    // Wire up tests in test/FsAutoComplete.Tests.Lsp/CodeFixTests/Tests.fs
+    // Wire up tests in test/FsNativeAutoComplete.Tests.Lsp/CodeFixTests/Tests.fs
     wireCodeFixTests codeFixName
 
     updateProjectFiles ()
@@ -437,7 +437,7 @@ pipeline "Build" {
 let (</>) a b = System.IO.Path.Combine(a, b)
 
 
-let lspTestsPath = (__SOURCE_DIRECTORY__ </> "test" </> "FsAutoComplete.Tests.Lsp")
+let lspTestsPath = (__SOURCE_DIRECTORY__ </> "test" </> "FsNativeAutoComplete.Tests.Lsp")
 
 /// Ionide.ProjInfo loads the current SDK's MsBuild library so we need to ensure we
 /// run on the version associated with the SDK we want to test against.

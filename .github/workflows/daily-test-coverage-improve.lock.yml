@@ -118,7 +118,7 @@ jobs:
           > NOTE: Never make direct pushes to the default (main) branch. Always create a pull request. The default (main) branch is protected and you will not be able to push to it.
           
           
-          <!-- Error: invalid frontmatter in included file /Users/krzysztof/Programming/Personal/FsAutoComplete/.github/workflows/shared/tool-refused.md: .github/workflows/shared/tool-refused.md:1:1: error: got null, want object
+          <!-- Error: invalid frontmatter in included file /Users/krzysztof/Programming/Personal/FsNativeAutoComplete/.github/workflows/shared/tool-refused.md: .github/workflows/shared/tool-refused.md:1:1: error: got null, want object
           1 | ---
               ^
           
