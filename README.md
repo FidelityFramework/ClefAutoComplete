@@ -37,7 +37,7 @@ The standard FsAutoComplete does an excellent job for .NET development. But when
 
 **Dependencies are NuGet packages.** Fidelity uses source-based distribution through the `fpm` package manager, enabling whole-program optimization across package boundaries.
 
-**Types resolve to BCL.** FNCS resolves to native types: `NativeStr` instead of `System.String`, value options instead of heap-allocated reference types.
+**Types resolve to BCL.** FNCS provides native semantics for standard F# types: `string` has UTF-8 fat pointer semantics instead of `System.String`, `option` has value semantics instead of heap-allocated reference types.
 
 FSNAC bridges these gaps, providing familiar IDE services while understanding native semantics.
 
@@ -72,7 +72,7 @@ output_kind = "console"
 
 As FNCS matures, FSNAC will consume its enhanced type resolution:
 
-- **Native type awareness**: Display native types (`NativeStr`, `voption`) in hover info
+- **Native type awareness**: Display native type semantics (string as UTF-8 fat pointer, option as value type) in hover info
 - **SRTP resolution**: Show resolved witness implementations for generic operations
 - **Memory annotations**: Surface lifetime and region information in tooltips
 - **Platform binding hints**: Indicate which functions resolve to platform calls

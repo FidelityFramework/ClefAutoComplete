@@ -36,7 +36,7 @@ FSNAC must generate SRTP-based formatters at compile time:
 
 type Displayable = Displayable
     with static member inline ($) (Displayable, x: int) = intToString x
-         static member inline ($) (Displayable, x: NativeStr) = "\"" + x + "\""
+         static member inline ($) (Displayable, x: string) = "\"" + x + "\""  // string has native semantics
          // ... more overloads
 ```
 
@@ -50,7 +50,7 @@ Each hover info request requires:
 
 | FSAC | FSNAC |
 |------|-------|
-| `val x : string` | `val x : NativeStr` |
+| `val x : string` (BCL) | `val x : string` (native UTF-8 fat pointer) |
 | `val opt : int option` | `val opt : int voption` |
 | Shows BCL types | Shows native types |
 | Can show any value via obj | Must have SRTP formatter |

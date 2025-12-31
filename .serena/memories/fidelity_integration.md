@@ -29,7 +29,7 @@ FSNAC (FsNativeAutoComplete) is the IDE companion to FNCS (FSharpNative Compiler
 
 | Feature | Description |
 |---------|-------------|
-| Native type awareness | Display `NativeStr`, `voption` in hover info |
+| Native type awareness | Display native type semantics (`string` as UTF-8 fat pointer, `option` as value type) in hover info |
 | SRTP resolution | Show resolved witness implementations |
 | Memory annotations | Surface lifetime and region information |
 | Platform binding hints | Indicate platform call resolution |

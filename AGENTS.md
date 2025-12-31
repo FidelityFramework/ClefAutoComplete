@@ -65,7 +65,7 @@ FSNAC provides F# support for:
 
 ### Phase 2: FNCS Integration
 - Replace FCS with FNCS for type checking
-- Surface native type information (`NativeStr`, `voption`) in hover/completion
+- Surface native type semantics (string as UTF-8 fat pointer, option as value type) in hover/completion
 - Display SRTP witness resolutions
 
 ### Phase 3: Metaprogramming Support
