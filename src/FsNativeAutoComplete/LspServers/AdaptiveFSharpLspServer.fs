@@ -42,6 +42,7 @@ open System.Diagnostics
 open IcedTasks
 open System.Threading.Tasks
 open FsNativeAutoComplete.FCSPatches
+open FsNativeAutoComplete.Core.ProjectKind
 open Helpers
 open System.Runtime.ExceptionServices
 open FSharp.Compiler.CodeAnalysis
@@ -191,6 +192,17 @@ type AdaptiveFSharpLspServer
     new AdaptiveState(lspClient, sourceTextFactory, workspaceLoader, useTransparentCompiler)
 
   do disposables.Add(state)
+
+  /// Native state for .fidproj projects and .fsnx scripts
+  let nativeState = NativeState(lspClient)
+
+  /// Check if a file belongs to a native project or is a native script
+  let isNativeFile (filePath: string) =
+    // Only consider a file native if:
+    // 1. It's registered in a loaded native project (via LoadProject)
+    // 2. OR it's a native script (.fsnx)
+    nativeState.GetProjectForFile(filePath).IsSome ||
+    nativeState.IsScript(filePath)
 
   [<return: Struct>]
   let rec (|Cancelled|_|) (e: exn) =
@@ -583,6 +595,19 @@ type AdaptiveFSharpLspServer
 
           let doc = p.TextDocument
           let filePath = doc.GetFilePath() |> Utils.normalizePath
+          let filePathStr = UMX.untag filePath
+
+          // Also open in native state if it's a native file
+          if isNativeFile filePathStr then
+            nativeState.OpenDocument(filePathStr, doc.Text, int doc.Version)
+            // Publish native diagnostics
+            let diagnostics = nativeState.GetDiagnostics(filePathStr)
+            let lspDiagnostics = NativeDiagnostics.toLspDiagnostics diagnostics
+            lspClient.TextDocumentPublishDiagnostics {
+              Uri = doc.Uri
+              Version = Some doc.Version
+              Diagnostics = lspDiagnostics
+            } |> Async.Start
 
           do! state.OpenDocument(filePath, doc.Text, doc.Version)
 
@@ -609,6 +634,12 @@ type AdaptiveFSharpLspServer
           )
 
           let doc = p.TextDocument
+          let filePathStr = doc.GetFilePath()
+
+          // Also close in native state if it's a native file
+          if isNativeFile filePathStr then
+            nativeState.CloseDocument(filePathStr)
+
           do! state.ForgetDocument doc.Uri
           return ()
 
@@ -636,6 +667,28 @@ type AdaptiveFSharpLspServer
 
           let doc = p.TextDocument
           let filePath = doc.GetFilePath() |> Utils.normalizePath
+          let filePathStr = UMX.untag filePath
+
+          // Also update in native state if it's a native file
+          if isNativeFile filePathStr then
+            // Get full text after changes
+            match p.ContentChanges |> Array.tryLast with
+            | Some change ->
+              match change with
+              | U2.C2 fullChange ->
+                // Full document sync
+                nativeState.UpdateDocument(filePathStr, fullChange.Text, int doc.Version)
+                // Publish native diagnostics
+                let diagnostics = nativeState.GetDiagnostics(filePathStr)
+                let lspDiagnostics = NativeDiagnostics.toLspDiagnostics diagnostics
+                lspClient.TextDocumentPublishDiagnostics {
+                  Uri = doc.Uri
+                  Version = Some doc.Version
+                  Diagnostics = lspDiagnostics
+                } |> Async.Start
+              | U2.C1 _ -> ()  // Incremental change - not yet supported
+            | None -> ()
+
           do! state.ChangeDocument(filePath, p)
 
           return ()
@@ -698,6 +751,21 @@ type AdaptiveFSharpLspServer
           )
 
           let (filePath, pos) = getFilePathAndPosition p
+          let filePathStr = UMX.untag filePath
+
+          // Check if this is a native file - use NativeState for completions
+          if isNativeFile filePathStr then
+            logger.info (
+              Log.setMessage "Using native completions for {path}"
+              >> Log.addContextDestructured "path" filePathStr
+            )
+            let items = nativeState.GetCompletions(filePathStr, pos.Line - 1, pos.Column)
+            let completionList =
+              { IsIncomplete = false
+                Items = NativeDiagnostics.toLspCompletionItems items
+                ItemDefaults = None }
+            return Some (U2.C2 completionList)
+          else
 
           let! volatileFile = state.GetOpenFileOrRead filePath |> AsyncResult.ofStringErr
 
@@ -1056,6 +1124,38 @@ type AdaptiveFSharpLspServer
           )
 
           let (filePath, pos) = getFilePathAndPosition p
+          let filePathStr = UMX.untag filePath
+
+          // Check if this is a native file - use NativeState for hover
+          let projectForFile = nativeState.GetProjectForFile(filePathStr)
+          let isScript = nativeState.IsScript(filePathStr)
+          let isNative = isNativeFile filePathStr
+
+          logger.info (
+            Log.setMessage "Hover check: path={path} isNative={isNative} hasProject={hasProject} isScript={isScript}"
+            >> Log.addContextDestructured "path" filePathStr
+            >> Log.addContextDestructured "isNative" isNative
+            >> Log.addContextDestructured "hasProject" projectForFile.IsSome
+            >> Log.addContextDestructured "isScript" isScript
+          )
+
+          if isNative then
+            logger.info (
+              Log.setMessage "Using native hover for {path} at line={line} col={col}"
+              >> Log.addContextDestructured "path" filePathStr
+              >> Log.addContextDestructured "line" (pos.Line - 1)
+              >> Log.addContextDestructured "col" pos.Column
+            )
+            // pos is FCS position (1-based line), convert to 0-based for NativeState
+            match nativeState.GetHoverInfo(filePathStr, pos.Line - 1, pos.Column) with
+            | Some hoverInfo ->
+              logger.info (Log.setMessage "Native hover returned info")
+              return Some (NativeDiagnostics.toLspHover hoverInfo)
+            | None ->
+              logger.info (Log.setMessage "Native hover returned None")
+              return None
+          else
+
           let! volatileFile = state.GetOpenFileOrRead filePath |> AsyncResult.ofStringErr
           let! lineStr = volatileFile.Source |> tryGetLineStr pos |> Result.lineLookupErr
           and! tyRes = state.GetOpenFileTypeCheckResults filePath |> AsyncResult.ofStringErr
@@ -1229,6 +1329,24 @@ type AdaptiveFSharpLspServer
           )
 
           let (filePath, pos) = getFilePathAndPosition p
+          let filePathStr = filePath |> FSharp.UMX.UMX.untag
+
+          // Check if this is a native file - use NativeState for definition
+          if isNativeFile filePathStr then
+            logger.info (
+              Log.setMessage "Using native definition for {path} at line={line} col={col}"
+              >> Log.addContextDestructured "path" filePathStr
+              >> Log.addContextDestructured "line" (pos.Line - 1)
+              >> Log.addContextDestructured "col" pos.Column
+            )
+            match nativeState.GetDefinition(filePathStr, pos.Line - 1, pos.Column) with
+            | Some defResult ->
+              let location = NativeDiagnostics.toLspLocation defResult
+              return Some (U2.C1 (U2.C1 location))
+            | None ->
+              return None
+          else
+
           let! volatileFile = state.GetOpenFileOrRead filePath |> AsyncResult.ofStringErr
 
           let! lineStr = volatileFile.Source |> tryGetLineStr pos |> Result.lineLookupErr
@@ -2686,13 +2804,44 @@ type AdaptiveFSharpLspServer
             >> Log.addContextDestructured "params" p
           )
 
-          let projs =
+          let allProjs =
             p.TextDocuments
             |> Array.map (fun t -> t.GetFilePath() |> Utils.normalizePath)
-            |> HashSet.ofArray
 
-          transact (fun () -> state.WorkspacePaths <- (WorkspaceChosen.Projs projs))
-          let! _ = state.ParseAllFiles()
+          // Separate native (.fidproj) from standard (.fsproj) projects
+          let nativeProjs, standardProjs =
+            allProjs
+            |> Array.partition (fun p ->
+              let path = UMX.untag p
+              path.EndsWith(".fidproj", StringComparison.OrdinalIgnoreCase))
+
+          // Load native projects via NativeState
+          for projPath in nativeProjs do
+            let path = UMX.untag projPath
+            logger.info (
+              Log.setMessage "Loading native project: {path}"
+              >> Log.addContextDestructured "path" path
+            )
+            match nativeState.LoadProject(path) with
+            | Ok proj ->
+              logger.info (
+                Log.setMessage "Loaded native project: {name} with {count} source files"
+                >> Log.addContextDestructured "name" proj.Options.Name
+                >> Log.addContextDestructured "count" proj.Options.SourceFiles.Length
+              )
+            | Error e ->
+              logger.error (
+                Log.setMessage "Failed to load native project {path}: {error}"
+                >> Log.addContextDestructured "path" path
+                >> Log.addContextDestructured "error" e
+              )
+
+          // Load standard projects via AdaptiveState
+          if standardProjs.Length > 0 then
+            let projs = standardProjs |> HashSet.ofArray
+            transact (fun () -> state.WorkspacePaths <- (WorkspaceChosen.Projs projs))
+            let! _ = state.ParseAllFiles()
+            ()
 
           return { Content = CommandResponse.workspaceLoad FsNativeAutoComplete.JsonSerializer.writeJson true }
 

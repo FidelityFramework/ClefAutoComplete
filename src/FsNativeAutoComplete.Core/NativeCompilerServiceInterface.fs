@@ -83,6 +83,14 @@ type NativeCompletionItem = {
     InsertText: string option
 }
 
+/// Definition location result
+type NativeDefinitionResult = {
+    /// File path of the definition
+    FilePath: string
+    /// Range of the definition
+    Range: DocumentRange
+}
+
 // =============================================================================
 // Native Check Result Wrapper
 // =============================================================================
@@ -324,6 +332,32 @@ type FSharpNativeChecker() =
     member _.GetDiagnostics(result: NativeCheckResult) : NativeDiagnostic list =
         result.Diagnostics
 
+    /// Get definition location for symbol at a position
+    member _.GetDefinition(result: NativeCheckResult, line: int, col: int) : NativeDefinitionResult option =
+        match result.Graph with
+        | None -> None
+        | Some graph ->
+            match findNodeAtPosition graph result.FilePath line col with
+            | None -> None
+            | Some node ->
+                match node.Kind with
+                | SemanticKind.VarRef(name, _) ->
+                    // Find the binding definition for this variable reference
+                    let bindings = SemanticGraph.bindings graph
+                    bindings
+                    |> List.tryFind (fun bindingNode ->
+                        match bindingNode.Kind with
+                        | SemanticKind.Binding(bindingName, _, _) -> bindingName = name
+                        | _ -> false)
+                    |> Option.map (fun defNode ->
+                        { FilePath = defNode.Range.File
+                          Range = toDocumentRange defNode.Range })
+                | SemanticKind.Binding(_, _, _) ->
+                    // Already at the definition
+                    Some { FilePath = node.Range.File
+                           Range = toDocumentRange node.Range }
+                | _ -> None
+
 #else
 
 // Stub types when FNCS is not available (net8.0)
@@ -369,6 +403,12 @@ type NativeCheckResult = {
     FilePath: string
 }
 
+/// Definition result placeholder
+type NativeDefinitionResult = {
+    FilePath: string
+    Range: DocumentRange
+}
+
 /// Stub checker that does nothing on net8.0
 type FSharpNativeChecker() =
     member _.ParseAndCheckFile(_: string, _: string) : NativeCheckResult =
@@ -389,5 +429,7 @@ type FSharpNativeChecker() =
     member _.GetCompletions(_: NativeCheckResult, _: int, _: int) : NativeCompletionItem list = []
 
     member _.GetDiagnostics(result: NativeCheckResult) : NativeDiagnostic list = result.Diagnostics
+
+    member _.GetDefinition(_: NativeCheckResult, _: int, _: int) : NativeDefinitionResult option = None
 
 #endif

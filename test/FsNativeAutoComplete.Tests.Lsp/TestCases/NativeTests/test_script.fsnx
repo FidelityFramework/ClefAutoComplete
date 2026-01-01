@@ -1,0 +1,15 @@
+// Test native script for FSNAC validation
+// Uses FSNI directives
+
+#target "x86_64-unknown-linux-gnu"
+#memory_model stack_only
+#require "alloy"
+
+open Alloy.Core
+open Alloy.Console
+
+// Simple computation
+let add x y = x + y
+
+let result = add 40 2
+WriteLine $"The answer is: {result}"

@@ -1,0 +1,15 @@
+# Test native project for FSNAC validation
+[package]
+name = "HelloNative"
+
+[compilation]
+memory_model = "stack_only"
+target = "native"
+
+[dependencies]
+alloy = { path = "/home/hhh/repos/Alloy/src" }
+
+[build]
+sources = ["Main.fs"]
+output = "hello_native"
+output_kind = "console"

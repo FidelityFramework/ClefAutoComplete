@@ -14,8 +14,11 @@ open FsNativeAutoComplete.Core
 open FsNativeAutoComplete.Core.ProjectKind
 open FsNativeAutoComplete.Core.FidprojLoader
 open FsNativeAutoComplete.Core.NativeCompilerServiceInterface
+open FsNativeAutoComplete.Core.FsniDirectives
 open FSharp.UMX
 open Ionide.LanguageServerProtocol.Types
+open FsNativeAutoComplete.LspHelpers
+open FsNativeAutoComplete.Utils
 
 // =============================================================================
 // Native Project Types
@@ -57,6 +60,18 @@ type VolatileNativeFile = {
     LastCheckResult: NativeCheckResult option
 }
 
+/// A loaded native script (.fsnx) with its parsed options
+type LoadedNativeScript = {
+    /// Parsed script options from FSNI directives
+    Options: FsnxScriptOptions
+    /// Current source (may be volatile if open in editor)
+    Source: string
+    /// Cached check result
+    LastCheckResult: NativeCheckResult option
+    /// Last modified time of script file
+    LastModified: DateTime
+}
+
 // =============================================================================
 // Native State Management
 // =============================================================================
@@ -73,6 +88,9 @@ type NativeState(_lspClient: FSharpLspClient) =
 
     /// Loaded native projects by project path
     let loadedProjects = ConcurrentDictionary<string, LoadedNativeProject>()
+
+    /// Loaded native scripts by script path
+    let loadedScripts = ConcurrentDictionary<string, LoadedNativeScript>()
 
     /// Volatile files (open in editor)
     let volatileFiles = ConcurrentDictionary<string, VolatileNativeFile>()
@@ -121,6 +139,57 @@ type NativeState(_lspClient: FSharpLspClient) =
         | false, _ -> None
 
     // -------------------------------------------------------------------------
+    // Script Loading
+    // -------------------------------------------------------------------------
+
+    /// Load a native script from a .fsnx file
+    member _.LoadScript(scriptPath: string) : Result<LoadedNativeScript, string> =
+        match loadScript scriptPath with
+        | Error e -> Error e
+        | Ok options ->
+            let script = {
+                Options = options
+                Source = options.Source
+                LastCheckResult = None
+                LastModified = File.GetLastWriteTimeUtc(scriptPath)
+            }
+
+            let normalizedPath = Path.GetFullPath(scriptPath)
+            loadedScripts.[normalizedPath] <- script
+            Ok script
+
+    /// Unload a script
+    member _.UnloadScript(scriptPath: string) =
+        let normalizedPath = Path.GetFullPath(scriptPath)
+        loadedScripts.TryRemove(normalizedPath) |> ignore
+
+    /// Get a loaded script
+    member _.GetScript(scriptPath: string) : LoadedNativeScript option =
+        let normalizedPath = Path.GetFullPath(scriptPath)
+        match loadedScripts.TryGetValue(normalizedPath) with
+        | true, script -> Some script
+        | false, _ -> None
+
+    /// Update a script's source (when edited)
+    member _.UpdateScript(scriptPath: string, newSource: string) =
+        let normalizedPath = Path.GetFullPath(scriptPath)
+        match loadedScripts.TryGetValue(normalizedPath) with
+        | true, script ->
+            // Re-parse the directives with the new source
+            let options = parseScript scriptPath newSource
+            loadedScripts.[normalizedPath] <- {
+                script with
+                    Options = options
+                    Source = newSource
+                    LastCheckResult = None  // Invalidate cached result
+            }
+        | false, _ -> ()
+
+    /// Check if a file is a native script
+    member _.IsScript(filePath: string) : bool =
+        isNativeScript filePath
+
+    // -------------------------------------------------------------------------
     // Document Management
     // -------------------------------------------------------------------------
 
@@ -149,16 +218,22 @@ type NativeState(_lspClient: FSharpLspClient) =
         let normalizedPath = Path.GetFullPath(filePath)
         volatileFiles.TryRemove(normalizedPath) |> ignore
 
-    /// Get document source (volatile or from disk)
+    /// Get document source (volatile, script, or from disk)
     member _.GetSource(filePath: string) : string option =
         let normalizedPath = Path.GetFullPath(filePath)
+        // Check volatile files first (open in editor)
         match volatileFiles.TryGetValue(normalizedPath) with
         | true, vf -> Some vf.Source
         | false, _ ->
-            if File.Exists(normalizedPath) then
-                Some (File.ReadAllText(normalizedPath))
-            else
-                None
+            // Check if it's a loaded script
+            match loadedScripts.TryGetValue(normalizedPath) with
+            | true, script -> Some script.Source
+            | false, _ ->
+                // Fall back to disk
+                if File.Exists(normalizedPath) then
+                    Some (File.ReadAllText(normalizedPath))
+                else
+                    None
 
     // -------------------------------------------------------------------------
     // Type Checking
@@ -236,6 +311,15 @@ type NativeState(_lspClient: FSharpLspClient) =
                              End = { Line = 0; Column = 0 } }
                    Source = "fsnative" }]
 
+    /// Get definition location at a position
+    member this.GetDefinition(filePath: string, line: int, col: int) : NativeDefinitionResult option =
+        match this.GetCachedCheckResult(filePath) with
+        | Some result -> checker.GetDefinition(result, line, col)
+        | None ->
+            match this.CheckFile(filePath) with
+            | Ok result -> checker.GetDefinition(result, line, col)
+            | Error _ -> None
+
     // -------------------------------------------------------------------------
     // Workspace Discovery
     // -------------------------------------------------------------------------
@@ -244,9 +328,17 @@ type NativeState(_lspClient: FSharpLspClient) =
     member _.DiscoverProjects(rootDirectory: string) : string list =
         findAllProjects rootDirectory
 
+    /// Find all native scripts in a directory
+    member _.DiscoverScripts(rootDirectory: string) : string list =
+        if Directory.Exists(rootDirectory) then
+            Directory.GetFiles(rootDirectory, "*.fsnx", SearchOption.AllDirectories)
+            |> Array.toList
+        else
+            []
+
     /// Check if a file is relevant for native workspace
     member _.IsNativeFile(filePath: string) : bool =
-        isNativeWorkspaceFile filePath
+        isNativeWorkspaceFile filePath || isNativeScript filePath
 
     /// Check if this is a native project kind
     member _.IsNativeProject(filePath: string) : bool =
@@ -259,6 +351,10 @@ type NativeState(_lspClient: FSharpLspClient) =
     /// Get all loaded projects
     member _.GetLoadedProjects() : LoadedNativeProject list =
         loadedProjects.Values |> Seq.toList
+
+    /// Get all loaded scripts
+    member _.GetLoadedScripts() : LoadedNativeScript list =
+        loadedScripts.Values |> Seq.toList
 
     /// Get all volatile files
     member _.GetVolatileFiles() : VolatileNativeFile list =
@@ -326,3 +422,11 @@ module NativeDiagnostics =
               Command = None
               Data = None })
         |> List.toArray
+
+    /// Convert native definition result to LSP location
+    let toLspLocation (result: NativeDefinitionResult) : Location =
+        { Uri = Path.FilePathToUri result.FilePath
+          Range = { Start = { Line = uint32 result.Range.Start.Line
+                              Character = uint32 result.Range.Start.Column }
+                    End = { Line = uint32 result.Range.End.Line
+                            Character = uint32 result.Range.End.Column } } }

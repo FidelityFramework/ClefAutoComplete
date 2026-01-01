@@ -1,9 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <!-- Default to net10.0 for native tooling; net8.0 for legacy compatibility -->
-    <TargetFrameworks>net10.0</TargetFrameworks>
-    <TargetFrameworks Condition="'$(BuildNet8)' == 'true'">net8.0;net10.0</TargetFrameworks>
-    <TargetFrameworks Condition="'$(BuildAllTargets)' == 'true'">net8.0;net9.0;net10.0</TargetFrameworks>
+    <TargetFramework>net10.0</TargetFramework>
     <IsPackable>false</IsPackable>
     <NoWarn>$(NoWarn);FS0057</NoWarn>
     <!-- Allows using experimental FCS APIs -->
@@ -12,13 +9,11 @@
     <ProjectReference Include="..\FsNativeAutoComplete.Logging\FsNativeAutoComplete.Logging.fsproj" />
     <TrimmerRootAssembly Include="FsNativeAutoComplete.Core" />
   </ItemGroup>
-  <!-- FNCS - F# Native Compiler Services for native project support (net9.0+) -->
-  <!-- FNCS only targets net9.0 and net10.0, so exclude from net8.0 builds -->
-  <ItemGroup Condition="'$(TargetFramework)' != 'net8.0'">
+  <!-- FNCS - F# Native Compiler Services for native project support -->
+  <ItemGroup>
     <ProjectReference Include="$(HOME)/repos/fsnative/src/Compiler/FSharp.Native.Compiler.Service.fsproj" />
   </ItemGroup>
-  <!-- Define HAVE_FNCS when FNCS is available -->
-  <PropertyGroup Condition="'$(TargetFramework)' != 'net8.0'">
+  <PropertyGroup>
     <DefineConstants>$(DefineConstants);HAVE_FNCS</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
@@ -27,6 +22,7 @@
     <Compile Include="TomlParser.fs" />
     <Compile Include="FidprojLoader.fs" />
     <Compile Include="NativeCompilerServiceInterface.fs" />
+    <Compile Include="FsniDirectives.fs" />
     <Compile Include="SemaphoreSlimLocks.fsi" />
     <Compile Include="SemaphoreSlimLocks.fs" />
     <Compile Include="AdaptiveExtensions.fsi" />

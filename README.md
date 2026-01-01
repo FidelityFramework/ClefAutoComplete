@@ -43,18 +43,17 @@ FSNAC bridges these gaps, providing familiar IDE services while understanding na
 
 ## Roadmap
 
-### Phase 1: Project Identity and TOML Support
+### ✅ Phase 1: Project Identity and TOML Support (Complete)
 
-The immediate focus is establishing FSNAC as a distinct, usable tool:
+FSNAC is established as a distinct, usable tool:
 
-- **Namespace transformation**: Complete rename from `FsAutoComplete` to `FsNativeAutoComplete`
-- **NuGet identity**: Publish as distinct packages (`FsNativeAutoComplete`, `FsNativeAutoComplete.Core`)
-- **TOML parsing**: Integrate XParsec-based parser for `.fidproj` files
-- **FidprojLoader**: Produce `FSharpProjectOptions` from TOML manifests
-- **Workspace discovery**: Recognize `.fidproj` alongside `.fsproj`/`.sln`
+- **Namespace transformation**: Renamed from `FsAutoComplete` to `FsNativeAutoComplete`
+- **TOML parsing**: XParsec-based parser for `.fidproj` files
+- **FidprojLoader**: Produces `FSharpProjectOptions` from TOML manifests
+- **Dual-mode workspace**: Supports `.fidproj` and `.fsproj` in the same workspace
 
 ```toml
-# Example .fidproj that FSNAC will understand
+# Example .fidproj that FSNAC understands
 [package]
 name = "my_project"
 version = "0.1.0"
@@ -68,14 +67,14 @@ output = "my_project"
 output_kind = "console"
 ```
 
-### Phase 2: FNCS Integration
+### ✅ Phase 2: FNCS Integration (Complete)
 
-As FNCS matures, FSNAC will consume its enhanced type resolution:
+FSNAC now integrates with FNCS for native type resolution:
 
 - **Native type awareness**: Display native type semantics (string as UTF-8 fat pointer, option as value type) in hover info
-- **SRTP resolution**: Show resolved witness implementations for generic operations
-- **Memory annotations**: Surface lifetime and region information in tooltips
-- **Platform binding hints**: Indicate which functions resolve to platform calls
+- **Dual-mode routing**: Automatically routes LSP requests to FNCS or FCS based on project type
+- **Semantic graph navigation**: Uses FNCS SemanticGraph for hover, completions, and go-to-definition
+- **Platform binding detection**: Recognizes `Platform.Bindings` module functions
 
 ### Phase 3: Advanced Metaprogramming Support
 
@@ -199,10 +198,30 @@ FSNAC supports the standard LSP endpoints:
 
 | Phase | Description | Status |
 |-------|-------------|--------|
-| Phase 1 | Namespace rename and TOML parsing | In Progress |
-| Phase 2 | FNCS integration | Pending |
+| Phase 1 | Namespace rename and TOML parsing | ✅ Complete |
+| Phase 2 | FNCS integration | ✅ Complete |
 | Phase 3 | Metaprogramming support | Future |
 | Phase 4 | Multi-pane development | Future |
+
+### What's Working Now
+
+FSNAC can serve as the LSP server for both `.fsproj` and `.fidproj` projects simultaneously:
+
+**For `.fidproj` (native) projects:**
+- ✅ TOML project file parsing
+- ✅ Workspace loading via `fsharp/workspaceLoad`
+- ✅ Hover information with native type semantics
+- ✅ Completions from semantic graph
+- ✅ Go-to-definition for local bindings
+- ✅ Diagnostics publishing on file open/change
+
+**For `.fsproj` (standard) projects:**
+- ✅ Full FsAutoComplete functionality preserved
+- ✅ MSBuild project loading
+- ✅ NuGet package resolution
+- ✅ All standard LSP features
+
+The server automatically routes requests to the appropriate backend based on file membership in loaded projects.
 
 ## Architecture
 
@@ -231,10 +250,11 @@ FSNAC supports the standard LSP endpoints:
 
 Contributions are welcome. Areas of particular interest:
 
-1. **TOML parsing integration** - Connecting XParsec TOML parser
-2. **FidprojLoader implementation** - Translating `.fidproj` to `FSharpProjectOptions`
+1. **SRTP resolution display** - Showing resolved witness implementations in hover info
+2. **Memory layout visualization** - Displaying type memory layouts
 3. **Testing with Fidelity projects** - Validating against real native F# code
 4. **Editor configuration guides** - Documentation for various editors
+5. **Custom endpoint implementation** - Building out `fidelity/*` LSP extensions
 
 ## License
 

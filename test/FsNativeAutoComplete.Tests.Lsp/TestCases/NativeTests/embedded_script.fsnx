@@ -1,0 +1,24 @@
+// Test embedded target script
+// Demonstrates full FSNI directive set
+
+#target "thumbv8m.main-none-eabihf"
+#memory_model arena
+#arena 4096
+#max_stack 2048
+#platform "stm32l5"
+#require "alloy"
+
+open Alloy.Core
+
+// Embedded-friendly code - no heap allocation
+let inline square x = x * x
+
+let compute () =
+    let a = 5
+    let b = square a
+    b
+
+// Entry point would be called from startup code
+let _start () =
+    let _ = compute ()
+    ()

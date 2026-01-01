@@ -101,8 +101,9 @@ let private parseQuotedString state =
         let sb = StringBuilder()
         let mutable error = None
         let mutable inEscape = false
+        let mutable foundClosingQuote = false
 
-        while error.IsNone && not (ParserState.atEnd state) do
+        while error.IsNone && not foundClosingQuote && not (ParserState.atEnd state) do
             let c = ParserState.current state
             if inEscape then
                 match c with
@@ -119,16 +120,14 @@ let private parseQuotedString state =
                 ParserState.advance state
             elif c = '"' then
                 ParserState.advance state
-                error <- None  // Signal completion
-                // Exit loop handled below
+                foundClosingQuote <- true
             elif isNewline c then
                 error <- Some "Unexpected newline in string"
             else
                 sb.Append(c) |> ignore
                 ParserState.advance state
 
-        // Check if we exited because we found the closing quote
-        if error.IsNone && state.Position > 0 && state.Input.[state.Position - 1] = '"' then
+        if foundClosingQuote then
             Ok (sb.ToString())
         elif error.IsSome then
             Error error.Value
