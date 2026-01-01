@@ -2,9 +2,10 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFrameworks>net8.0</TargetFrameworks>
-    <TargetFrameworks Condition="'$(BuildNet9)' == 'true'">net8.0;net9.0</TargetFrameworks>
-    <TargetFrameworks Condition="'$(BuildNet10)' == 'true'">net8.0;net9.0;net10.0</TargetFrameworks>
+    <!-- Default to net10.0 for native-first tooling -->
+    <TargetFrameworks>net10.0</TargetFrameworks>
+    <TargetFrameworks Condition="'$(BuildNet8)' == 'true'">net8.0;net10.0</TargetFrameworks>
+    <TargetFrameworks Condition="'$(BuildAllTargets)' == 'true'">net8.0;net9.0;net10.0</TargetFrameworks>
     <AssemblyName>fsautocomplete</AssemblyName>
     <ServerGarbageCollection>true</ServerGarbageCollection>
     <ConcurrentGarbageCollection>true</ConcurrentGarbageCollection>
@@ -38,6 +39,7 @@
     <Compile Include="LspServers/Common.fs" />
     <Compile Include="LspServers/AdaptiveServerState.fsi" />
     <Compile Include="LspServers/AdaptiveServerState.fs" />
+    <Compile Include="LspServers/NativeServerState.fs" />
     <Compile Include="LspServers/AdaptiveFSharpLspServer.fsi" />
     <Compile Include="LspServers/AdaptiveFSharpLspServer.fs" />
     <Compile Include="Parser.fsi" />
