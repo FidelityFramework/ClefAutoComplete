@@ -3,6 +3,12 @@
   <PropertyGroup>
     <Title>FsNativeAutoComplete</Title>
     <Product>FsNativeAutoComplete</Product>
+    <Description>F# Language Server for native F# development with FNCS (F# Native Compiler Services)</Description>
+    <Authors>Ionide;Fidelity Framework Contributors</Authors>
+    <Company>Ionide</Company>
+    <PackageProjectUrl>https://github.com/FidelityFramework/FsNativeAutoComplete</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/FidelityFramework/FsNativeAutoComplete</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
     <PackageLicenseExpression Condition=" '$(PackAsTool)' != 'true' ">Apache-2.0</PackageLicenseExpression>
     <NoWarn>$(NoWarn);3186,0042</NoWarn><!-- circumvent an error with the fake dependencymanager for
     paket: https://github.com/dotnet/fsharp/issues/8678 -->
