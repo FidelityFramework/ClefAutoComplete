@@ -43,6 +43,7 @@ open IcedTasks
 open System.Threading.Tasks
 open FsNativeAutoComplete.FCSPatches
 open FsNativeAutoComplete.Core.ProjectKind
+open FsNativeAutoComplete.Core.FidprojLoader
 open Helpers
 open System.Runtime.ExceptionServices
 open FSharp.Compiler.CodeAnalysis
@@ -597,7 +598,30 @@ type AdaptiveFSharpLspServer
           let filePath = doc.GetFilePath() |> Utils.normalizePath
           let filePathStr = UMX.untag filePath
 
-          // Also open in native state if it's a native file
+          // Check if this file belongs to a native project that isn't loaded yet
+          // This ensures the project is loaded BEFORE we process the file
+          if not (isNativeFile filePathStr) then
+            let fileDir = Path.GetDirectoryName(filePathStr)
+            match FidprojLoader.tryFindInDirectory fileDir with
+            | Some fidprojPath ->
+                logger.info (
+                  Log.setMessage "Found .fidproj for opened file, loading: {path}"
+                  >> Log.addContextDestructured "path" fidprojPath
+                )
+                match nativeState.LoadProject(fidprojPath) with
+                | Ok proj ->
+                    logger.info (
+                      Log.setMessage "Eagerly loaded native project: {name}"
+                      >> Log.addContextDestructured "name" proj.Options.Name
+                    )
+                | Error e ->
+                    logger.warn (
+                      Log.setMessage "Failed to eagerly load native project: {error}"
+                      >> Log.addContextDestructured "error" e
+                    )
+            | None -> ()
+
+          // Now check if it's a native file (project should be loaded now if applicable)
           if isNativeFile filePathStr then
             nativeState.OpenDocument(filePathStr, doc.Text, int doc.Version)
             // Publish native diagnostics
@@ -2868,9 +2892,37 @@ type AdaptiveFSharpLspServer
             >> Log.addContextDestructured "params" p
           )
 
-          let res =
+          // Get standard .fsproj projects via Ionide.ProjInfo
+          let standardPeek =
             WorkspacePeek.peek p.Directory p.Deep (p.ExcludedDirs |> List.ofArray)
-            |> CoreResponse.Res
+
+          // Also discover native .fidproj projects
+          let nativeProjects = nativeState.DiscoverProjects(p.Directory)
+
+          // Merge native projects into the peek results
+          let mergedPeek =
+            match standardPeek with
+            | [] when nativeProjects.IsEmpty -> []
+            | [] ->
+                // Only native projects found
+                [WorkspacePeek.Interesting.Directory(p.Directory, nativeProjects)]
+            | peeks ->
+                peeks
+                |> List.map (fun peek ->
+                    match peek with
+                    | WorkspacePeek.Interesting.Directory(dir, fsprojs) ->
+                        // Add native projects to the directory listing
+                        WorkspacePeek.Interesting.Directory(dir, fsprojs @ nativeProjects)
+                    | other -> other)
+
+          logger.info (
+            Log.setMessage "WorkspacePeek: found {standard} .fsproj and {native} .fidproj projects"
+            >> Log.addContextDestructured "standard" (standardPeek |> List.collect (function WorkspacePeek.Interesting.Directory(_, ps) -> ps | _ -> []) |> List.length)
+            >> Log.addContextDestructured "native" nativeProjects.Length
+          )
+
+          let res =
+            mergedPeek |> CoreResponse.Res
 
           let res =
             match res with

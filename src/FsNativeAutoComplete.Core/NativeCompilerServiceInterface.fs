@@ -16,6 +16,9 @@ open System.IO
 open FSharp.Native.Compiler.Checking.Native.NativeTypes
 open FSharp.Native.Compiler.Checking.Native.SemanticGraph
 open FSharp.Native.Compiler.NativeService
+open FsNativeAutoComplete.Logging
+
+let private logger = LogProvider.getLoggerByName "FsNative"
 
 // =============================================================================
 // Position Types (for LSP integration)
@@ -194,15 +197,75 @@ let private rangeContains (range: SourceRange) (line: int) (col: int) : bool =
 /// Find the innermost node at a given position
 let findNodeAtPosition (graph: SemanticGraph) (filePath: string) (line: int) (col: int) : SemanticNode option =
     let fileName = Path.GetFileName(filePath)
+    let logger = LogProvider.getLoggerByName "FsNative"
 
-    // Find all nodes that contain this position
-    let containingNodes =
+    // First, find all nodes that match the file
+    let nodesForFile =
         graph.Nodes
         |> Map.values
         |> Seq.filter (fun node ->
-            (node.Range.File = filePath || node.Range.File = fileName) &&
-            rangeContains node.Range line col)
+            node.Range.File = filePath || node.Range.File = fileName)
         |> Seq.toList
+
+    logger.debug (
+        Log.setMessage "findNodeAtPosition: {count} nodes for file {file} (full path: {fullPath})"
+        >> Log.addContextDestructured "count" nodesForFile.Length
+        >> Log.addContextDestructured "file" fileName
+        >> Log.addContextDestructured "fullPath" filePath
+    )
+
+    // Log a sample of node kinds and ranges for this file
+    if nodesForFile.Length > 0 && nodesForFile.Length <= 20 then
+        for node in nodesForFile do
+            logger.debug (
+                Log.setMessage "  Node {id}: {kind} at {startLine}:{startCol}-{endLine}:{endCol} in {file}"
+                >> Log.addContextDestructured "id" (NodeId.value node.Id)
+                >> Log.addContextDestructured "kind" (sprintf "%A" node.Kind |> fun s -> if s.Length > 50 then s.Substring(0, 50) + "..." else s)
+                >> Log.addContextDestructured "startLine" node.Range.Start.Line
+                >> Log.addContextDestructured "startCol" node.Range.Start.Column
+                >> Log.addContextDestructured "endLine" node.Range.End.Line
+                >> Log.addContextDestructured "endCol" node.Range.End.Column
+                >> Log.addContextDestructured "file" node.Range.File
+            )
+    elif nodesForFile.Length > 20 then
+        logger.debug (
+            Log.setMessage "  (Too many nodes to list, showing first 10)"
+        )
+        for node in nodesForFile |> List.take 10 do
+            logger.debug (
+                Log.setMessage "  Node {id}: {kind} at {startLine}:{startCol}-{endLine}:{endCol}"
+                >> Log.addContextDestructured "id" (NodeId.value node.Id)
+                >> Log.addContextDestructured "kind" (sprintf "%A" node.Kind |> fun s -> if s.Length > 50 then s.Substring(0, 50) + "..." else s)
+                >> Log.addContextDestructured "startLine" node.Range.Start.Line
+                >> Log.addContextDestructured "startCol" node.Range.Start.Column
+                >> Log.addContextDestructured "endLine" node.Range.End.Line
+                >> Log.addContextDestructured "endCol" node.Range.End.Column
+            )
+
+    // Log unique file paths in the graph for debugging
+    let uniqueFiles =
+        graph.Nodes
+        |> Map.values
+        |> Seq.map (fun n -> n.Range.File)
+        |> Seq.distinct
+        |> Seq.toList
+
+    logger.debug (
+        Log.setMessage "findNodeAtPosition: Unique files in graph: {files}"
+        >> Log.addContextDestructured "files" uniqueFiles
+    )
+
+    // Find all nodes that contain this position
+    let containingNodes =
+        nodesForFile
+        |> List.filter (fun node -> rangeContains node.Range line col)
+
+    logger.debug (
+        Log.setMessage "findNodeAtPosition: {count} nodes contain position line={line} col={col}"
+        >> Log.addContextDestructured "count" containingNodes.Length
+        >> Log.addContextDestructured "line" line
+        >> Log.addContextDestructured "col" col
+    )
 
     // Return the innermost (smallest range) node
     containingNodes
@@ -249,18 +312,142 @@ type FSharpNativeChecker() =
               HasErrors = true
               FilePath = filePath }
 
-    /// Parse and check multiple files in order
+    /// Parse and check multiple files in order (ISOLATED - each file is checked separately)
+    /// DEPRECATED: Use ParseAndCheckProject for proper multi-file type resolution
     member this.ParseAndCheckFiles(files: (string * string) list) : NativeCheckResult list =
         files |> List.map (fun (path, source) -> this.ParseAndCheckFile(path, source))
 
-    /// Get hover information at a position
-    member _.GetHoverInfo(result: NativeCheckResult, line: int, col: int) : NativeHoverInfo option =
+    /// Parse and check multiple files as a project with shared type environment.
+    /// Files are processed in order: Alloy sources first, then project sources.
+    /// This enables proper type resolution across file boundaries.
+    member _.ParseAndCheckProject(files: (string * string) list) : NativeCheckResult =
+        logger.info (
+            Log.setMessage "ParseAndCheckProject: Checking {count} files"
+            >> Log.addContextDestructured "count" (List.length files)
+        )
+        for (path, _) in files do
+            logger.debug (
+                Log.setMessage "ParseAndCheckProject: File {path}"
+                >> Log.addContextDestructured "path" path
+            )
+
+        if List.isEmpty files then
+            { Graph = None
+              Diagnostics = []
+              HasErrors = false
+              FilePath = "" }
+        else
+            // Parse all files first
+            let parseResults =
+                files
+                |> List.map (fun (path, source) ->
+                    logger.debug (
+                        Log.setMessage "Parsing {path} ({chars} chars)"
+                        >> Log.addContextDestructured "path" path
+                        >> Log.addContextDestructured "chars" source.Length
+                    )
+                    match parseStringWithDefaults source path with
+                    | ParseSuccess input ->
+                        logger.debug (
+                            Log.setMessage "Parse SUCCESS: {path}"
+                            >> Log.addContextDestructured "path" path
+                        )
+                        Some (path, input)
+                    | ParseError errors ->
+                        logger.warn (
+                            Log.setMessage "Parse FAILED: {path} - {errors}"
+                            >> Log.addContextDestructured "path" path
+                            >> Log.addContextDestructured "errors" errors
+                        )
+                        None)
+                |> List.choose id
+
+            if List.isEmpty parseResults then
+                // All files failed to parse
+                { Graph = None
+                  Diagnostics = [{ Severity = LspDiagnosticSeverity.Error
+                                   Code = "FS0001"
+                                   Message = "All files failed to parse"
+                                   Range = { Start = { Line = 0; Column = 0 }
+                                             End = { Line = 0; Column = 0 } }
+                                   Source = "fsnative" }]
+                  HasErrors = true
+                  FilePath = files |> List.tryHead |> Option.map fst |> Option.defaultValue "" }
+            else
+                // Check all files together with shared environment
+                logger.info (
+                    Log.setMessage "Checking {count} parsed files together"
+                    >> Log.addContextDestructured "count" (List.length parseResults)
+                )
+                let parsedInputs = parseResults |> List.map snd
+                let result = checkParsedInputs parsedInputs
+
+                logger.info (
+                    Log.setMessage "Check result: {nodes} nodes, {diagnostics} diagnostics, hasErrors={hasErrors}"
+                    >> Log.addContextDestructured "nodes" result.Graph.Nodes.Count
+                    >> Log.addContextDestructured "diagnostics" (List.length result.Diagnostics)
+                    >> Log.addContextDestructured "hasErrors" (CheckResult.hasErrors result)
+                )
+
+                let diagnostics = result.Diagnostics |> List.map toNativeDiagnostic
+
+                { Graph = Some result.Graph
+                  Diagnostics = diagnostics
+                  HasErrors = CheckResult.hasErrors result
+                  FilePath = files |> List.tryHead |> Option.map fst |> Option.defaultValue "" }
+
+    /// Format information about a definition for hover display
+    member private _.FormatDefinitionInfo(_graph: SemanticGraph, defNode: SemanticNode) : string =
+        let fileName = Path.GetFileName(defNode.Range.File)
+        let defKind =
+            match defNode.Kind with
+            | SemanticKind.Binding(name, isMutable, isRec) ->
+                let mutStr = if isMutable then "mutable " else ""
+                let recStr = if isRec then "rec " else ""
+                $"**Defined as**: `{mutStr}{recStr}let {name}`"
+            | SemanticKind.Lambda _ -> "**Defined as**: lambda"
+            | SemanticKind.PlatformBinding name ->
+                $"**Platform.Binding**: `{name}`  \n*Provided by Alex at compile time*"
+            | _ -> ""
+
+        let defType = formatNativeTypeWithDocs defNode.Type
+        let defSrtp =
+            match defNode.SRTPResolution with
+            | Some witness -> "\n" + formatSRTPResolution witness
+            | None -> ""
+
+        $"\n\n---\n**Definition** ({fileName}:{defNode.Range.Start.Line})\n\n{defKind}\n\n```fsnative\n{defType}\n```{defSrtp}"
+
+    /// Get hover information at a position, following references to definitions
+    /// filePath: the actual file being queried (not result.FilePath which is the first file in multi-file check)
+    member this.GetHoverInfo(result: NativeCheckResult, filePath: string, line: int, col: int) : NativeHoverInfo option =
         match result.Graph with
-        | None -> None
+        | None ->
+            logger.debug (
+                Log.setMessage "Hover: No graph available for {path}"
+                >> Log.addContextDestructured "path" filePath
+            )
+            None
         | Some graph ->
-            match findNodeAtPosition graph result.FilePath line col with
-            | None -> None
+            logger.debug (
+                Log.setMessage "Hover: Graph has {nodes} nodes, looking at line={line} col={col} in {path}"
+                >> Log.addContextDestructured "nodes" graph.Nodes.Count
+                >> Log.addContextDestructured "line" line
+                >> Log.addContextDestructured "col" col
+                >> Log.addContextDestructured "path" filePath
+            )
+
+            match findNodeAtPosition graph filePath line col with
+            | None ->
+                logger.debug (Log.setMessage "Hover: No node found at position")
+                None
             | Some node ->
+                logger.info (
+                    Log.setMessage "Hover: Found node {id} of kind {kind}"
+                    >> Log.addContextDestructured "id" node.Id
+                    >> Log.addContextDestructured "kind" (sprintf "%A" node.Kind)
+                )
+
                 let typeInfo = formatNativeTypeWithDocs node.Type
 
                 let kindInfo =
@@ -272,8 +459,9 @@ type FSharpNativeChecker() =
                     | SemanticKind.Lambda(params', _) ->
                         let paramStr = params' |> List.map (fun (n, t) -> $"{n}: {formatType t}") |> String.concat ", "
                         $"**lambda ({paramStr})**"
-                    | SemanticKind.VarRef(name, _) ->
-                        $"**{name}**"
+                    | SemanticKind.VarRef(name, _defId) ->
+                        // Show basic reference info (definition lookup done separately below)
+                        $"**{name}** (reference)"
                     | SemanticKind.Application(_, _) ->
                         "**function application**"
                     | SemanticKind.Literal value ->
@@ -290,6 +478,34 @@ type FSharpNativeChecker() =
                         $"**SRTP trait call**: `{memberName}`"
                     | _ -> ""
 
+                // Follow VarRef to its definition and show definition info
+                let definitionInfo =
+                    match node.Kind with
+                    | SemanticKind.VarRef(name, Some defId) ->
+                        match SemanticGraph.tryGetNode defId graph with
+                        | Some defNode ->
+                            logger.info (
+                                Log.setMessage "Hover: VarRef {name} resolves to definition at {file}:{line}"
+                                >> Log.addContextDestructured "name" name
+                                >> Log.addContextDestructured "file" defNode.Range.File
+                                >> Log.addContextDestructured "line" defNode.Range.Start.Line
+                            )
+                            this.FormatDefinitionInfo(graph, defNode)
+                        | None ->
+                            logger.debug (
+                                Log.setMessage "Hover: VarRef {name} has defId {defId} but node not found"
+                                >> Log.addContextDestructured "name" name
+                                >> Log.addContextDestructured "defId" (NodeId.value defId)
+                            )
+                            ""
+                    | SemanticKind.VarRef(name, None) ->
+                        logger.debug (
+                            Log.setMessage "Hover: VarRef {name} has no definition link"
+                            >> Log.addContextDestructured "name" name
+                        )
+                        ""
+                    | _ -> ""
+
                 let srtpInfo =
                     match node.SRTPResolution with
                     | Some witness -> "\n\n---\n" + formatSRTPResolution witness
@@ -298,9 +514,16 @@ type FSharpNativeChecker() =
                 let content =
                     [ kindInfo
                       $"```fsnative\n{typeInfo}\n```"
+                      definitionInfo
                       srtpInfo ]
                     |> List.filter (not << String.IsNullOrEmpty)
                     |> String.concat "\n\n"
+
+                logger.info (
+                    Log.setMessage "Hover: Returning content of length {len}: {preview}"
+                    >> Log.addContextDestructured "len" content.Length
+                    >> Log.addContextDestructured "preview" (if content.Length > 100 then content.Substring(0, 100) + "..." else content)
+                )
 
                 Some {
                     Contents = content
@@ -423,6 +646,17 @@ type FSharpNativeChecker() =
 
     member this.ParseAndCheckFiles(files: (string * string) list) : NativeCheckResult list =
         files |> List.map (fun (path, source) -> this.ParseAndCheckFile(path, source))
+
+    member this.ParseAndCheckProject(files: (string * string) list) : NativeCheckResult =
+        // Stub: just return empty result on net8.0
+        { Graph = None
+          Diagnostics = [{ Severity = LspDiagnosticSeverity.Error
+                           Code = "FS0000"
+                           Message = "FNCS not available on .NET 8. Use .NET 9+ for native project support."
+                           Range = { Start = { Line = 0; Column = 0 }; End = { Line = 0; Column = 0 } }
+                           Source = "fsnative" }]
+          HasErrors = true
+          FilePath = files |> List.tryHead |> Option.map fst |> Option.defaultValue "" }
 
     member _.GetHoverInfo(_: NativeCheckResult, _: int, _: int) : NativeHoverInfo option = None
 

@@ -89,6 +89,9 @@ type NativeState(_lspClient: FSharpLspClient) =
     /// Loaded native projects by project path
     let loadedProjects = ConcurrentDictionary<string, LoadedNativeProject>()
 
+    /// Cached project-level check results (shared across all files in a project)
+    let projectCheckResults = ConcurrentDictionary<string, NativeCheckResult>()
+
     /// Loaded native scripts by script path
     let loadedScripts = ConcurrentDictionary<string, LoadedNativeScript>()
 
@@ -134,9 +137,17 @@ type NativeState(_lspClient: FSharpLspClient) =
     /// Find which project a source file belongs to
     member _.GetProjectForFile(filePath: string) : FidprojOptions option =
         let normalizedPath = Path.GetFullPath(filePath)
+
+        // First check the direct lookup (file explicitly listed in project)
         match fileToProject.TryGetValue(normalizedPath) with
         | true, opts -> Some opts
-        | false, _ -> None
+        | false, _ ->
+            // Check if file is in any loaded project's directory
+            let fileDir = Path.GetDirectoryName(normalizedPath)
+            loadedProjects.Values
+            |> Seq.tryFind (fun project ->
+                String.Equals(project.Options.ProjectDirectory, fileDir, StringComparison.OrdinalIgnoreCase))
+            |> Option.map (fun project -> project.Options)
 
     // -------------------------------------------------------------------------
     // Script Loading
@@ -204,7 +215,7 @@ type NativeState(_lspClient: FSharpLspClient) =
         }
 
     /// Update a document
-    member _.UpdateDocument(filePath: string, source: string, version: int) =
+    member this.UpdateDocument(filePath: string, source: string, version: int) =
         let normalizedPath = Path.GetFullPath(filePath)
         volatileFiles.[normalizedPath] <- {
             FilePath = normalizedPath
@@ -212,6 +223,12 @@ type NativeState(_lspClient: FSharpLspClient) =
             Version = version
             LastCheckResult = None  // Invalidate cached result
         }
+
+        // Also invalidate project-level cache if this file belongs to a project
+        match this.GetProjectForFile(normalizedPath) with
+        | Some projectOptions ->
+            this.InvalidateProjectCache(projectOptions.ProjectPath)
+        | None -> ()
 
     /// Close a document
     member _.CloseDocument(filePath: string) =
@@ -239,14 +256,59 @@ type NativeState(_lspClient: FSharpLspClient) =
     // Type Checking
     // -------------------------------------------------------------------------
 
-    /// Check a single file
+    /// Check a single file (for standalone files or scripts)
+    /// For project files, use CheckFileWithProject instead
     member this.CheckFile(filePath: string) : Result<NativeCheckResult, string> =
-        match this.GetSource(filePath) with
-        | None -> Error $"File not found: {filePath}"
-        | Some source ->
-            let result = checker.ParseAndCheckFile(filePath, source)
+        let normalizedPath = Path.GetFullPath(filePath)
 
-            // Cache the result
+        // First check if this file belongs to a project
+        match this.GetProjectForFile(normalizedPath) with
+        | Some projectOptions ->
+            // File belongs to a project - check the whole project
+            this.CheckFileWithProject(normalizedPath, projectOptions)
+        | None ->
+            // Standalone file - check in isolation
+            match this.GetSource(normalizedPath) with
+            | None -> Error $"File not found: {filePath}"
+            | Some source ->
+                let result = checker.ParseAndCheckFile(normalizedPath, source)
+
+                // Cache the result
+                match volatileFiles.TryGetValue(normalizedPath) with
+                | true, vf ->
+                    volatileFiles.[normalizedPath] <- { vf with LastCheckResult = Some result }
+                | false, _ -> ()
+
+                Ok result
+
+    /// Check a file that belongs to a project (checks all project files with shared environment)
+    member this.CheckFileWithProject(filePath: string, projectOptions: FidprojOptions) : Result<NativeCheckResult, string> =
+        let projectPath = projectOptions.ProjectPath
+
+        // Get all source files in dependency order (Alloy first, then project sources)
+        let allSources = getProjectSources projectOptions
+
+        // Read all sources (use volatile content if available)
+        let sourceContents =
+            allSources
+            |> List.choose (fun sourcePath ->
+                match this.GetSource(sourcePath) with
+                | Some content -> Some (sourcePath, content)
+                | None ->
+                    // Log but continue - file might not exist yet
+                    printfn "[NativeState] Warning: Could not read source: %s" sourcePath
+                    None)
+
+        if List.isEmpty sourceContents then
+            Error "No source files found for project"
+        else
+            // Check all files together with shared type environment
+            let result = checker.ParseAndCheckProject(sourceContents)
+
+            // Cache the project-level result
+            projectCheckResults.[projectPath] <- result
+
+            // Also cache for individual file lookups
             let normalizedPath = Path.GetFullPath(filePath)
             match volatileFiles.TryGetValue(normalizedPath) with
             | true, vf ->
@@ -255,23 +317,42 @@ type NativeState(_lspClient: FSharpLspClient) =
 
             Ok result
 
-    /// Check all files in a project
-    member this.CheckProject(project: LoadedNativeProject) : NativeCheckResult list =
+    /// Invalidate cached project result (e.g., when a file changes)
+    member _.InvalidateProjectCache(projectPath: string) =
+        projectCheckResults.TryRemove(projectPath) |> ignore
+
+    /// Get cached project check result
+    member _.GetProjectCheckResult(projectPath: string) : NativeCheckResult option =
+        match projectCheckResults.TryGetValue(projectPath) with
+        | true, result -> Some result
+        | false, _ -> None
+
+    /// Check all files in a project (returns the combined result)
+    member this.CheckProject(project: LoadedNativeProject) : NativeCheckResult =
         let sources = getProjectSources project.Options
 
-        sources
-        |> List.map (fun filePath ->
-            match this.GetSource(filePath) with
-            | Some source -> (filePath, source)
-            | None -> (filePath, ""))
-        |> checker.ParseAndCheckFiles
+        let sourceContents =
+            sources
+            |> List.choose (fun filePath ->
+                match this.GetSource(filePath) with
+                | Some source -> Some (filePath, source)
+                | None -> None)
 
-    /// Get cached check result for a file
-    member _.GetCachedCheckResult(filePath: string) : NativeCheckResult option =
+        checker.ParseAndCheckProject(sourceContents)
+
+    /// Get cached check result for a file (checks volatile files first, then project cache)
+    member this.GetCachedCheckResult(filePath: string) : NativeCheckResult option =
         let normalizedPath = Path.GetFullPath(filePath)
+
+        // Check volatile files first (for open documents)
         match volatileFiles.TryGetValue(normalizedPath) with
-        | true, vf -> vf.LastCheckResult
-        | false, _ -> None
+        | true, vf when vf.LastCheckResult.IsSome -> vf.LastCheckResult
+        | _ ->
+            // Check if this file belongs to a project with cached results
+            match this.GetProjectForFile(normalizedPath) with
+            | Some projectOptions ->
+                this.GetProjectCheckResult(projectOptions.ProjectPath)
+            | None -> None
 
     // -------------------------------------------------------------------------
     // LSP Feature Support
@@ -280,11 +361,11 @@ type NativeState(_lspClient: FSharpLspClient) =
     /// Get hover information at a position
     member this.GetHoverInfo(filePath: string, line: int, col: int) : NativeHoverInfo option =
         match this.GetCachedCheckResult(filePath) with
-        | Some result -> checker.GetHoverInfo(result, line, col)
+        | Some result -> checker.GetHoverInfo(result, filePath, line, col)
         | None ->
             // Check the file first
             match this.CheckFile(filePath) with
-            | Ok result -> checker.GetHoverInfo(result, line, col)
+            | Ok result -> checker.GetHoverInfo(result, filePath, line, col)
             | Error _ -> None
 
     /// Get completions at a position
