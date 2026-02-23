@@ -29,3 +29,5 @@ configure.sh text eol=lf
 *.expected text eol=lf
 
 .github/workflows/*.lock.yml linguist-generated=true merge=ours
+
+*.clef linguist-language=FSharp
