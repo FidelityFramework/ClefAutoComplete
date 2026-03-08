@@ -1,14 +1,14 @@
-# `obj` Elimination: Why FSNAC Must Be Parallel
+# `obj` Elimination: Why ClefAutoComplete Must Be Parallel
 
 ## Core Architectural Decision
 
-F# Native eliminates `obj` (System.Object) from the type universe entirely. This is documented in `fsnative-spec` and has profound implications for FSNAC.
+Clef eliminates `obj` (System.Object) from the type universe entirely. This is documented in `clef-lang-spec` and has profound implications for ClefAutoComplete.
 
-## Why FSNAC Cannot Extend FSAC
+## Why ClefAutoComplete Cannot Extend FSAC
 
 FSAC uses `obj` pervasively in its internals:
 
-| FSAC Usage | Purpose | FSNAC Alternative |
+| FSAC Usage | Purpose | ClefAutoComplete Alternative |
 |------------|---------|-------------------|
 | `obj` as value container | Store typed values uniformly | Type-specific handling |
 | FSI result storage | Hold evaluation results | SRTP-based formatters |
@@ -21,14 +21,14 @@ FSAC uses `obj` pervasively in its internals:
 
 ```
 .fsproj → FSAC (uses FCS, has obj)
-.fidproj → FSNAC (uses FNCS, no obj)
+.fidproj → ClefAutoComplete (uses CCS, no obj)
 ```
 
-Same IDE, different backends. Ionide routes based on project type.
+Same IDE (Lattice, hard-forked from Ionide), different backends. Routes based on project type.
 
 ## Value Display Without `obj`
 
-FSNAC must generate SRTP-based formatters at compile time:
+ClefAutoComplete must generate SRTP-based formatters at compile time:
 
 ```fsharp
 // Instead of: sprintf "%A" (value :> obj)
@@ -48,11 +48,11 @@ Each hover info request requires:
 
 ## Hover Info Differences
 
-| FSAC | FSNAC |
-|------|-------|
+| FSAC | ClefAutoComplete |
+|------|------------------|
 | `val x : string` (BCL) | `val x : string` (native UTF-8 fat pointer) |
 | `val opt : int option` | `val opt : int voption` |
-| Shows BCL types | Shows native types |
+| Shows BCL types | Shows native Clef types |
 | Can show any value via obj | Must have SRTP formatter |
 
 ## Implementation Notes
@@ -65,8 +65,8 @@ When implementing features, remember:
 
 ## Cross-References
 
-- `fsnative-spec` memory: `obj_elimination`
-- `fsnative-spec` memory: `parallel_toolchain_architecture`
-- `Firefly` memory: `fncs_architecture`
-- `fsnative-spec` chapter: `spec/interactive-development.md`
-- `fsnative-spec` chapter: `spec/native-type-mappings.md`
+- `clef-lang-spec` memory: `obj_elimination`
+- `clef-lang-spec` memory: `parallel_toolchain_architecture`
+- `Composer` memory: `ccs_architecture`
+- `clef-lang-spec` chapter: `spec/interactive-development.md`
+- `clef-lang-spec` chapter: `spec/native-type-mappings.md`

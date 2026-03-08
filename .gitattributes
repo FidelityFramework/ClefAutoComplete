@@ -30,4 +30,4 @@ configure.sh text eol=lf
 
 .github/workflows/*.lock.yml linguist-generated=true merge=ours
 
-*.clef linguist-language=FSharp
+*.clef linguist-language=F# linguist-detectable=false
