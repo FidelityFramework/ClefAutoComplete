@@ -6,7 +6,7 @@
 /// - Quotations: Display as compile-time semantic carriers (not runtime evaluated)
 /// - Active Patterns: Show compositional structural recognition
 /// - Computation Expressions: Format continuation capture notation
-/// - Native Types: Display with fsnative semantics (voption, platform words, fat pointers)
+/// - Native Types: display what the graph carries (voption, platform words, memref views); interim: this file still keys prose on type names, which the consumer contract retires
 module FsNativeAutoComplete.Core.NativeCompilerServiceInterface
 
 #if HAVE_FNCS
@@ -150,7 +150,7 @@ let formatNativeTypeWithDocs (ty: NativeType) : string =
     // Add native-specific notes for common types
     match ty with
     | NativeType.TApp(tc, _) when tc.Name = "string" ->
-        $"{baseFormat}  \n*UTF-8 fat pointer {{ ptr: *u8, len: usize }}*"
+        $"{baseFormat}  \n*UTF-8 `memref<?xi8>` view: buffer and length*"
     | NativeType.TApp(tc, [_]) when tc.Name = "option" ->
         $"{baseFormat}  \n*voption (value-type, stack-allocated)*"
     | NativeType.TApp(tc, _) when tc.Name = "int" ->

@@ -14,6 +14,6 @@ For pre-fork history, see [upstream CHANGELOG](https://github.com/ionide/FsAutoC
 - Native script support for `.fsnx` script files with FSNI directives
 - FNCS integration (F# Native Compiler Services) for type checking
 - Native type display showing UTF-8 strings, voption, platform words
-- FS8xxx diagnostics for native-specific error codes
+- CCS8xxx diagnostics for native-specific error codes (from the Clef Compiler Service; none minted here)
 - Dual-mode routing for automatic detection of native vs standard projects
 - Platform binding detection showing Platform.Bindings module info

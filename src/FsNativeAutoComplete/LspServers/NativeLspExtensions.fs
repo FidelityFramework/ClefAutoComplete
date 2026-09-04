@@ -168,12 +168,12 @@ type NativeLspExtensionHandler(nativeState: NativeState) =
         // This is a static list for now; could be dynamically discovered later
         [
             { Name = "writeBytes"
-              Signature = "fd: int -> buffer: nativeptr<byte> -> count: int -> int"
+              Signature = "fd: int -> buffer: array<byte, 'n, Stack> -> count: int -> int"
               Description = Some "Write bytes to a file descriptor"
               PlatformNotes = Some "Linux: syscall 1 (write)" }
 
             { Name = "readBytes"
-              Signature = "fd: int -> buffer: nativeptr<byte> -> maxCount: int -> int"
+              Signature = "fd: int -> buffer: array<byte, 'n, Stack> -> maxCount: int -> int"
               Description = Some "Read bytes from a file descriptor"
               PlatformNotes = Some "Linux: syscall 0 (read)" }
 
