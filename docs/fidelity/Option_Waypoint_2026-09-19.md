@@ -107,6 +107,13 @@ located CCS8401 errors and repair through admitted ordinary FP expressions.
 Existing native sequence admission is a separate source gate; it does not imply
 general builder dispatch or completed sequence frame/lifetime implementation.
 
+Sequence elaboration now creates its graph owner before checking the body. All
+owned `yield` values constrain one element type; `yield!` constrains the delegated
+sequence to that same type. Nested sequences have independent owners. Tooling
+projects the resulting dimensional/type diagnostics and repaired element hovers
+from CCS, including annotation conflicts. This source constraint checkpoint does
+not establish native sequence frame/formal settlement or execution conformance.
+
 The current `CCS.Editor` surface exposes snapshots, hover and definitions, but no
 scope/completion query. `Lattice.Server` therefore does not advertise completion.
 Adding a client-side list of Option names would create a second semantic authority
