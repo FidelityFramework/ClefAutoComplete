@@ -51,6 +51,12 @@ and follows compiler-owned capture provenance for definition navigation. Numeric
 read ranges belong to the checked observation and revision; saved predicates about
 mutable values do not justify reusing those bounds after later writes.
 
+Integer loop variables have an immutable source binding for each iteration.
+Their hovers and definitions refer to that identifier; an internal mutable
+counter belongs only to elaboration. Capture provenance must retain the source
+binding, including nested loops that reuse a name. The peered gate checks this
+view and the compiler's rejection of assignments to the iteration variable.
+
 The same handoff now covers `Result.map`, `Result.mapError` and `Result.bind`.
 Success and error payloads quantify independently; changing one case preserves
 the other case's payload type and dimensions. The projection gates check both
