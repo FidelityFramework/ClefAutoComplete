@@ -34,6 +34,11 @@ producer. The same compiler projection gate covers direct, partial and bare-alia
 uses, dimensional results and precise rejected applications. There is no new
 client-side intrinsic catalogue.
 
+`Option.iter` adds unit-returning actions, including stored partials and bare
+aliases at independent dimensional payloads. Its editor gate checks the unit
+result, measured partial signature and exact rejected callback/argument spans;
+Composer's native gate separately checks eager operands and Some-only invocation.
+
 Direct capture elaboration also retains two distinct views: the semantic callable
 includes its hidden capture formals, while CCS.Editor projects the source signature
 and follows compiler-owned capture provenance for definition navigation. Numeric
