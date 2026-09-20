@@ -106,6 +106,11 @@ claim that rendered-editor coverage.
 
 ## Completion remains a compiler query
 
+The sequence paragraphs below preserve the earlier source/graph checkpoint
+boundaries. Their pending frame/runtime status is superseded by the coordinated
+C-06 execution gate recorded after them; the limits of their individual editor
+checks remain unchanged.
+
 Computation syntax must retain the compiler's admission result. Unsupported
 builder, bind, return or resource-use forms must not appear as ordinary accepted
 applications after their meaning is erased. The peered diagnostic gate checks
@@ -159,6 +164,66 @@ sequence results, lambda signatures and original capture definitions across
 guarded-yield loops and captured lambda/lazy values. Lattice observes those
 public projections; this checkpoint adds no client evaluation model or native
 suspension-execution claim.
+
+### C-06 native implementation waypoint — 2026-09-20
+
+Compiler implementation:
+[`12aa78d2b`](https://github.com/FidelityFramework/clef/commit/12aa78d2b),
+with 848 CCS service cases passing.
+
+Composer's `15a_SequenceSemantics` oracle passed compilation, stock MLIR
+verification, native exit zero and ten exact output groups on final native
+CCS `f4bbc287…432c1a`. The cases exercise
+literal/counted/conditional yields, deferred effects, empty sequences, direct
+caller-owned factories, delegation, repeated enumeration and retained nested
+mutable captures. Baker owns evaluation/control, live storage, child regions and
+iterator prerequisites. Alex witnesses those settled facts; evidence edges alone
+do not assert discharged continuation or lifetime obligations.
+
+The full analyzer-facing CCS.Editor gate passed **44 accepted and 46 exact
+rejected cases**, and the full stdio LSP gate passed **50 diagnostic edits with
+repairs**, on the tested source-projection CCS assembly
+`08d547524f7c76f61bb82e4a67e2f04ffe64b6ca37da7637ba2c4b2c07384482`.
+New projections cover immutable and mutable
+bindings inside an outer sequence captured by an inner sequence, ascending and
+descending counted bodies, and typed consumption. Captured/induction references
+retain their source definitions; scalar iteration requires the exact CCS8003
+loop span and repair restores the admitted element projection.
+
+Run evidence is retained at
+`/tmp/lattice-ccs-surface-a5571e6451fd49eeb0018150240a0396/evidence.json`,
+`/tmp/lattice-surface-waypoint-gTl1Dg/result.json`, and
+`/tmp/composer-native-sequences-d001fa03098148f8a94fb2fdf37454e2/evidence.json`.
+Unestablished input regions and factory-local captured storage remain CCS8403
+refusals; `SeqEnumerator.current` remains an internal operation rather than a new
+source API. Public CLI boundary results belong to Composer's SourceAdmission
+gate. This repository's retired bridge remains untouched.
+
+The final source admission gate retains source diagnostics and graph evidence
+while skipping target frame synthesis when source errors already exist. Four
+previously cascading sequence type failures now pass their unchanged, single-error
+CLI expectations on `08d54752…84482`. The other twelve CLI cases retain their
+preceding-build pass; this is not described as a full rerun on one hash. Evidence:
+`/tmp/composer-source-admission-15540117b5aa4ec4928ea13d70ce4f38/evidence.json`
+and `/tmp/composer-source-admission-000edec5a3b74f4286abaac3d3dba11c/evidence.json`.
+
+The subsequent residence extension records exact covering-activation and borrow
+incidence for captured sequence templates. The permanent
+`15c_SequenceTemplateBorrows` oracle passed compilation, stock MLIR verification,
+native exit zero and three exact output groups on CCS
+`f4bbc2879280b8252e3c7424a1b399e981eb492e49b07fb1def617d45f432c1a`.
+Evidence: `/tmp/composer-native-sequences-6f767e0ab8374941a1d041b0b9789985/evidence.json`.
+Editor/server artifacts were refreshed to that assembly. Their source projection
+fixtures are unchanged and retain the tested `08d54752…84482` results above;
+there was no repeated broad tooling run for this native residence extension.
+
+This implementation waypoint does not close every C-06 gate. The broader
+FidelityHello run on `08d54752…84482` compiled 23/28 samples and executed all 23,
+including 15a/15b. Remaining compilation failures concern 05's float formatting
+carrier, 06's legacy integer conversion, 13's generic integer width, 14's lazy
+width/extent and the original 15's accumulating-frame range bounds. They remain
+visible in the [Composer coverage record](https://github.com/FidelityFramework/Composer/blob/main/docs/Language_Coverage_Waypoints.md).
+This retired repository adds no semantic bridge to address those failures.
 
 The current `CCS.Editor` surface exposes snapshots, hover and definitions, but no
 scope/completion query. `Lattice.Server` therefore does not advertise completion.
