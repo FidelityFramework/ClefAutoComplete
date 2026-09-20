@@ -127,6 +127,14 @@ sequence type and navigation from a captured value to its original declaration;
 the internal formal must not replace either. Frame representation and suspension
 semantics remain separate work.
 
+The `Seq.map`, `filter`, `collect` and `append` producer recipes now preserve
+formation-time operand snapshots and generator-local capture references.
+Generated bindings occupy source points; the replacement expression retains the
+full source call range. Peered checks require `seq<T>` application-result hovers,
+navigation to original captured declarations, and exact dimensional rejections
+with repair. Snapshot construction is compiler-owned and adds no editor lookup
+or completion catalogue. These gates do not establish native suspension frames.
+
 The current `CCS.Editor` surface exposes snapshots, hover and definitions, but no
 scope/completion query. `Lattice.Server` therefore does not advertise completion.
 Adding a client-side list of Option names would create a second semantic authority
