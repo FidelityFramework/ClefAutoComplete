@@ -135,6 +135,15 @@ navigation to original captured declarations, and exact dimensional rejections
 with repair. Snapshot construction is compiler-owned and adds no editor lookup
 or completion catalogue. These gates do not establish native suspension frames.
 
+Suspension ownership adds a compiler-owned delimiter hyperedge relating each
+yield/delegation site to its sequence and generator. CCS tests assert the raw
+incidence after Baker elaboration; editor gates observe source types and
+definitions for nested owners, guarded effects, delegation and effectful bodies
+without a yield. Yields in ordinary lambda/lazy bodies retain CCS8401 rejection
+and repair. This checkpoint adds no frame layout, resumption state, native
+execution claim or editor graph API; malformed internal ownership diagnostics
+remain compiler admission checks.
+
 The current `CCS.Editor` surface exposes snapshots, hover and definitions, but no
 scope/completion query. `Lattice.Server` therefore does not advertise completion.
 Adding a client-side list of Option names would create a second semantic authority
