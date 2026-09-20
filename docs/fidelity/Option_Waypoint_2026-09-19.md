@@ -65,6 +65,13 @@ and exact rejected applications. Native callback and payload preservation remain
 separate Composer gates, recorded with their status in the
 [coverage waypoint](https://github.com/FidelityFramework/Composer/blob/main/docs/Language_Coverage_Waypoints.md).
 
+`Result.defaultValue`, `Result.defaultWith` and `Result.iter` use that same
+projection. Recovery handlers receive the typed Error payload; actions receive
+the typed Ok payload and return unit. The editor preserves both parameters in a
+stored partial signature and reports mismatched callback dimensions at the
+compiler's source span. A function-valued default retains its ordinary callable
+result; native gates establish its evaluation boundary.
+
 ## Editor gate
 
 The live client contains
