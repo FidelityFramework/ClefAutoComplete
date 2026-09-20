@@ -28,6 +28,18 @@ continue to assign semantic authority to CCS.
 dimensional type. Compiler and native tests establish evaluation behavior; a
 hover or an absence of editor errors does not establish when a producer executes.
 
+The following increment adds `Option.orElse` and `Option.orElseWith`, retaining
+the optional result: an eager optional fallback or a deferred `unit -> 'a option`
+producer. The same compiler projection gate covers direct, partial and bare-alias
+uses, dimensional results and precise rejected applications. There is no new
+client-side intrinsic catalogue.
+
+Direct capture elaboration also retains two distinct views: the semantic callable
+includes its hidden capture formals, while CCS.Editor projects the source signature
+and follows compiler-owned capture provenance for definition navigation. Numeric
+read ranges belong to the checked observation and revision; saved predicates about
+mutable values do not justify reusing those bounds after later writes.
+
 ## Editor gate
 
 The live client contains
