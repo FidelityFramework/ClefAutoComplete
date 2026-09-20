@@ -152,6 +152,14 @@ cover an effectful operand and nested append/collect, preserving dimensional
 hovers and captured definitions. Guarded execution, exhaustion, evaluation
 splitting and native sequence behavior remain separate gates.
 
+Local `SequenceEvaluation` hyperedges record compiler-owned evaluation
+relationships. CCS tests cover their incidence, guarded branches, loop backedges
+and deferred-body formation boundaries. Peered source cases retain measured
+sequence results, lambda signatures and original capture definitions across
+guarded-yield loops and captured lambda/lazy values. Lattice observes those
+public projections; this checkpoint adds no client evaluation model or native
+suspension-execution claim.
+
 The current `CCS.Editor` surface exposes snapshots, hover and definitions, but no
 scope/completion query. `Lattice.Server` therefore does not advertise completion.
 Adding a client-side list of Option names would create a second semantic authority
