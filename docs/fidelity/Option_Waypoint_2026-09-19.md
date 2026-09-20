@@ -144,6 +144,14 @@ and repair. This checkpoint adds no frame layout, resumption state, native
 execution claim or editor graph API; malformed internal ownership diagnostics
 remain compiler admission checks.
 
+Owned `yield!` now elaborates through Baker's shared sequence ingredient into a
+generator-local enumerator binding and explicit move/current/yield loop. Its
+source node remains a unit-valued sequential wrapper with the original range and
+operand; ownership is reapplied to the generated yield. Peered source projections
+cover an effectful operand and nested append/collect, preserving dimensional
+hovers and captured definitions. Guarded execution, exhaustion, evaluation
+splitting and native sequence behavior remain separate gates.
+
 The current `CCS.Editor` surface exposes snapshots, hover and definitions, but no
 scope/completion query. `Lattice.Server` therefore does not advertise completion.
 Adding a client-side list of Option names would create a second semantic authority
