@@ -72,6 +72,12 @@ stored partial signature and reports mismatched callback dimensions at the
 compiler's source span. A function-valued default retains its ordinary callable
 result; native gates establish its evaluation boundary.
 
+`Result.isOk` and `Result.isError` retain both independent payload types in a
+stored predicate's signature and return bool. Their tag-only Baker elaboration
+does not extract or invoke a payload. CCS owns both dimensional mismatch and
+extra-application diagnostics; peered editor checks retain those exact ranges
+and restore bool hovers after repair.
+
 ## Editor gate
 
 The live client contains
