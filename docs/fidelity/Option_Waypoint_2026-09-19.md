@@ -51,6 +51,14 @@ and follows compiler-owned capture provenance for definition navigation. Numeric
 read ranges belong to the checked observation and revision; saved predicates about
 mutable values do not justify reusing those bounds after later writes.
 
+The same handoff now covers `Result.map`, `Result.mapError` and `Result.bind`.
+Success and error payloads quantify independently; changing one case preserves
+the other case's payload type and dimensions. The projection gates check both
+measured result parameters, stored callback signatures, explicit type arguments
+and exact rejected applications. Native callback and payload preservation remain
+separate Composer gates, recorded with their status in the
+[coverage waypoint](https://github.com/FidelityFramework/Composer/blob/main/docs/Language_Coverage_Waypoints.md).
+
 ## Editor gate
 
 The live client contains
