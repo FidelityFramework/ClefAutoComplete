@@ -46,6 +46,23 @@ version produced each response.
 
 ## Recorded acceptance gates
 
+### Planned target-aware projections — 2026-09-20
+
+[Composer M-01 §5](../../../Composer/docs/PRDs/M-01-DialectAdmission.md#5-numeric-selection-parallelism-and-design-time-projection)
+adds numeric-selection, arithmetic-construction and concurrency capability cases
+to the shared plan. The active CCS/Lattice service must expose the selected
+profile, graph-owned eligibility and source-related evidence, distinguishing
+representation error, computation error, reproducibility and progress premises.
+Target/declaration changes must invalidate dependent responses. Preserve exact
+compiler diagnostics through unsaved edits and repair, including rejected numeric
+capabilities and unavailable timeout recovery. These are planned acceptance
+cases, not new handlers in this reference fork. No independent numeric solver,
+wait-graph analysis or migration back to the inherited server is authorized by
+this plan. The [coordinated waypoints](../../../Composer/docs/Language_Coverage_Waypoints.md)
+retain implementation status and revisions.
+
+### Existing evidence
+
 The current [coverage record](https://github.com/FidelityFramework/Composer/blob/main/docs/Language_Coverage_Waypoints.md)
 pins the actual artifacts and evidence. Active checks cover:
 
