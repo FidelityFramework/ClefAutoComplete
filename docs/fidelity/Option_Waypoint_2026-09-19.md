@@ -120,6 +120,13 @@ projects the resulting dimensional/type diagnostics and repaired element hovers
 from CCS, including annotation conflicts. This source constraint checkpoint does
 not establish native sequence frame/formal settlement or execution conformance.
 
+The generator's internal formal now has its own typed graph identity and a
+zero-width source anchor, with provenance through its generator and sequence
+owner. It occupies no source token. The peered projection checks the source
+sequence type and navigation from a captured value to its original declaration;
+the internal formal must not replace either. Frame representation and suspension
+semantics remain separate work.
+
 The current `CCS.Editor` surface exposes snapshots, hover and definitions, but no
 scope/completion query. `Lattice.Server` therefore does not advertise completion.
 Adding a client-side list of Option names would create a second semantic authority
