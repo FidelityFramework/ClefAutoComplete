@@ -100,6 +100,13 @@ claim that rendered-editor coverage.
 
 ## Completion remains a compiler query
 
+Computation syntax must retain the compiler's admission result. Unsupported
+builder, bind, return or resource-use forms must not appear as ordinary accepted
+applications after their meaning is erased. The peered diagnostic gate checks
+located CCS8401 errors and repair through admitted ordinary FP expressions.
+Existing native sequence admission is a separate source gate; it does not imply
+general builder dispatch or completed sequence frame/lifetime implementation.
+
 The current `CCS.Editor` surface exposes snapshots, hover and definitions, but no
 scope/completion query. `Lattice.Server` therefore does not advertise completion.
 Adding a client-side list of Option names would create a second semantic authority
