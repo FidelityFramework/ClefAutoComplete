@@ -39,6 +39,12 @@ aliases at independent dimensional payloads. Its editor gate checks the unit
 result, measured partial signature and exact rejected callback/argument spans;
 Composer's native gate separately checks eager operands and Some-only invocation.
 
+The native `Option.fold` and `Option.foldBack` contracts quantify state and
+payload independently, including their dimensions. Their partial signatures
+therefore differ: `fold folder state` awaits an option, while
+`foldBack folder option` awaits state. The active gates project those signatures
+and compiler diagnostics; callback order and operand timing remain native gates.
+
 Direct capture elaboration also retains two distinct views: the semantic callable
 includes its hidden capture formals, while CCS.Editor projects the source signature
 and follows compiler-owned capture provenance for definition navigation. Numeric
